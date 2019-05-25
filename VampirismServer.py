@@ -36,9 +36,18 @@ async def on_message(message):
 
 
     #Showing all messages on the Console for debug:
-    print("\n---[MESSAGE]---")
-    print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-    print("Content: " + content + "")
+    if(int(author.id) == 578935647679807491):
+        print("\n---[RESPONSE]---")
+        print("Channel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content + "")
+    elif (content.startswith(".")):
+        print("\n---[COMMAND]---")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content + "")
+    else:
+        print("\n---[MESSAGE]---")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content + "")
 
     await client.process_commands(message)
 
@@ -50,6 +59,32 @@ async def ping(ctx):
     channel = message.channel
     id = int(channel.id)
     await channel.send("{} Pong! :ping_pong:".format(author.mention))
+
+
+@client.command()
+async def printNameToConsole(ctx):
+    message = ctx.message
+    print("\n##########\nChimute Vampirism\n##########")
+    await message.channel.send("Done :white_check_mark:")
+
+#Checking for roles - Testing for other commands
+@client.command()
+async def checkForRole(ctx, roleName):
+    message = ctx.message
+    author = message.author
+    roles = author.roles
+
+    hasRole = False
+    for role in roles:
+        rname = role.name.lower()
+        print(rname)
+
+        if rname == roleName.lower():
+            await message.channel.send("You have the \"" + roleName + "\" role.")
+            hasRole = True
+    if(!(hasRole)):
+        message.channel.send("You dont have the \"" + roleName + "\" role.")
+
 
 @client.command()
 async def accept(ctx, user: User):
@@ -86,5 +121,7 @@ async def reject(ctx, user: User, *args):
             await channel.send("Rejected :x:")
     else:
         await channel.send("This command is suposed to be used in the \"staff-forms\" Channel")
+
+
 
 client.run(TOKEN)
