@@ -8,9 +8,12 @@ TOKEN = ""
 
 client = commands.Bot(command_prefix = ".")
 
+
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
+
+
 
 @client.event
 async def on_message(message):
@@ -22,13 +25,17 @@ async def on_message(message):
     guild = message.guild
     currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
 
+
+    #
     try:
         cname = channel.name
     except AttributeError as e:
         cname= "Private"
     cid= str(channel.id)
     aid= str(author.id)
-	
+
+
+    #Showing all messages on the Console for debug:
     print("\n---[MESSAGE]---")
     print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
     print("Content: " + content + "")
@@ -66,8 +73,8 @@ async def reject(ctx, user: User, *args):
     id = int(channel.id)
     print(args)
     reason = ""
-    for x in args:
-        reason = reason + x + " "
+    for argument in args:
+        reason = reason + argument + " "
 
     if((id == 564783779474833431) or (id == 566735724628410529)):
         print(len(args))
