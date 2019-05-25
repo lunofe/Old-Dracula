@@ -26,7 +26,7 @@ async def on_message(message):
     currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
 
 
-    #
+
     try:
         cname = channel.name
     except AttributeError as e:
