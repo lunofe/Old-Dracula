@@ -13,8 +13,6 @@ client = commands.Bot(command_prefix = ".")
 async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
-
-
 @client.event
 async def on_message(message):
     author = message.author
@@ -25,15 +23,12 @@ async def on_message(message):
     guild = message.guild
     currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
 
-
-
     try:
         cname = channel.name
     except AttributeError as e:
         cname= "Private"
     cid= str(channel.id)
     aid= str(author.id)
-
 
     #Showing all messages on the Console for debug:
     if(int(author.id) == 578935647679807491):
@@ -60,7 +55,6 @@ async def ping(ctx):
     id = int(channel.id)
     await channel.send("{} Pong! :ping_pong:".format(author.mention))
 
-
 @client.command()
 async def printNameToConsole(ctx):
     message = ctx.message
@@ -84,7 +78,6 @@ async def checkForRole(ctx, roleName):
             hasRole = True
     if(!(hasRole)):
         message.channel.send("You dont have the \"" + roleName + "\" role.")
-
 
 @client.command()
 async def accept(ctx, user: User):
@@ -121,7 +114,6 @@ async def reject(ctx, user: User, *args):
             await channel.send("Rejected :x:")
     else:
         await channel.send("This command is suposed to be used in the \"staff-forms\" Channel")
-
 
 
 client.run(TOKEN)
