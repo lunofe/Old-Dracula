@@ -144,8 +144,12 @@ async def kick(ctx, user: User):
 # .changePresence command - changes the bot's "playing" status via Discord
 @client.command()
 async def changePresence(ctx, *args):
+<<<<<<< HEAD
     auhtorID = int(ctx.message.author.id)
     if(auhtorID == 152828946629525504 or auhtorID == 267633670532104193): # Change to your ID
+=======
+    if(int(ctx.message.author.id) == 267633670532104193)): # Change to your ID
+>>>>>>> 68f9531ca0cd62928498c5186c9407264858ee20
         playing = ""
         for word in args:
             playing = playing + word
