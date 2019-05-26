@@ -13,6 +13,11 @@ client = commands.Bot(command_prefix = ".")
 async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
+ @client.event
+async def on_member_join(member):
+    await member.send("Wellcome to the official Vampirism Discord Server")
+
+
 @client.event
 async def on_message(message):
     author = message.author
@@ -54,14 +59,6 @@ async def ping(ctx):
     channel = message.channel
     id = int(channel.id)
     await channel.send("{} Pong! :ping_pong:".format(author.mention))
-
-@client.command()
-async def printNameToConsole(ctx):
-    message = ctx.message
-    print("\n##########\nChimute Vampirism\n##########")
-    await message.channel.send("Done :white_check_mark:")
-
-
 
 @client.command()
 async def accept(ctx, user: User):
