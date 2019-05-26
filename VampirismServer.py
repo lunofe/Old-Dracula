@@ -109,7 +109,7 @@ async def ban(ctx, user: User):
     for role in roles:
         rname = role.name.lower()
         if (rname == "admin") or (rname == "sr admin"):
-            await ctx.message.guild.ban(user, reason=rsn)
+            await ctx.message.guild.ban(user)
             await ctx.message.channel.send(user.name + " was banned.")
             hasRole = True
 
