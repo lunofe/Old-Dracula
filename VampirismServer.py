@@ -11,7 +11,7 @@ client = commands.Bot(command_prefix = ".")
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name='klemchri.de'))
+    await client.change_presence(activity=discord.Game(name='YourVoteMatters.eu'))
 
 @client.event
 async def on_message(message):
@@ -114,6 +114,16 @@ async def ban(ctx, user: User):
             hasRole = True
     if not(hasRole):
         await message.channel.send("You dont have the permission to do that.")
+
+@client.command()
+async def changePresence(ctx, *args):
+    if(int(ctx.message.author.id) == 152828946629525504): #Change to your ID
+        playing = ""
+        for word in args:
+            playing = playing + word
+        await client.change_presence(activity=discord.Game(name=playing))
+    else:
+        await ctx.message.channel.send("You dont have the permission to do that.")
 
 client.run(TOKEN)
 
