@@ -15,7 +15,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
 # Sending a welcome message to new Members and giving them the "Member" role
- @client.event
+@client.event
 async def on_member_join(member):
     await member.send("Welcome to the official Vampirism Discord Server.")
     roles = member.guild.roles
