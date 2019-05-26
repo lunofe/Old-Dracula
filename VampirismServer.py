@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import User
 import time, os, random
 
-#Insert your bot token here
+#Insert your bot token here.
 TOKEN = ""
 
 client = commands.Bot(command_prefix = ".")
