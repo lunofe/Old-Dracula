@@ -15,7 +15,11 @@ async def on_ready():
 
  @client.event
 async def on_member_join(member):
-    await member.send("Wellcome to the official Vampirism Discord Server")
+    await member.send("Wellcome to the official Vampirism Discord Server.")
+    roles = member.guild.roles
+    for role in roles:
+        if(role.name == "Member"):
+            await member.add_roles(role, reason="Member just joined the Server")
 
 
 @client.event
