@@ -13,4 +13,3 @@
 | [removed] checkForRole | Test command to check if the user has a Role |
 
 ### I will add more commands in the future.
-NTc4OTM1NjQ3Njc5ODA3NDkx.XOo7gQ.dW6DC63XgjykH0KzYQ-V7365ai0
