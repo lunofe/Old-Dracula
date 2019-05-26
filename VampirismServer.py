@@ -4,7 +4,7 @@ from discord import User
 import time, os, random
 
 #Insert your bot token here
-TOKEN = "NTc4OTM1NjQ3Njc5ODA3NDkx.XN619A.grj6NABu3A_Jftq7h7pDrR-5YaY"
+TOKEN = ""
 
 client = commands.Bot(command_prefix = ".")
 
