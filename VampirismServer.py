@@ -11,7 +11,7 @@ client = commands.Bot(command_prefix = ".")
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name='Vampirism'))
+    await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
 @client.event
 async def on_message(message):
@@ -109,9 +109,27 @@ async def ban(ctx, user: User):
     for role in roles:
         rname = role.name.lower()
         if (rname == "admin") or (rname == "sr admin"):
-            await ctx.message.guild.ban(user)
-            await ctx.message.channel.send(user.name + " was baned by {}".format(ctx.message.author.mention))
+            await ctx.message.guild.ban(user, reason=rsn)
+            await ctx.message.channel.send(user.name + " was banned.")
             hasRole = True
+
+    if not(hasRole):
+        await message.channel.send("You dont have the permission to do that.")
+
+@client.command()
+async def kick(ctx, user: User):
+    message = ctx.message
+    author = message.author
+    roles = author.roles
+
+    hasRole = False
+    for role in roles:
+        rname = role.name.lower()
+        if (rname == "admin") or (rname == "sr admin"):
+            await ctx.message.guild.kick(user)
+            await ctx.message.channel.send(user.name + " was kicked.")
+            hasRole = True
+
     if not(hasRole):
         await message.channel.send("You dont have the permission to do that.")
 
