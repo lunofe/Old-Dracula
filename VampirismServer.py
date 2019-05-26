@@ -33,11 +33,12 @@ async def on_message(message):
     channel = message.channel
     guild = message.guild
     currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
+    attachments = message.attachments
 
     try:
         cname = channel.name
     except AttributeError as e:
-        cname= "Private"
+        cname= "USER " + author.name
     cid= str(channel.id)
     aid= str(author.id)
 
@@ -55,6 +56,16 @@ async def on_message(message):
         print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
         print("Content: " + content + "")
 
+    # Logging only public messages:
+    if not(cname.startswith("USER")):
+        if not(len(attachments) == 0):
+            print("Attachment: " + attachments[0].filename)
+            f = open(("logs/" + cname + ".html"), 'a+')
+            f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\nAttachments: " + attachments[0].filename + "</br>\n</br>\n")
+            f.close()
+
+            for attachment in attachments:
+                await attachment.save("logs/attachments/" + attachment.filename)
     await client.process_commands(message)
 
 # .ping command - bot answers with pong
