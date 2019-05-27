@@ -108,10 +108,10 @@ async def reject(ctx, user: User, *args):
     if((id == 564783779474833431) or (id == 566735724628410529)):
         print(len(args))
         if len(args) == 0:
-            await user.send("Your application has been rejected.")
+            await user.send("Your application has been rejected. You can apply again in two weeks.")
             await channel.send("Rejected :x:")
         else:
-            await user.send("Your application has been rejected. Reason: " + reason)
+            await user.send("Your application has been rejected. Reason: " + reason + " You can apply again in two weeks.")
             await channel.send("Rejected :x:")
     else:
         await channel.send("This command is suposed to be used in the \"staff-forms\" Channel")
