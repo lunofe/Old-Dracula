@@ -60,13 +60,18 @@ async def on_message(message):
     if not(cname.startswith("USER")):
         if not(len(attachments) == 0):
             print("Attachment: " + attachments[0].filename)
-        f = open(("logs/" + cname + ".html"), 'a+')
-        f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\nAttachments: " + attachments[0].filename + "</br>\n</br>\n")
-        f.close()
+            f = open(("logs/" + cname + ".html"), 'a+')
+            f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\nAttachments: " + attachments[0].filename + "</br>\n</br>\n")
+            f.close()
+        else:
+            f = open(("logs/" + cname + ".html"), 'a+')
+            f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\n</br>\n")
+            f.close()
+
 
         for attachment in attachments:
             await attachment.save("logs/attachments/" + attachment.filename)
-            
+
     await client.process_commands(message)
 
 # .ping command - bot answers with pong
