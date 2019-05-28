@@ -8,8 +8,8 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 | ------ | ------ |
 | .ping | Command to test if the bot is online |
 | .accept <@user> | Accepts @user's staff application |
-| .reject <@user> <reason> | Rejects @user's staff application with reason, if given |
-| .ban <@user> <reason> | Bans <@user> with reason, if given |
+| .reject <@user> [reason] | Rejects @user's staff application with reason, if given |
+| .ban <@user> [reason] | Bans <@user> with reason, if given |
 | .kick <@user> | Kicks <@user> |
 | .changePresence <text> | Changes the bot's "playing" status |
 | [removed] .checkForRole | Test command to check if the user has a Role |
