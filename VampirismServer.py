@@ -7,7 +7,7 @@ import mysql.connector
 # Insert your bot token here.
 TOKEN = ""
 
-#Opening connection to mysql #insert your DB Connection here
+#Opening connection to mysql
 mydb = mysql.connector.connect(host="", user="", passwd="", database="")
 mycursor = mydb.cursor()
 
@@ -22,7 +22,7 @@ async def on_ready():
 # Sending a welcome message to new Members and giving them the "Member" role
 @client.event
 async def on_member_join(member):
-    pirnt("\n---[JOIN]---\n{}".format(member))
+    print("\n---[JOIN]---\n{}".format(member))
     await member.send("Welcome to the official Vampirism Discord Server.")
     roles = member.guild.roles
     for role in roles:
@@ -188,22 +188,22 @@ async def changePresence(ctx, *args):
 # ONLY run this command if you just setup the Bot
 @client.command()
 async def setupDB(ctx):
-    guild = ctx.message.guild
-    members = guild.members
-    mycursor = mydb.cursor()
-    request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
-    for member in members:
-        membertoinsert = (int(member.id), 0, 0)
-        mycursor.execute(request, membertoinsert)
-        mydb.commit()
+    if ctx.message.author.id == 152828946629525504:
+        guild = ctx.message.guild
+        members = guild.members
+        mycursor = mydb.cursor()
+        request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
+        for member in members:
+            membertoinsert = (int(member.id), 0, 0)
+            mycursor.execute(request, membertoinsert)
+            mydb.commit()
+    else:
+        await ctx.message.channel.send("You dont have the permission to do that.")
 
-updateDatabase(userID):
+def updateDatabase(userID):
     mycursor = mydb.cursor()
     mycursor.execute("UPDATE VampirismBot SET MESSAGES=MESSAGES+1 WHERE ID ="+userID)
     mydb.commit()
-
-
-
 
 client.run(TOKEN)
 
