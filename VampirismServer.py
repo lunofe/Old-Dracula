@@ -2,9 +2,14 @@ import discord
 from discord.ext import commands
 from discord import User
 import time, os, random
+import mysql.connector
 
 # Insert your bot token here.
 TOKEN = ""
+
+#Opening connection to mysql #insert your DB Connection here
+mydb = mysql.connector.connect(host="", user="", passwd="", database="")
+mycursor = mydb.cursor()
 
 # Setting the bot prefix
 client = commands.Bot(command_prefix = ".")
@@ -17,11 +22,20 @@ async def on_ready():
 # Sending a welcome message to new Members and giving them the "Member" role
 @client.event
 async def on_member_join(member):
+    pirnt("\n---[JOIN]---\n{}".format(member))
     await member.send("Welcome to the official Vampirism Discord Server.")
     roles = member.guild.roles
     for role in roles:
         if(role.name == "Member"):
             await member.add_roles(role, reason="Member just joined the Server")
+
+    # Insert your guild id here
+    if member.guild.id == "528346798138589215":
+        mycursor = mydb.cursor()
+        request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
+        insert = (int(member.id), 0, 0)
+        mycursor.execute(request, insert)
+        mydb.commit()
 
 # Do I need to explain this?
 @client.event
@@ -55,6 +69,7 @@ async def on_message(message):
         print("\n---[MESSAGE]---")
         print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
         print("Content: " + content + "")
+        updateDatabase(auhor.id)
 
     # Logging only public messages:
     if not(cname.startswith("USER")):
@@ -169,6 +184,26 @@ async def changePresence(ctx, *args):
         await client.change_presence(activity=discord.Game(name=playing))
     else:
         await ctx.message.channel.send("You dont have the permission to do that.")
+
+# ONLY run this command if you just setup the Bot
+@client.command()
+async def setupDB(ctx):
+    guild = ctx.message.guild
+    members = guild.members
+    mycursor = mydb.cursor()
+    request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
+    for member in members:
+        membertoinsert = (int(member.id), 0, 0)
+        mycursor.execute(request, membertoinsert)
+        mydb.commit()
+
+updateDatabase(userID):
+    mycursor = mydb.cursor()
+    mycursor.execute("UPDATE VampirismBot SET MESSAGES=MESSAGES+1 WHERE ID ="+userID)
+    mydb.commit()
+
+
+
 
 client.run(TOKEN)
 
