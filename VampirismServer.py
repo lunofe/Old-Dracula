@@ -2,14 +2,10 @@ import discord
 from discord.ext import commands
 from discord import User
 import time, os, random
-import mysql.connector
 
 # Insert your bot token here.
 TOKEN = ""
 
-#Opening connection to mysql
-mydb = mysql.connector.connect(host="", user="", passwd="", database="")
-mycursor = mydb.cursor()
 
 # Setting the bot prefix
 client = commands.Bot(command_prefix = ".")
@@ -28,14 +24,6 @@ async def on_member_join(member):
     for role in roles:
         if(role.name == "Member"):
             await member.add_roles(role, reason="Member just joined the Server")
-
-    # Insert your guild id here
-    if member.guild.id == "528346798138589215":
-        mycursor = mydb.cursor()
-        request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
-        insert = (int(member.id), 0, 0)
-        mycursor.execute(request, insert)
-        mydb.commit()
 
 # Do I need to explain this?
 @client.event
@@ -69,7 +57,6 @@ async def on_message(message):
         print("\n---[MESSAGE]---")
         print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
         print("Content: " + content + "")
-        updateDatabase(auhor.id)
 
     # Logging only public messages:
     if not(cname.startswith("USER")):
@@ -78,16 +65,22 @@ async def on_message(message):
             f = open(("logs/" + cname + ".html"), 'a+')
             f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\nAttachments: " + attachments[0].filename + "</br>\n</br>\n")
             f.close()
+
         else:
             f = open(("logs/" + cname + ".html"), 'a+')
             f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\n</br>\n")
             f.close()
 
-
         for attachment in attachments:
-            await attachment.save("logs/attachments/" + attachment.filename)
+            await attachment.save("logs/attachments/" + currentTime + attachment.filename)
 
-    await client.process_commands(message)
+        await client.process_commands(message)
+
+@client.event
+async def on_reaction_add(reaction, user):
+    print("\n---[REACTION]---")
+    print("{} has reacted with: ".format(user) + reaction.emoji + "\nMessageID: "+ reaction.message.id + "\nContent: "+ reaction.message.content)
+
 
 # .ping command - bot answers with pong
 @client.command()
@@ -107,11 +100,11 @@ async def accept(ctx, user: User):
     content = message.content
     channel = message.channel
     id = int(channel.id)
-    if((id == 564783779474833431) or (id == 566735724628410529)):
+    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
         await user.send("Your application has been accepted. You will hear from us shortly.")
         await channel.send("Accepted :white_check_mark:")
     else:
-        await channel.send("This command is suposed to be used in the \"staff-forms\" Channel")
+        await channel.send("This command is suposed to be used in the staff-forms Channel")
 
 # .reject command - sends the tagged user rejected message and reason, if given
 @client.command()
@@ -131,11 +124,12 @@ async def reject(ctx, user: User, *args):
         if len(args) == 0:
             await user.send("Your application has been rejected. You can apply again in two weeks.")
             await channel.send("Rejected :x:")
+
         else:
             await user.send("Your application has been rejected. Reason: " + reason + " You can apply again in two weeks.")
             await channel.send("Rejected :x:")
     else:
-        await channel.send("This command is suposed to be used in the \"staff-forms\" Channel")
+        await channel.send("This command is suposed to be used in the staff-forms Channel")
 
 # .ban command - bans the tagged user
 @client.command()
@@ -185,25 +179,33 @@ async def changePresence(ctx, *args):
     else:
         await ctx.message.channel.send("You dont have the permission to do that.")
 
-# ONLY run this command if you just setup the Bot
-@client.command()
-async def setupDB(ctx):
-    if ctx.message.author.id == 152828946629525504:
-        guild = ctx.message.guild
-        members = guild.members
-        mycursor = mydb.cursor()
-        request = "INSERT INTO VampirismBot VALUES (%s, %s, %s)"
-        for member in members:
-            membertoinsert = (int(member.id), 0, 0)
-            mycursor.execute(request, membertoinsert)
-            mydb.commit()
-    else:
-        await ctx.message.channel.send("You dont have the permission to do that.")
 
-def updateDatabase(userID):
-    mycursor = mydb.cursor()
-    mycursor.execute("UPDATE VampirismBot SET MESSAGES=MESSAGES+1 WHERE ID ="+userID)
-    mydb.commit()
+@client.command()
+async def messageAdmins(ctx, *args):
+    guild = client.get_guild(528346798138589215)
+    channels = guild.text_channels
+    message = ""
+
+    for x in args:
+        message = message + x + " "
+    for channel in channels:
+        if channel.id == 564783442206654466:
+            msg = await channel.send(message)
+            #msg.add_reaction("👍")
+            #msg.add_reaction("👎")
+
+# Error Handling:
+@accept.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Bad Argument: User not found')
+
+@reject.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Bad Argument: User not found')
+
+
 
 client.run(TOKEN)
 
