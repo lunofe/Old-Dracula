@@ -195,6 +195,7 @@ async def messageAdmins(ctx, *args):
             #msg.add_reaction("👎")
 
 # Error Handling:
+
 @accept.error
 async def info_error(ctx, error):
     if isinstance(error, commands.BadArgument):
