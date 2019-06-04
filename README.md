@@ -16,5 +16,5 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 | [removed] .printNameToConsole | Prints the name of the bot into the console |
 
 ## Team
-- [KlemChri](https://klemchri.de) _EVERYTHING_
+- [KlemChri](https://github.com/KlemChri) _EVERYTHING_
 - [1LiterZinalco](https://chimute.org) _I like markdown_
