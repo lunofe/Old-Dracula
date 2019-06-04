@@ -13,8 +13,8 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 | .appealno <@user> [reason] | Rejects @user's ban appeal with reason, if given |
 | .ban <@user> [reason] | Bans <@user> with reason, if given |
 | .kick <@user> | Kicks <@user> |
-| .changePresence <text> | Changes the bot's "playing" status |
-| .messageAdmins <text> | Sends a message to the staff's channel |
+| .changePresence [text] | Changes the bot's "playing" status |
+| .messageAdmins [text] | Sends a message to the staff's channel |
 | [removed] .checkForRole | Test command to check if the user has a Role |
 | [removed] .printNameToConsole | Prints the name of the bot into the console |
 
