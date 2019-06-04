@@ -7,7 +7,7 @@ import time, os, random
 TOKEN = ""
 
 
-# Setting the bot prefix
+# Setting the bot's command prefix
 client = commands.Bot(command_prefix = ".")
 
 # Setting the bot's "playing" status
@@ -15,11 +15,11 @@ client = commands.Bot(command_prefix = ".")
 async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
-# Sending a welcome message to new Members and giving them the "Member" role
+# Sending a welcome message to new members and giving them the "Member" role
 @client.event
 async def on_member_join(member):
     print("\n---[JOIN]---\n{}".format(member))
-    await member.send("Welcome to the official Vampirism Discord Server.")
+    await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
     roles = member.guild.roles
     for role in roles:
         if(role.name == "Member"):
@@ -81,7 +81,6 @@ async def on_reaction_add(reaction, user):
     print("\n---[REACTION]---")
     print("{} has reacted with: ".format(user) + reaction.emoji + "\nMessageID: "+ reaction.message.id + "\nContent: "+ reaction.message.content)
 
-
 # .ping command - bot answers with pong
 @client.command()
 async def ping(ctx):
@@ -92,9 +91,9 @@ async def ping(ctx):
     id = int(channel.id)
     await channel.send("{} Pong! :ping_pong:".format(author.mention))
 
-# .accept command - sends the tagged user accepted message
+# .staffyes command - sends the tagged user acception message for their staff apply
 @client.command()
-async def accept(ctx, user: User):
+async def staffyes(ctx, user: User):
     message = ctx.message
     author = message.author
     content = message.content
@@ -102,13 +101,13 @@ async def accept(ctx, user: User):
     id = int(channel.id)
     if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
         await user.send("Your application has been accepted. You will hear from us shortly.")
-        await channel.send("Accepted :white_check_mark:")
+        await channel.send("Staff Apply → Accepted :white_check_mark:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
 
-# .reject command - sends the tagged user rejected message and reason, if given
+# .staffno command - sends the tagged user rejection message and reason for their staff apply
 @client.command()
-async def reject(ctx, user: User, *args):
+async def staffno(ctx, user: User, *args):
     message = ctx.message
     author = message.author
     content = message.content
@@ -123,11 +122,50 @@ async def reject(ctx, user: User, *args):
         print(len(args))
         if len(args) == 0:
             await user.send("Your application has been rejected. You can apply again in two weeks.")
-            await channel.send("Rejected :x:")
+            await channel.send("Staff Apply → Rejected :x:")
 
         else:
             await user.send("Your application has been rejected. Reason: " + reason + " You can apply again in two weeks.")
-            await channel.send("Rejected :x:")
+            await channel.send("Staff Apply → Rejected :x:")
+    else:
+        await channel.send("This command is suposed to be used in the staff-forms Channel")
+
+# .appealyes command - sends the tagged user acception message for their ban appeal
+@client.command()
+async def appealyes(ctx, user: User):
+    message = ctx.message
+    author = message.author
+    content = message.content
+    channel = message.channel
+    id = int(channel.id)
+    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
+        await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
+        await channel.send("Ban Appeal → Accepted :white_check_mark:")
+    else:
+        await channel.send("This command is suposed to be used in the staff-forms Channel")
+
+# .appealno command - sends the tagged user rejection message and reason for their ban appeal
+@client.command()
+async def appealno(ctx, user: User, *args):
+    message = ctx.message
+    author = message.author
+    content = message.content
+    channel = message.channel
+    id = int(channel.id)
+    print(args)
+    reason = ""
+    for argument in args:
+        reason = reason + argument + " "
+
+    if((id == 564783779474833431) or (id == 566735724628410529)):
+        print(len(args))
+        if len(args) == 0:
+            await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
+            await channel.send("Ban Appeal → Rejected :x:")
+
+        else:
+            await user.send("Your ban appeal has been rejected. Reason: " + reason + " You can appeal again in two weeks.")
+            await channel.send("Ban Appeal → Rejected :x:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
 
@@ -179,7 +217,7 @@ async def changePresence(ctx, *args):
     else:
         await ctx.message.channel.send("You dont have the permission to do that.")
 
-
+# .messageAdmins command - sends a message to the staff's channel
 @client.command()
 async def messageAdmins(ctx, *args):
     guild = client.get_guild(528346798138589215)
@@ -194,14 +232,23 @@ async def messageAdmins(ctx, *args):
             #msg.add_reaction("👍")
             #msg.add_reaction("👎")
 
-# Error Handling:
-
-@accept.error
+# Error handling
+@staffyes.error
 async def info_error(ctx, error):
     if isinstance(error, commands.BadArgument):
         await ctx.send('Bad Argument: User not found')
 
-@reject.error
+@staffno.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Bad Argument: User not found')
+
+@appealyes.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Bad Argument: User not found')
+
+@appealno.error
 async def info_error(ctx, error):
     if isinstance(error, commands.BadArgument):
         await ctx.send('Bad Argument: User not found')
@@ -212,27 +259,26 @@ client.run(TOKEN)
 
 
 # .printNameToConsole command - prints the bot's name to the console
-#@client.command()
-#async def printNameToConsole(ctx):
-#    message = ctx.message
-#    print("\n##########\nChimute Vampirism\n##########")
-#    await message.channel.send("Done :white_check_mark:")
+    #@client.command()
+    #async def printNameToConsole(ctx):
+    #    message = ctx.message
+    #    print("\n##########\nChimute Vampirism\n##########")
+    #    await message.channel.send("Done :white_check_mark:")
 
-
-# Checking for roles - Testing for other commands
-#@client.command()
-#async def checkForRole(ctx, roleName):
-#    message = ctx.message
-#    author = message.author
-#    roles = author.roles
-#
-#    hasRole = False
-#    for role in roles:
-#        rname = role.name.lower()
-#        print(rname)
-#
-#        if rname == roleName.lower():
-#            await message.channel.send("You have the \"" + roleName + "\" role.")
-#            hasRole = True
-#    if not(hasRole):
-#        await message.channel.send("You dont have the \"" + roleName + "\" role.")
+# Checking for roles - testing for other commands
+    #@client.command()
+    #async def checkForRole(ctx, roleName):
+    #    message = ctx.message
+    #    author = message.author
+    #    roles = author.roles
+    #
+    #    hasRole = False
+    #    for role in roles:
+    #        rname = role.name.lower()
+    #        print(rname)
+    #
+    #        if rname == roleName.lower():
+    #            await message.channel.send("You have the \"" + roleName + "\" role.")
+    #            hasRole = True
+    #    if not(hasRole):
+    #        await message.channel.send("You dont have the \"" + roleName + "\" role.")
