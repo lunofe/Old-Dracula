@@ -47,39 +47,19 @@ async def on_message(message):
     # Showing all messages on the console for debug purposes:
     if(int(author.id) == 578935647679807491):
         print("\n---[RESPONSE]---")
-        print("Channel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: " + content + "")
+        print(cname + " (" + cid + ") @ " + currentTime)
+        print("> " + content + "")
     elif (content.startswith(".")):
         print("\n---[COMMAND]---")
-        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: " + content + "")
+        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
+        print("> " + content + "")
     else:
         print("\n---[MESSAGE]---")
-        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: " + content + "")
-
-    # Logging only public messages:
-    if not(cname.startswith("USER")):
-        if not(len(attachments) == 0):
-            print("Attachment: " + attachments[0].filename)
-            f = open(("logs/" + cname + ".html"), 'a+')
-            f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\nAttachments: " + attachments[0].filename + "</br>\n</br>\n")
-            f.close()
-
-        else:
-            f = open(("logs/" + cname + ".html"), 'a+')
-            f.write("Author: " + "{}".format(author) + "</br>\nAuthor ID: "+ aid + "</br>\nChannel Name: " + cname + "</br>\nChannel ID: " + cid + "</br>\nTime: " + currentTime +  "</br>\nContent: " + content + "</br>\n</br>\n")
-            f.close()
-
-        for attachment in attachments:
-            await attachment.save("logs/attachments/" + currentTime + attachment.filename)
-
-        await client.process_commands(message)
 
 @client.event
 async def on_reaction_add(reaction, user):
     print("\n---[REACTION]---")
-    print("{} has reacted with: ".format(user) + reaction.emoji + "\nMessageID: "+ reaction.message.id + "\nContent: "+ reaction.message.content)
+    print("{} has reacted with ".format(user) + reaction.emoji + " to "+ reaction.message.content + " (" reaction.message.id + ")")
 
 # .ping command - bot answers with pong
 @client.command()
@@ -256,29 +236,3 @@ async def info_error(ctx, error):
 
 
 client.run(TOKEN)
-
-
-# .printNameToConsole command - prints the bot's name to the console
-    #@client.command()
-    #async def printNameToConsole(ctx):
-    #    message = ctx.message
-    #    print("\n##########\nChimute Vampirism\n##########")
-    #    await message.channel.send("Done :white_check_mark:")
-
-# Checking for roles - testing for other commands
-    #@client.command()
-    #async def checkForRole(ctx, roleName):
-    #    message = ctx.message
-    #    author = message.author
-    #    roles = author.roles
-    #
-    #    hasRole = False
-    #    for role in roles:
-    #        rname = role.name.lower()
-    #        print(rname)
-    #
-    #        if rname == roleName.lower():
-    #            await message.channel.send("You have the \"" + roleName + "\" role.")
-    #            hasRole = True
-    #    if not(hasRole):
-    #        await message.channel.send("You dont have the \"" + roleName + "\" role.")
