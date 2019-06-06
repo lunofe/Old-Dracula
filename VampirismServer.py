@@ -80,7 +80,7 @@ async def staffyes(ctx, user: User):
     channel = message.channel
     id = int(channel.id)
     if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
-        await user.send("Your application has been accepted. You will hear from us shortly.")
+        await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://docs.google.com/document/d/1ccsL4FCVgQVUcLTi82ed8raa7AZlTsUaCqBnFbZzNEk>")
         await channel.send("Staff Apply → Accepted :white_check_mark:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
