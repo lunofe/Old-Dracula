@@ -56,11 +56,6 @@ async def on_message(message):
     else:
         print("\n---[MESSAGE]---")
 
-@client.event
-async def on_reaction_add(reaction, user):
-    print("\n---[REACTION]---")
-    print("{} has reacted with ".format(user) + reaction.emoji + " to "+ reaction.message.content + " (" reaction.message.id + ")")
-
 # .ping command - bot answers with pong
 @client.command()
 async def ping(ctx):
