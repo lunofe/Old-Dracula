@@ -18,7 +18,7 @@ async def on_ready():
 # Sending a welcome message to new members and giving them the "Member" role
 @client.event
 async def on_member_join(member):
-    print("\n---[JOIN]---\n{}".format(member))
+    print("\n---[JOIN]---\nUser: {}".format(member))
     await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
     roles = member.guild.roles
     for role in roles:
@@ -47,14 +47,18 @@ async def on_message(message):
     # Showing all messages on the console for debug purposes:
     if(int(author.id) == 578935647679807491):
         print("\n---[RESPONSE]---")
-        print(cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
+        print("Channel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content + "")
     elif (content.startswith(".")):
         print("\n---[COMMAND]---")
-        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content + "")
     else:
         print("\n---[MESSAGE]---")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: hidden")
+
+        await client.process_commands(message)
 
 # .ping command - bot answers with pong
 @client.command()
@@ -160,7 +164,7 @@ async def ban(ctx, user: User):
             hasRole = True
 
     if not(hasRole):
-        await message.channel.send("You dont have the permission to do that.")
+        await message.channel.send("You don't have the permission to do that.")
 
 # .kick command - kicks the tagged user
 @client.command()
@@ -178,7 +182,7 @@ async def kick(ctx, user: User):
             hasRole = True
 
     if not(hasRole):
-        await message.channel.send("You dont have the permission to do that.")
+        await message.channel.send("You don't have the permission to do that.")
 
 # .changePresence command - changes the bot's "playing" status via Discord
 @client.command()
@@ -190,23 +194,25 @@ async def changePresence(ctx, *args):
             playing = playing + word
         await client.change_presence(activity=discord.Game(name=playing))
     else:
-        await ctx.message.channel.send("You dont have the permission to do that.")
+        await ctx.message.channel.send("You don't have the permission to do that.")
 
 # .messageAdmins command - sends a message to the staff's channel
 @client.command()
 async def messageAdmins(ctx, *args):
-    guild = client.get_guild(528346798138589215)
-    channels = guild.text_channels
-    message = ""
+    if ctx.message.author.id == 152828946629525504:
+        guild = client.get_guild(528346798138589215)
+        channels = guild.text_channels
+        message = ""
 
-    for x in args:
-        message = message + x + " "
-    for channel in channels:
-        if channel.id == 564783442206654466:
-            msg = await channel.send(message)
-            #msg.add_reaction("👍")
-            #msg.add_reaction("👎")
-
+        for x in args:
+            message = message + x + " "
+        for channel in channels:
+            if channel.id == 564783442206654466:
+                msg = await channel.send(message)
+                #msg.add_reaction("👍")
+                #msg.add_reaction("👎")
+    else:
+        await ctx.message.channel.send("You don't have the permission to do that.")
 # Error handling
 @staffyes.error
 async def info_error(ctx, error):
