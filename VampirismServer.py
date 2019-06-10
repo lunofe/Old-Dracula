@@ -10,6 +10,9 @@ TOKEN = ""
 # Setting the bot's command prefix
 client = commands.Bot(command_prefix = ".")
 
+client.remove_command("help")
+
+
 # Setting the bot's "playing" status
 @client.event
 async def on_ready():
@@ -58,7 +61,14 @@ async def on_message(message):
         print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
         print("Content: hidden")
 
-        await client.process_commands(message)
+    await client.process_commands(message)
+
+@client.command()
+async def help(ctx):
+    try:
+        await ctx.message.channel.send("You can find the list of commands here:\n<https://github.com/KlemChri/VampireServerBot#commands>")
+    except Exception as e:
+        await ctx.message.author.send("You can find the list of commands here:\n<https://github.com/KlemChri/VampireServerBot#commands>")
 
 # .ping command - bot answers with pong
 @client.command()
@@ -75,8 +85,9 @@ async def ping(ctx):
 async def staffyes(ctx, user: User):
     message = ctx.message
     author = message.author
-    content = message.content
     channel = message.channel
+    guild = message.guild
+    content = message.content
     id = int(channel.id)
     if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
         await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://docs.google.com/document/d/1ccsL4FCVgQVUcLTi82ed8raa7AZlTsUaCqBnFbZzNEk>")
@@ -213,6 +224,16 @@ async def messageAdmins(ctx, *args):
                 #msg.add_reaction("👎")
     else:
         await ctx.message.channel.send("You don't have the permission to do that.")
+
+@client.command()
+async def loveTester(ctx, user1: User, user2: User):
+    love = random.randint(0, 100)
+    try:
+        await ctx.message.channel.send("The love between {} and {} is ".format(user1.mention, user2.mention) + str(love) + "% :heart:")
+    except Exception as e:
+        await ctx.message.author.send("Sorry but you have to execute the command on a Discord server.")
+
+
 # Error handling
 @staffyes.error
 async def info_error(ctx, error):
