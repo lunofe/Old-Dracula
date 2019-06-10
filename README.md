@@ -13,7 +13,7 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 | .help | Replys with this GitHub link | Everyone |
 | .ping | Command to test if the bot is online. The bot will reply with _Pong!_ | Everyone |
 | .loveTester | Typical love test for Discord | Everyone |
-| .staffyes <@user> | Accepts @user's staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://docs.google.com/document/d/1ccsL4FCVgQVUcLTi82ed8raa7AZlTsUaCqBnFbZzNEk>_ | staff-forms channel |
+| .staffyes <@user> | Accepts @user's staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <http://vampiredoc.klemchri.de/>_ | staff-forms channel |
 | .staffno <@user> [reason] | Rejects @user's staff application. Sends them the following message: _Your application has been rejected. [reason] You can apply again in two weeks._ | staff-forms channel |
 | .appealyes <@user> | Accepts @user's ban appeal. Sends them the following message: _Your ban appeal has been accepted. You will be unbanned within 24 hours._ | staff-forms channel |
 | .appealno <@user> [reason] | Rejects @user's ban appeal. Sends them the following message: _Your ban appeal has been rejected. [reason] You can appeal again in two weeks._ | staff-forms channel |
