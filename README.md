@@ -8,7 +8,7 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 - Furthermore, the new user get's the _Member_ role.
 
 ## Commands
-| Command | Description | Permission (Role, Channel or User)|
+| Command | Description | Permission Role, Channel or User|
 | ------ | ------ | ------ |
 | .help | Replys with this GitHub link | Everyone |
 | .ping | Command to test if the bot is online. The bot will reply with _Pong!_ | Everyone |
