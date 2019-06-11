@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord import User
+from discord import User, VoiceClient, VoiceState, VoiceChannel, opus
 import time, os, random
 
 # Insert your bot token here.
@@ -66,9 +66,9 @@ async def on_message(message):
 @client.command()
 async def help(ctx):
     try:
-        await ctx.message.channel.send("You can find the list of commands here:\n<https://github.com/KlemChri/VampireServerBot#commands>")
+        await ctx.message.channel.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
     except Exception as e:
-        await ctx.message.author.send("You can find the list of commands here:\n<https://github.com/KlemChri/VampireServerBot#commands>")
+        await ctx.message.author.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
 
 # .ping command - bot answers with pong
 @client.command()
@@ -232,6 +232,43 @@ async def loveTester(ctx, user1: User, user2: User):
         await ctx.message.channel.send("The love between {} and {} is ".format(user1.mention, user2.mention) + str(love) + "% :heart:")
     except Exception as e:
         await ctx.message.author.send("Sorry but you have to execute the command on a Discord server.")
+
+
+###### VOICE COMMANDS:
+v = [None, None]
+
+@client.command()
+async def joinvoice(ctx):
+    try:
+        voicestate = ctx.message.author.voice
+        v[0] = voicestate.channel
+        try:
+            v[1] = await v[0].connect()
+        except Exception as e:
+            await ctx.message.channel.send(":warning: "+ str(e))
+    except Exception as e:
+        await ctx.message.channel.send(":warning: You are not connected to a voice channel.")
+
+@client.command()
+async def leavevoice(ctx):
+    try:
+        await v[1].disconnect()
+        v[1] = None
+    except Exception as e:
+        await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
+
+## The "deuschland" command is just a test. It playes the song "DEUTSCHLAND" by Rammstein from the bot's storage
+@client.command()
+async def deutschland(ctx):
+    try:
+        v[1].stop()
+    except Exception as e:
+        print("\n---[RESPONSE]---\nNo song was playing before.")
+    try:
+        v[1].play(discord.FFmpegPCMAudio(os.getcwd() + '/DEUTSCHLAND.mp3'))
+        print("\n---[RESPONSE]---\nPlaying DEUTSCHLAND now.")
+    except Exception as e:
+        await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
 
 
 # Error handling
