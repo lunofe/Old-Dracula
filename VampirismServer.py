@@ -1,10 +1,10 @@
 import discord
 from discord.ext import commands
 from discord import User, VoiceClient, VoiceState, VoiceChannel, opus
-import time, os, random
+import time, os, random, youtube_dl
 
 # Insert your bot token here.
-TOKEN = ""
+TOKEN = "NTc4OTM1NjQ3Njc5ODA3NDkx.XP-UYg.dSDdD47VGJ8hMf0zvyJmratEjPA"
 
 
 # Setting the bot's command prefix
@@ -259,16 +259,21 @@ async def leavevoice(ctx):
 
 ## The "deuschland" command is just a test. It playes the song "DEUTSCHLAND" by Rammstein from the bot's storage
 @client.command()
-async def deutschland(ctx):
-    try:
-        v[1].stop()
-    except Exception as e:
-        print("\n---[RESPONSE]---\nNo song was playing before.")
-    try:
-        v[1].play(discord.FFmpegPCMAudio(os.getcwd() + '/DEUTSCHLAND.mp3'))
-        print("\n---[RESPONSE]---\nPlaying DEUTSCHLAND now.")
-    except Exception as e:
-        await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
+async def play(ctx, song):
+    song = song.lower()
+    if song == "help":
+        await ctx.message.channel.send("To play a song use: .play <songname>")
+        await ctx.message.channel.send("```Aviable songs:\nRammstein - Amerika\nRammstein - Amour\nRammstein - Auslaender\nRammstein - Benzin\nRammstein - DalaiLama\nRammstein - Deutschland\nRammstein - Diamant\nRammstein - FeuerFrei\nRammstein - Hallomann\nRammstein - IchWill\nRammstein - KeineLust\nRammstein - Links234\nRammstein - Los\nRammstein - MannGegenMann\nRammstein - MeinHerzBrennt\nRammstein - MeinTeil\nRammstein - Morgenstern\nRammstein - Moskau\nRammstein - Mutter\nRammstein - OhneDich\nRammstein - Puppe\nRammstein - Radio\nRammstein - ReinRaus\nRammstein - ReiseReise\nRammstein - Sex\nRammstein - Sonne\nRammstein - SteinUmStein\nRammstein - Tattoo\nRammstein - WasIchLiebe\nRammstein - WeitWeg\nRammstein - ZeigDich```")
+    else:
+        try:
+            v[1].stop()
+        except Exception as e:
+            print("\n---[RESPONSE]---\nNo song was playing before.")
+        try:
+            v[1].play(discord.FFmpegPCMAudio(os.getcwd() + "/RAMMSTEIN/" + song + ".mp3"))
+            print("\n---[RESPONSE]---\nPlaying DEUTSCHLAND now.")
+        except Exception as e:
+            await ctx.message.channel.send(":warning: Bot is not connected or song was not found. (.play help)")
 
 
 # Error handling
