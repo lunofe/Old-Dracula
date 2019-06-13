@@ -4,7 +4,7 @@ from discord import User, VoiceClient, VoiceState, VoiceChannel, opus
 import time, os, random, youtube_dl
 
 # Insert your bot token here.
-TOKEN = "NTc4OTM1NjQ3Njc5ODA3NDkx.XP-UYg.dSDdD47VGJ8hMf0zvyJmratEjPA"
+TOKEN = ""
 
 
 # Setting the bot's command prefix
