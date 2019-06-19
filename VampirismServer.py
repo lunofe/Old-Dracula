@@ -66,9 +66,9 @@ async def on_message(message):
 @client.command()
 async def help(ctx):
     try:
-        await ctx.message.channel.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
+        await ctx.message.channel.send("Are you new to the Vampirism mod? Do /kit vamp_guide ingame and you'll get everything you need!\nHow does XY work on the server? Check <https://chimute.org/vampirism/guidebook>!\nStill need help? Ask your question in #questions-and-help!")
     except Exception as e:
-        await ctx.message.author.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
+        await ctx.message.author.send("Are you new to the Vampirism mod? Do /kit vamp_guide ingame and you'll get everything you need!\nHow does XY work on the server? Check <https://chimute.org/vampirism/guidebook>!\nStill need help? Ask your question in #questions-and-help!")
 
 # .ping command - bot answers with pong
 @client.command()
@@ -89,7 +89,7 @@ async def staffyes(ctx, user: User):
     guild = message.guild
     content = message.content
     id = int(channel.id)
-    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://docs.google.com/document/d/1ccsL4FCVgQVUcLTi82ed8raa7AZlTsUaCqBnFbZzNEk>")
         await channel.send("Staff Apply → Accepted :white_check_mark:")
     else:
@@ -108,7 +108,7 @@ async def staffno(ctx, user: User, *args):
     for argument in args:
         reason = reason + argument + " "
 
-    if((id == 564783779474833431) or (id == 566735724628410529)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         print(len(args))
         if len(args) == 0:
             await user.send("Your application has been rejected. You can apply again in two weeks.")
@@ -128,7 +128,7 @@ async def appealyes(ctx, user: User):
     content = message.content
     channel = message.channel
     id = int(channel.id)
-    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
         await channel.send("Ban Appeal → Accepted :white_check_mark:")
     else:
@@ -147,7 +147,7 @@ async def appealno(ctx, user: User, *args):
     for argument in args:
         reason = reason + argument + " "
 
-    if((id == 564783779474833431) or (id == 566735724628410529)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         print(len(args))
         if len(args) == 0:
             await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
@@ -218,7 +218,7 @@ async def messageAdmins(ctx, *args):
         for x in args:
             message = message + x + " "
         for channel in channels:
-            if channel.id == 564783442206654466:
+            if channel.id == 528350308976295946:
                 msg = await channel.send(message)
                 #msg.add_reaction("👍")
                 #msg.add_reaction("👎")
