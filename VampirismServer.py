@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from discord import User, VoiceClient, VoiceState, VoiceChannel, opus
-import time, os, random, youtube_dl
+from discord import User
+import time, os, random
 
 # Insert your bot token here.
 TOKEN = "NTc4OTM1NjQ3Njc5ODA3NDkx.XQITxw.uu7tnB09h6dEeW6pyJKymcxEviY"
@@ -18,6 +18,7 @@ client.remove_command("help")
 async def on_ready():
     await client.change_presence(activity=discord.Game(name='klemchri.de'))
 
+
 # Sending a welcome message to new members and giving them the "Member" role
 @client.event
 async def on_member_join(member):
@@ -27,6 +28,7 @@ async def on_member_join(member):
     for role in roles:
         if(role.name == "Member"):
             await member.add_roles(role, reason="Member just joined the Server")
+
 
 # Do I need to explain this?
 @client.event
@@ -50,25 +52,25 @@ async def on_message(message):
     # Showing all messages on the console for debug purposes:
     if(int(author.id) == 578935647679807491):
         print("\n---[RESPONSE]---")
-        print("Channel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: " + content + "")
+        print(cname + " (" + cid + ") @ " + currentTime)
+        print("> " + content + "")
     elif (content.startswith(".")):
         print("\n---[COMMAND]---")
-        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: " + content + "")
+        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
+        print("> " + content + "")
     else:
         print("\n---[MESSAGE]---")
-        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
-        print("Content: hidden")
 
     await client.process_commands(message)
+
 
 @client.command()
 async def help(ctx):
     try:
-        await ctx.message.channel.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
+        await ctx.message.channel.send("Are you new to the Vampirism mod? Do /kit vamp_guide ingame and you'll get everything you need!\nHow does XY work on the server? Check <https://chimute.org/vampirism/guidebook>!\nStill need help? Ask your question in #questions-and-help!")
     except Exception as e:
-        await ctx.message.author.send("You can find the list of commands here:\n<http://vampiredoc.klemchri.de>")
+        await ctx.message.author.send("Are you new to the Vampirism mod? Do /kit vamp_guide ingame and you'll get everything you need!\nHow does XY work on the server? Check <https://chimute.org/vampirism/guidebook>!\nStill need help? Ask your question in #questions-and-help!")
+
 
 # .ping command - bot answers with pong
 @client.command()
@@ -80,6 +82,7 @@ async def ping(ctx):
     id = int(channel.id)
     await channel.send("{} Pong! :ping_pong:".format(author.mention))
 
+
 # .staffyes command - sends the tagged user acception message for their staff apply
 @client.command()
 async def staffyes(ctx, user: User):
@@ -89,11 +92,12 @@ async def staffyes(ctx, user: User):
     guild = message.guild
     content = message.content
     id = int(channel.id)
-    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://docs.google.com/document/d/1ccsL4FCVgQVUcLTi82ed8raa7AZlTsUaCqBnFbZzNEk>")
         await channel.send("Staff Apply → Accepted :white_check_mark:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
+
 
 # .staffno command - sends the tagged user rejection message and reason for their staff apply
 @client.command()
@@ -108,7 +112,7 @@ async def staffno(ctx, user: User, *args):
     for argument in args:
         reason = reason + argument + " "
 
-    if((id == 564783779474833431) or (id == 566735724628410529)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         print(len(args))
         if len(args) == 0:
             await user.send("Your application has been rejected. You can apply again in two weeks.")
@@ -120,6 +124,7 @@ async def staffno(ctx, user: User, *args):
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
 
+
 # .appealyes command - sends the tagged user acception message for their ban appeal
 @client.command()
 async def appealyes(ctx, user: User):
@@ -128,11 +133,12 @@ async def appealyes(ctx, user: User):
     content = message.content
     channel = message.channel
     id = int(channel.id)
-    if((id == 564783779474833431) or (id == 566735724628410529) or (id == 571594243852992513)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
         await channel.send("Ban Appeal → Accepted :white_check_mark:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
+
 
 # .appealno command - sends the tagged user rejection message and reason for their ban appeal
 @client.command()
@@ -147,7 +153,7 @@ async def appealno(ctx, user: User, *args):
     for argument in args:
         reason = reason + argument + " "
 
-    if((id == 564783779474833431) or (id == 566735724628410529)):
+    if((id == 564783779474833431) or (id == 590956693614100490)):
         print(len(args))
         if len(args) == 0:
             await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
@@ -158,6 +164,7 @@ async def appealno(ctx, user: User, *args):
             await channel.send("Ban Appeal → Rejected :x:")
     else:
         await channel.send("This command is suposed to be used in the staff-forms Channel")
+
 
 # .ban command - bans the tagged user
 @client.command()
@@ -177,6 +184,7 @@ async def ban(ctx, user: User):
     if not(hasRole):
         await message.channel.send("You don't have the permission to do that.")
 
+
 # .kick command - kicks the tagged user
 @client.command()
 async def kick(ctx, user: User):
@@ -195,6 +203,7 @@ async def kick(ctx, user: User):
     if not(hasRole):
         await message.channel.send("You don't have the permission to do that.")
 
+
 # .changePresence command - changes the bot's "playing" status via Discord
 @client.command()
 async def changePresence(ctx, *args):
@@ -207,6 +216,7 @@ async def changePresence(ctx, *args):
     else:
         await ctx.message.channel.send("You don't have the permission to do that.")
 
+
 # .messageAdmins command - sends a message to the staff's channel
 @client.command()
 async def messageAdmins(ctx, *args):
@@ -218,57 +228,78 @@ async def messageAdmins(ctx, *args):
         for x in args:
             message = message + x + " "
         for channel in channels:
-            if channel.id == 564783442206654466:
+            if channel.id == 528350308976295946:
                 msg = await channel.send(message)
                 #msg.add_reaction("👍")
                 #msg.add_reaction("👎")
     else:
         await ctx.message.channel.send("You don't have the permission to do that.")
 
+# .role command - let users change their roles
 @client.command()
-async def loveTester(ctx, user1: User, user2: User):
-    love = random.randint(0, 100)
-    try:
-        await ctx.message.channel.send("The love between {} and {} is ".format(user1.mention, user2.mention) + str(love) + "% :heart:")
-    except Exception as e:
-        await ctx.message.author.send("Sorry but you have to execute the command on a Discord server.")
+async def role(ctx, arg):
+    message = ctx.message
+    author = message.author
+    channel = message.channel
+    guild = message.guild
+    roles = author.guild.roles
+    if(arg == "vampire"):
+        for role in roles:
+            if(role.name == "Hunter"):
+                await author.remove_roles(role, reason="Switched to Vampire")
+            if(role.name == "Vampire"):
+                await author.add_roles(role, reason="Now a Vampire")
+        print("{}".format(author) + " switched to Vampire.")
+    elif (arg == "hunter"):
+        for role in roles:
+            if(role.name == "Vampire"):
+                await author.remove_roles(role, reason="Switched to Hunter")
+            if(role.name == "Hunter"):
+                await author.add_roles(role, reason="Now a Hunter")
+        print("{}".format(author) + " switched to Hunter.")
+    else:
+        await channel.send("{} That's not a valid role! You can choose between 'vampire' and 'hunter'.".format(author.mention))
 
-
-###### VOICE COMMANDS:
-v = [None, None]
-
-@client.command()
-async def joinvoice(ctx):
-    try:
-        voicestate = ctx.message.author.voice
-        v[0] = voicestate.channel
-        try:
-            v[1] = await v[0].connect()
-        except Exception as e:
-            await ctx.message.channel.send(":warning: "+ str(e))
-    except Exception as e:
-        await ctx.message.channel.send(":warning: You are not connected to a voice channel.")
-
-@client.command()
-async def leavevoice(ctx):
-    try:
-        await v[1].disconnect()
-        v[1] = None
-    except Exception as e:
-        await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
-
-## The "deuschland" command is just a test. It playes the song "DEUTSCHLAND" by Rammstein from the bot's storage
-@client.command()
-async def play(ctx, link="http://stream01.ilovemusic.de/iloveradio2.mp3"):
-    try:
-        v[1].stop()
-    except Exception as e:
-        print("\n---[RESPONSE]---\nNo song was playing before.")
-    try:
-        v[1].play(discord.FFmpegPCMAudio(link))
-        print("\n---[RESPONSE]---\nPlaying source: " + link)
-    except Exception as e:
-        await ctx.message.channel.send(":warning: Bot is not connected or song was not found. (.play help)")
+# Voice Commands (Music Bot)
+# v = [None, None]
+#
+# @client.command()
+# async def joinvoice(ctx):
+#     try:
+#         voicestate = ctx.message.author.voice
+#         v[0] = voicestate.channel
+#         try:
+#             v[1] = await v[0].connect()
+#         except Exception as e:
+#             await ctx.message.channel.send(":warning: "+ str(e))
+#     except Exception as e:
+#         await ctx.message.channel.send(":warning: You are not connected to a voice channel.")
+#
+# @client.command()
+# async def leavevoice(ctx):
+#     try:
+#         await v[1].disconnect()
+#         v[1] = None
+#     except Exception as e:
+#         await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
+#
+# ## The "deuschland" command is just a test. It playes the song "DEUTSCHLAND" by Rammstein from the bot's storage
+# @client.command()
+# async def play(ctx, song):
+#     song = song.lower()
+#     if song == "help":
+#         await ctx.message.channel.send("To play a song use: .play <songname>")
+#         await ctx.message.channel.send("```Aviable songs:\nRammstein - Amerika\nRammstein - Amour\nRammstein - Auslaender\nRammstein - Benzin\nRammstein - DalaiLama\nRammstein - Deutschland\nRammstein - Diamant\nRammstein - FeuerFrei\nRammstein - Hallomann\nRammstein - IchWill\nRammstein - KeineLust\nRammstein - Links234\nRammstein - Los\nRammstein - MannGegenMann\nRammstein - MeinHerzBrennt\nRammstein - MeinTeil\nRammstein - Morgenstern\nRammstein - Moskau\nRammstein - Mutter\nRammstein - OhneDich\nRammstein - Puppe\nRammstein - Radio\nRammstein - ReinRaus\nRammstein - ReiseReise\nRammstein - Sex\nRammstein - Sonne\nRammstein - SteinUmStein\nRammstein - Tattoo\nRammstein - WasIchLiebe\nRammstein - WeitWeg\nRammstein - ZeigDich```")
+#     else:
+#         try:
+#             v[1].stop()
+#         except Exception as e:
+#             print("\n---[RESPONSE]---\nNo song was playing before.")
+#         try:
+#             v[1].play(discord.FFmpegPCMAudio(os.getcwd() + "/RAMMSTEIN/" + song + ".mp3"))
+#             print("\n---[RESPONSE]---\nPlaying DEUTSCHLAND now.")
+#         except Exception as e:
+#             await ctx.message.channel.send(":warning: Bot is not connected or song was not found. (.play help)")
 
 
 # Error handling
