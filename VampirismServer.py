@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import User
-import time, os, random
+import time, os, random, asyncio
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 # Insert your bot token here.
@@ -17,7 +17,12 @@ client.remove_command("help")
 # Setting the bot's "playing" status
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name='klemchri.de'))
+    while True:
+        await client.change_presence(activity=discord.Game(name='klemchri.de - offline'))
+        await asyncio.sleep(10)
+        await client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
+        await asyncio.sleep(10)
+
 
 
 # Sending a welcome message to new members and giving them the "Member" role
@@ -53,14 +58,16 @@ async def on_message(message):
     # Showing all messages on the console for debug purposes:
     if(int(author.id) == 578935647679807491):
         print("\n---[RESPONSE]---")
-        print(cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
+        print("Channel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content)
     elif (content.startswith(".")):
         print("\n---[COMMAND]---")
-        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: " + content)
     else:
         print("\n---[MESSAGE]---")
+        print("Author: " + "{}".format(author) + "\nChannel Name: " + cname + "\nChannel ID: " + cid + "\nTime: " + currentTime)
+        print("Content: hidden")
 
     await client.process_commands(message)
 
@@ -206,16 +213,16 @@ async def kick(ctx, user: User):
 
 
 # .changePresence command - changes the bot's "playing" status via Discord
-@client.command()
-async def changePresence(ctx, *args):
-    auhtorID = int(ctx.message.author.id)
-    if(auhtorID == 152828946629525504 or auhtorID == 267633670532104193): # Change to your ID
-        playing = ""
-        for word in args:
-            playing = playing + word
-        await client.change_presence(activity=discord.Game(name=playing))
-    else:
-        await ctx.message.channel.send("You don't have the permission to do that.")
+#@client.command()
+#async def changePresence(ctx, *args):
+#    auhtorID = int(ctx.message.author.id)
+#    if(auhtorID == 152828946629525504 or auhtorID == 267633670532104193): # Change to your ID
+#        playing = ""
+#        for word in args:
+#            playing = playing + word
+#        await client.change_presence(activity=discord.Game(name=playing))
+#    else:
+#        await ctx.message.channel.send("You don't have the permission to do that.")
 
 
 # .messageAdmins command - sends a message to the staff's channel
@@ -260,48 +267,6 @@ async def role(ctx, arg):
         print("{}".format(author) + " switched to Hunter.")
     else:
         await channel.send("{} That's not a valid role! You can choose between 'vampire' and 'hunter'.".format(author.mention))
-
-# Voice Commands (Music Bot)
-# v = [None, None]
-#
-# @client.command()
-# async def joinvoice(ctx):
-#     try:
-#         voicestate = ctx.message.author.voice
-#         v[0] = voicestate.channel
-#         try:
-#             v[1] = await v[0].connect()
-#         except Exception as e:
-#             await ctx.message.channel.send(":warning: "+ str(e))
-#     except Exception as e:
-#         await ctx.message.channel.send(":warning: You are not connected to a voice channel.")
-#
-# @client.command()
-# async def leavevoice(ctx):
-#     try:
-#         await v[1].disconnect()
-#         v[1] = None
-#     except Exception as e:
-#         await ctx.message.channel.send(":warning: The bot is not connected to a voice channel")
-#
-# ## The "deuschland" command is just a test. It playes the song "DEUTSCHLAND" by Rammstein from the bot's storage
-# @client.command()
-# async def play(ctx, song):
-#     song = song.lower()
-#     if song == "help":
-#         await ctx.message.channel.send("To play a song use: .play <songname>")
-#         await ctx.message.channel.send("```Aviable songs:\nRammstein - Amerika\nRammstein - Amour\nRammstein - Auslaender\nRammstein - Benzin\nRammstein - DalaiLama\nRammstein - Deutschland\nRammstein - Diamant\nRammstein - FeuerFrei\nRammstein - Hallomann\nRammstein - IchWill\nRammstein - KeineLust\nRammstein - Links234\nRammstein - Los\nRammstein - MannGegenMann\nRammstein - MeinHerzBrennt\nRammstein - MeinTeil\nRammstein - Morgenstern\nRammstein - Moskau\nRammstein - Mutter\nRammstein - OhneDich\nRammstein - Puppe\nRammstein - Radio\nRammstein - ReinRaus\nRammstein - ReiseReise\nRammstein - Sex\nRammstein - Sonne\nRammstein - SteinUmStein\nRammstein - Tattoo\nRammstein - WasIchLiebe\nRammstein - WeitWeg\nRammstein - ZeigDich```")
-#     else:
-#         try:
-#             v[1].stop()
-#         except Exception as e:
-#             print("\n---[RESPONSE]---\nNo song was playing before.")
-#         try:
-#             v[1].play(discord.FFmpegPCMAudio(os.getcwd() + "/RAMMSTEIN/" + song + ".mp3"))
-#             print("\n---[RESPONSE]---\nPlaying DEUTSCHLAND now.")
-#         except Exception as e:
-#             await ctx.message.channel.send(":warning: Bot is not connected or song was not found. (.play help)")
-
 
 # Error handling
 @staffyes.error
