@@ -1,7 +1,7 @@
 # Chimute Vampirism Discord Bot
 This bot is used on the official Vampirism Server Discord to (currently) accept and reject staff applications. In the future more commands and functions will be added.
 
-[![vampirism mod](https://i.imgur.com/Oj2U8Nc.png)](https://github.com/TeamLapen/Vampirism) [![vampirism server](https://i.imgur.com/kgBP6KW.png)](https://chimute.org/vampirism)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)] [![vampirism mod](https://i.imgur.com/Oj2U8Nc.png)](https://github.com/TeamLapen/Vampirism) [![vampirism server](https://i.imgur.com/kgBP6KW.png)](https://chimute.org/vampirism)
 
 ## Automations
 - When a new user joins the Discord, they will get the following message: _Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at https://chimute.org/vampirism. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules._
