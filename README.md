@@ -1,6 +1,7 @@
-# Chimute Vampirism Discord Bot ![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)
+# Chimute Vampirism Discord Bot v2
 This bot is used on the official Vampirism Server Discord to (currently) accept and reject staff applications. In the future more commands and functions will be added.
 
+![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)
 [![vampirism mod](https://i.imgur.com/Oj2U8Nc.png)](https://github.com/TeamLapen/Vampirism) [![vampirism server](https://i.imgur.com/kgBP6KW.png)](https://chimute.org/vampirism)
 
 ## Automations
@@ -8,20 +9,18 @@ This bot is used on the official Vampirism Server Discord to (currently) accept 
 - Furthermore, the new user get's the _Member_ role.
 
 ## Commands
-| Command | Description | Permission Role, Channel or User|
+| Command | Description | Permission (Rank, #Channel or @User) |
 | ------ | ------ | ------ |
-| .help | Replys with this GitHub link | Everyone |
 | .ping | Command to test if the bot is online. The bot will reply with _Pong!_ | Everyone |
-| .loveTester | Typical love test for Discord | Everyone |
-| .staffyes <@user> | Accepts @user's staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <http://vampiredoc.klemchri.de/>_ | staff-forms channel |
-| .staffno <@user> [reason] | Rejects @user's staff application. Sends them the following message: _Your application has been rejected. [reason] You can apply again in two weeks._ | staff-forms channel |
-| .appealyes <@user> | Accepts @user's ban appeal. Sends them the following message: _Your ban appeal has been accepted. You will be unbanned within 24 hours._ | staff-forms channel |
-| .appealno <@user> [reason] | Rejects @user's ban appeal. Sends them the following message: _Your ban appeal has been rejected. [reason] You can appeal again in two weeks._ | staff-forms channel |
-| .ban <@user> | Bans <@user> | Admin |
-| .kick <@user> | Kicks <@user> | Admin |
-| .changePresence [text] | Changes the bot's "playing" status | klemchri#1337 |
-| .messageAdmins [text] | Sends a message to the staff's channel | klemchri#1337 |
+| .role [vampire/hunter] | Sets the message author's role to Vampire or Hunter. | Everyone |
+| .staffyes [@user] | Accepts [@user]'s staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirismpermissions/>_ | #staff-forms |
+| .staffno [@user] [reason] | Rejects [@user]'s staff application. Sends them the following message: _Your application has been rejected. [reason] You can apply again in two weeks._ | #staff-forms |
+| .appealyes [@user] | Accepts [@user]'s ban appeal. Sends them the following message: _Your ban appeal has been accepted. You will be unbanned within 24 hours._ | #staff-forms |
+| .appealno [@user] [reason] | Rejects [@user]'s ban appeal. Sends them the following message: _Your ban appeal has been rejected. [reason] You can appeal again in two weeks._ | #staff-forms |
+| .ban [@user] | Bans [@user] | Admin |
+| .kick [@user] | Kicks [@user] | Admin |
+| .messageAdmins [text] | Sends a message to the staff's channel | @klemchri#1337 |
 
 ## Team
-- [KlemChri](https://github.com/KlemChri) _EVERYTHING_
-- [1LiterZinalco](https://chimute.org) _I like markdown_
+- [KlemChri](https://github.com/KlemChri) _The teacher_
+- [1LiterZinalco](https://github.com/1LiterZinalco) _The student_
