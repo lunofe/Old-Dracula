@@ -107,14 +107,14 @@ async def role(ctx, arg):
     channel = message.channel
     guild = message.guild
     roles = author.guild.roles
-    if(arg == "vampire".lower()):
+    if(arg.lower() == "vampire"):
         for role in roles:
             if(role.name == "Hunter"):
                 await author.remove_roles(role, reason="Switched to Vampire")
             if(role.name == "Vampire"):
                 await author.add_roles(role, reason="Now a Vampire")
         print("{}".format(author) + " switched to Vampire.")
-    elif (arg == "hunter".lower()):
+    elif (arg.lower() == "hunter"):
         for role in roles:
             if(role.name == "Vampire"):
                 await author.remove_roles(role, reason="Switched to Hunter")
