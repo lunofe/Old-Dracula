@@ -121,8 +121,15 @@ async def role(ctx, arg):
             if(role.name == "Hunter"):
                 await author.add_roles(role, reason="Now a Hunter")
         print("{}".format(author) + " switched to Hunter.")
+    elif (arg.lower()=="unselect"):
+        for role in roles:
+            if(role.name == "Vampire"):
+                await author.remove_roles(role, reason="Unselected role")
+            if(role.name == "Hunter"):
+                await author.remove_roles(role, reason="Unselected role")
+        print("{}".format(author) + " switched to Hunter.")
     else:
-        await channel.send("{} That's not a valid role! You can choose between 'vampire' and 'hunter'.".format(author.mention))
+        await channel.send("{} That's not a valid role! You can choose between 'vampire', 'hunter' and 'unselect'.".format(author.mention))
 
 
 
