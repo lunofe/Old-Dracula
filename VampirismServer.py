@@ -11,6 +11,7 @@
 import discord
 from discord.ext import commands
 from discord import User
+from cogs import Moderation, AutoModeration
 import time, os, random, asyncio
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -62,6 +63,8 @@ async def on_message(message):
         print("> " + content + "")
     else:
         print("\n---[MESSAGE]---")
+        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
+        print("> hidden")
 
     await client.process_commands(message)
 
@@ -72,23 +75,15 @@ async def on_message(message):
 # Setting the bot's "playing" status
 @client.event
 async def on_ready():
+    #Loading Cogs:
+    client.load_extension("cogs.Moderation")
+    client.load_extension("cogs.AutoModeration")
+
     while True:
         await client.change_presence(activity=discord.Game(name='klemchri.eu'))
         await asyncio.sleep(10)
         await client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
         await asyncio.sleep(10)
-
-#============================================================================================================#
-
-# Sending a welcome message to new members and giving them the "Member" role
-@client.event
-async def on_member_join(member):
-    print("\n---[JOIN]---\nUser: {}".format(member))
-    await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
-    roles = member.guild.roles
-    for role in roles:
-        if(role.name == "Member"):
-            await member.add_roles(role, reason="Member just joined the Server")
 
 #============================================================================================================#
 
@@ -129,138 +124,7 @@ async def role(ctx, arg):
     else:
         await channel.send("{} That's not a valid role! You can choose between 'vampire' and 'hunter'.".format(author.mention))
 
-##############################################################################################################
-### Accepting and rejecting staff applications ###############################################################
-##############################################################################################################
 
-# 'staffyes' command - sends the tagged user an acception message for their staff apply
-@client.command()
-async def staffyes(ctx, user: User):
-    message = ctx.message
-    author = message.author
-    channel = message.channel
-    guild = message.guild
-    content = message.content
-    id = int(channel.id)
-    if((id == 564783779474833431) or (id == 590956693614100490)):
-        await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirismpermissions/>")
-        await channel.send(user.name + "'s Staff Apply → Accepted :white_check_mark:")
-    else:
-        await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
-
-#============================================================================================================#
-
-# 'staffno' command - sends the tagged user a rejection message and reason for their staff apply
-@client.command()
-async def staffno(ctx, user: User, *args):
-    message = ctx.message
-    author = message.author
-    content = message.content
-    channel = message.channel
-    id = int(channel.id)
-    print(args)
-    reason = ""
-    for argument in args:
-        reason = reason + argument + " "
-
-    if((id == 564783779474833431) or (id == 590956693614100490)):
-        print(len(args))
-        if len(args) == 0:
-            await user.send("Your application has been rejected. You can try again in two weeks.")
-            await channel.send(user.name + "'s Staff Apply → Rejected :x:")
-
-        else:
-            await user.send("Your application has been rejected. " + reason + " You can try again in two weeks.")
-            await channel.send(user.name + "'s Staff Apply → Rejected :x:")
-    else:
-        await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
-
-##############################################################################################################
-### Accepting and rejecting ban appeals ######################################################################
-##############################################################################################################
-
-# 'appealyes' command - sends the tagged user an acception message for their ban appeal
-@client.command()
-async def appealyes(ctx, user: User):
-    message = ctx.message
-    author = message.author
-    content = message.content
-    channel = message.channel
-    id = int(channel.id)
-    if((id == 564783779474833431) or (id == 590956693614100490)):
-        await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
-        await channel.send(user.name + "'s Ban Appeal → Accepted :white_check_mark:")
-    else:
-        await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
-
-#============================================================================================================#
-
-# 'appealno' command - sends the tagged user a rejection message and reason for their ban appeal
-@client.command()
-async def appealno(ctx, user: User, *args):
-    message = ctx.message
-    author = message.author
-    content = message.content
-    channel = message.channel
-    id = int(channel.id)
-    print(args)
-    reason = ""
-    for argument in args:
-        reason = reason + argument + " "
-
-    if((id == 564783779474833431) or (id == 590956693614100490)):
-        print(len(args))
-        if len(args) == 0:
-            await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
-            await channel.send(user.name + "'s Ban Appeal → Rejected :x:")
-
-        else:
-            await user.send("Your ban appeal has been rejected. " + reason + " You can appeal again in two weeks.")
-            await channel.send(user.name + "'s Ban Appeal → Rejected :x:")
-    else:
-        await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
-
-##############################################################################################################
-### Ban and kick management ##################################################################################
-##############################################################################################################
-
-# 'ban' command - bans the tagged user
-@client.command()
-async def ban(ctx, user: User):
-    message = ctx.message
-    author = message.author
-    roles = author.roles
-
-    hasRole = False
-    for role in roles:
-        rname = role.name.lower()
-        if (rname == "admin") or (rname == "sr admin"):
-            await ctx.message.guild.ban(user)
-            await ctx.message.channel.send(user.name + " was banned.")
-            hasRole = True
-
-    if not(hasRole):
-        await message.channel.send(":warning: You don't have permission.")
-
-#============================================================================================================#
-
-# 'kick' command - kicks the tagged user
-@client.command()
-async def kick(ctx, user: User):
-    message = ctx.message
-    author = message.author
-    roles = author.roles
-
-    hasRole = False
-    for role in roles:
-        rname = role.name.lower()
-        if (rname == "admin") or (rname == "sr admin"):
-            await ctx.message.guild.kick(user)
-            await ctx.message.channel.send(user.name + " was kicked.")
-            hasRole = True
-
-    if not(hasRole):
-        await message.channel.send(":warning: You don't have permission.")
 
 ##############################################################################################################
 ### Misc. functions ##########################################################################################
@@ -284,25 +148,7 @@ async def messageAdmins(ctx, *args):
     else:
         await ctx.message.channel.send(":warning: You don't have permission.")
 
-#============================================================================================================#
 
-# Error handling
-@staffyes.error
-async def info_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(':warning: Could not find the user.')
-@staffno.error
-async def info_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(':warning: Could not find the user.')
-@appealyes.error
-async def info_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(':warning: Could not find the user.')
-@appealno.error
-async def info_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(':warning: Could not find the user.')
 
 ##############################################################################################################
 ##############################################################################################################
