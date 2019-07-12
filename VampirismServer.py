@@ -5,7 +5,6 @@ import time, os, random, asyncio
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 # Insert your bot token here.
-TOKEN = ""
 
 
 # Setting the bot's command prefix
@@ -212,20 +211,6 @@ async def kick(ctx, user: User):
         await message.channel.send("You don't have the permission to do that.")
 
 
-# .changePresence command - changes the bot's "playing" status via Discord
-#@client.command()
-#async def changePresence(ctx, *args):
-#    auhtorID = int(ctx.message.author.id)
-#    if(auhtorID == 152828946629525504 or auhtorID == 267633670532104193): # Change to your ID
-#        playing = ""
-#        for word in args:
-#            playing = playing + word
-#        await client.change_presence(activity=discord.Game(name=playing))
-#    else:
-#        await ctx.message.channel.send("You don't have the permission to do that.")
-
-
-# .messageAdmins command - sends a message to the staff's channel
 @client.command()
 async def messageAdmins(ctx, *args):
     if ctx.message.author.id == 152828946629525504:
