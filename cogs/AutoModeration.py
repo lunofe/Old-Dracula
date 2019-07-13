@@ -15,6 +15,7 @@ class AutoModeration(commands.Cog):
     def __init__(self, client):
         self.client = client
         self._last_member = None
+        
 #============================================================================================================#
 
     # Sending a welcome message to new members and giving them the "Member" role
