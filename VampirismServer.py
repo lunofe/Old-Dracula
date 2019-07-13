@@ -11,7 +11,7 @@
 import discord
 from discord.ext import commands
 from discord import User
-from cogs import Moderation, AutoModeration
+from cogs import Moderation, AutoModeration, ServerRole, Tools
 import time, os, random, asyncio
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -38,13 +38,9 @@ client.remove_command("help")
 @client.event
 async def on_message(message):
     author = message.author
-    aname = author.name
-    amention = author.mention
-    content = message.content
     channel = message.channel
     guild = message.guild
     currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
-    attachments = message.attachments
 
     try:
         cname = channel.name
@@ -56,11 +52,11 @@ async def on_message(message):
     if(int(author.id) == 578935647679807491):
         print("\n---[RESPONSE]---")
         print(cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
-    elif (content.startswith(".")):
+        print("> " + message.content + "")
+    elif (message.content.startswith(".")):
         print("\n---[COMMAND]---")
         print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
-        print("> " + content + "")
+        print("> " + message.content + "")
     else:
         print("\n---[MESSAGE]---")
         print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
@@ -76,8 +72,10 @@ async def on_message(message):
 @client.event
 async def on_ready():
     #Loading Cogs:
-    client.load_extension("cogs.Moderation")
-    client.load_extension("cogs.AutoModeration")
+    client.load_extension("cogs.Moderation")        #Admin commands
+    client.load_extension("cogs.AutoModeration")    #Listeners
+    client.load_extension("cogs.ServerRole")        #Role command
+    client.load_extension("cogs.Tools")             #For tools like .ping
 
     while True:
         await client.change_presence(activity=discord.Game(name='klemchri.eu'))
@@ -86,79 +84,5 @@ async def on_ready():
         await asyncio.sleep(10)
 
 #============================================================================================================#
-
-# 'ping' command
-@client.command()
-async def ping(ctx):
-    message = ctx.message
-    author = message.author
-    content = message.content
-    channel = message.channel
-    id = int(channel.id)
-    await channel.send("{} Pong! :ping_pong:".format(author.mention))
-
-#============================================================================================================#
-
-# 'role' command - lets users change their roles
-@client.command()
-async def role(ctx, arg):
-    message = ctx.message
-    author = message.author
-    channel = message.channel
-    guild = message.guild
-    roles = author.guild.roles
-    if(arg.lower() == "vampire"):
-        for role in roles:
-            if(role.name == "Hunter"):
-                await author.remove_roles(role, reason="Switched to Vampire")
-            if(role.name == "Vampire"):
-                await author.add_roles(role, reason="Now a Vampire")
-        print("{}".format(author) + " switched to Vampire.")
-    elif (arg.lower() == "hunter"):
-        for role in roles:
-            if(role.name == "Vampire"):
-                await author.remove_roles(role, reason="Switched to Hunter")
-            if(role.name == "Hunter"):
-                await author.add_roles(role, reason="Now a Hunter")
-        print("{}".format(author) + " switched to Hunter.")
-    elif (arg.lower()=="unselect"):
-        for role in roles:
-            if(role.name == "Vampire"):
-                await author.remove_roles(role, reason="Unselected role")
-            if(role.name == "Hunter"):
-                await author.remove_roles(role, reason="Unselected role")
-        print("{}".format(author) + " switched to Hunter.")
-    else:
-        await channel.send("{} That's not a valid role! You can choose between 'vampire', 'hunter' and 'unselect'.".format(author.mention))
-
-
-
-##############################################################################################################
-### Misc. functions ##########################################################################################
-##############################################################################################################
-
-# 'messageAdmins' command - sends a message to the staff's channel
-@client.command()
-async def messageAdmins(ctx, *args):
-    if ctx.message.author.id == 152828946629525504:
-        guild = client.get_guild(528346798138589215)
-        channels = guild.text_channels
-        message = ""
-
-        for x in args:
-            message = message + x + " "
-        for channel in channels:
-            if channel.id == 528350308976295946:
-                msg = await channel.send(message)
-                #msg.add_reaction("👍")
-                #msg.add_reaction("👎")
-    else:
-        await ctx.message.channel.send(":warning: You don't have permission.")
-
-
-
-##############################################################################################################
-##############################################################################################################
-##############################################################################################################
 
 client.run(TOKEN)
