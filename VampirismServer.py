@@ -13,7 +13,8 @@ from discord.ext import commands
 from discord import User
 from cogs import Moderation, AutoModeration, ServerRole, Tools
 import time, os, random, asyncio
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from keep_alive import keep_alive
+
 
 ##############################################################################################################
 ### Initial stuff ############################################################################################
@@ -85,4 +86,5 @@ async def on_ready():
 
 #============================================================================================================#
 
+keep_alive()
 client.run(TOKEN)
