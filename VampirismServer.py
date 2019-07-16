@@ -10,10 +10,10 @@
 
 import discord
 from discord.ext import commands
-from discord import User
 from cogs import Moderation, AutoModeration, ServerRole, Tools
-import time, os, random, asyncio
+import time, os, asyncio
 from keep_alive import keep_alive
+from mcstatus import MinecraftServer
 
 
 ##############################################################################################################
@@ -32,6 +32,11 @@ client = commands.Bot(command_prefix = ".")
 
 # Removing the standard 'help' command
 client.remove_command("help")
+
+#============================================================================================================#
+
+#Setting Minecraft Server
+server = MinecraftServer.lookup("147.135.9.96:25575")
 
 #============================================================================================================#
 
@@ -79,9 +84,18 @@ async def on_ready():
     client.load_extension("cogs.Tools")             #For tools like .ping
 
     while True:
-        await client.change_presence(activity=discord.Game(name='klemchri.eu'))
+        await client.change_presence(activity=discord.Game(name='by klemchri.eu'))
         await asyncio.sleep(10)
+
+        status = server.status()
+        await client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
+        await asyncio.sleep(10)
+
         await client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
+        await asyncio.sleep(10)
+
+        latency = server.ping()
+        await client.change_presence(activity=discord.Game(name="Ping: {} ms".format(latency)))
         await asyncio.sleep(10)
 
 #============================================================================================================#
