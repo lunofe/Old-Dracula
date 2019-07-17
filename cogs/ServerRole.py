@@ -50,4 +50,4 @@ class ServerRole(commands.Cog):
 
 def setup(client):
     client.add_cog(ServerRole(client))
-    print("ServerRole Cog added")
+    print("[Cog] ServerRole cog added")

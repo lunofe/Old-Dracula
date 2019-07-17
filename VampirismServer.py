@@ -84,19 +84,25 @@ async def on_ready():
     client.load_extension("cogs.Tools")             #For tools like .ping
 
     while True:
-        await client.change_presence(activity=discord.Game(name='by klemchri.eu'))
-        await asyncio.sleep(10)
+        await client.change_presence(activity=discord.Game(name='Bot by klemchri.eu'))
+        await asyncio.sleep(5)
 
-        status = server.status()
-        await client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
-        await asyncio.sleep(10)
+        try:
+            status = server.status()
+            await client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
+            await asyncio.sleep(10)
+        except Exception as e:
+            print("[ERROR] Service Unavailable")
 
         await client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
         await asyncio.sleep(10)
 
-        latency = server.ping()
-        await client.change_presence(activity=discord.Game(name="Ping: {} ms".format(latency)))
-        await asyncio.sleep(10)
+        try:
+            latency = server.ping()
+            await client.change_presence(activity=discord.Game(name="Ping: {} ms".format(latency)))
+            await asyncio.sleep(10)
+        except Exception as e:
+            print("[ERROR] Service Unavailable")
 
 #============================================================================================================#
 

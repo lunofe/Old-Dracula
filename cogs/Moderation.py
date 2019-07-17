@@ -172,3 +172,4 @@ class Moderation(commands.Cog):
 
 def setup(client):
     client.add_cog(Moderation(client))
+    print("[Cog] Moderation cog added")
