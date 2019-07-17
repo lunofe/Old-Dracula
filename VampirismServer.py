@@ -15,7 +15,6 @@ import time, os, asyncio
 from keep_alive import keep_alive
 from mcstatus import MinecraftServer
 
-
 ##############################################################################################################
 ### Initial stuff ############################################################################################
 ##############################################################################################################
@@ -38,38 +37,6 @@ client.remove_command("help")
 #Setting Minecraft Server
 server = MinecraftServer.lookup("147.135.9.96:25575")
 
-#============================================================================================================#
-
-# Showing commands on the console for debug purposes:
-@client.event
-async def on_message(message):
-    author = message.author
-    channel = message.channel
-    guild = message.guild
-    currentTime = time.strftime("%d.%m.%Y %H:%M:%S")
-
-    try:
-        cname = channel.name
-    except AttributeError as e:
-        cname= "USER " + author.name
-    cid= str(channel.id)
-    aid= str(author.id)
-
-    if(int(author.id) == 578935647679807491):
-        print("\n---[RESPONSE]---")
-        print(cname + " (" + cid + ") @ " + currentTime)
-        print("> " + message.content + "")
-    elif (message.content.startswith(".")):
-        print("\n---[COMMAND]---")
-        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
-        print("> " + message.content + "")
-    else:
-        print("\n---[MESSAGE]---")
-        print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
-        print("> hidden")
-
-    await client.process_commands(message)
-
 ##############################################################################################################
 ### General functions ########################################################################################
 ##############################################################################################################
@@ -78,6 +45,7 @@ async def on_message(message):
 @client.event
 async def on_ready():
     #Loading Cogs:
+    client.load_extension("cogs.MessageHandler")    #Message and Command handling
     client.load_extension("cogs.Moderation")        #Admin commands
     client.load_extension("cogs.AutoModeration")    #Listeners
     client.load_extension("cogs.ServerRole")        #Role command
