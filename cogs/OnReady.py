@@ -18,12 +18,14 @@ class OnReady(commands.Cog):
         self.client = client
         self._last_member = None
 
+#============================================================================================================#
+
     # Setting the bot's "playing" status
     @commands.Cog.listener()
     async def on_ready(self):
         print("[INFO] Bot is online")
 
-        #Setting Minecraft Server
+        # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
 
         while True:
@@ -38,15 +40,9 @@ class OnReady(commands.Cog):
                 print("[ERROR] Service Unavailable")
 
             await self.client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
-            await asyncio.sleep(10)
+            await asyncio.sleep(5)
 
-            try:
-                latency = server.ping()
-                await self.client.change_presence(activity=discord.Game(name="Ping: {} ms (Country: DE)".format(int(latency))))
-                await asyncio.sleep(10)
-            except Exception as e:
-                print("[ERROR] Service Unavailable")
-
+#============================================================================================================#
 
 def setup(client):
     client.add_cog(OnReady(client))

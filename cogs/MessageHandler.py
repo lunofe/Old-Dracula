@@ -18,6 +18,9 @@ class MessageHandler(commands.Cog):
         self.client = client
         self._last_member = None
 
+#============================================================================================================#
+
+    # Handling Messages
     @commands.Cog.listener()
     async def on_message(self, message):
         author = message.author
@@ -47,6 +50,7 @@ class MessageHandler(commands.Cog):
 
         #await self.client.process_commands(message)
 
+#============================================================================================================#
 
 def setup(client):
     client.add_cog(MessageHandler(client))

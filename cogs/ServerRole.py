@@ -17,6 +17,9 @@ class ServerRole(commands.Cog):
         self.client = client
         self._last_member = None
 
+#============================================================================================================#
+
+    # Sets the author's role to Vampire or Hunter
     @commands.command()
     async def role(self, ctx, arg):
         message = ctx.message
@@ -27,26 +30,28 @@ class ServerRole(commands.Cog):
         if(arg.lower() == "vampire"):
             for role in roles:
                 if(role.name == "Hunter"):
-                    await author.remove_roles(role, reason="Switched to Vampire")
+                    await author.remove_roles(role, reason="Switching to Vampire...")
                 if(role.name == "Vampire"):
                     await author.add_roles(role, reason="Now a Vampire")
-            print("{}".format(author) + " switched to Vampire.")
+            print("{}".format(author) + " switched to Vampire faction.")
         elif (arg.lower() == "hunter"):
             for role in roles:
                 if(role.name == "Vampire"):
-                    await author.remove_roles(role, reason="Switched to Hunter")
+                    await author.remove_roles(role, reason="Switching to Hunter...")
                 if(role.name == "Hunter"):
                     await author.add_roles(role, reason="Now a Hunter")
-            print("{}".format(author) + " switched to Hunter.")
+            print("{}".format(author) + " switched to Hunter faction.")
         elif (arg.lower()=="unselect"):
             for role in roles:
                 if(role.name == "Vampire"):
-                    await author.remove_roles(role, reason="Unselected role")
+                    await author.remove_roles(role, reason="Unselected faction")
                 if(role.name == "Hunter"):
-                    await author.remove_roles(role, reason="Unselected role")
-            print("{}".format(author) + " switched to Hunter.")
+                    await author.remove_roles(role, reason="Unselected faction")
+            print("{}".format(author) + " unselected faction.")
         else:
-            await channel.send("{} That's not a valid role! You can choose between 'vampire', 'hunter' and 'unselect'.".format(author.mention))
+            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter` *and `unselect`*.".format(author.mention))
+
+#============================================================================================================#
 
 def setup(client):
     client.add_cog(ServerRole(client))

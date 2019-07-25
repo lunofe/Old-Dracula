@@ -21,7 +21,7 @@ class Moderation(commands.Cog):
 ### Accepting and rejecting staff applications ###############################################################
 ##############################################################################################################
 
-        # 'staffyes' command - sends the tagged user an acception message for their staff apply
+    # 'staffyes' command - sends the tagged user an acception message for their staff apply
     @commands.command()
     async def staffyes(self, ctx, user: User):
         message = ctx.message
@@ -35,6 +35,7 @@ class Moderation(commands.Cog):
             await channel.send(user.name + "'s Staff Apply → Accepted :white_check_mark:")
         else:
             await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
+
 #============================================================================================================#
 
     # 'staffno' command - sends the tagged user a rejection message and reason for their staff apply
@@ -148,9 +149,11 @@ class Moderation(commands.Cog):
 
         if not(hasRole):
             await message.channel.send(":warning: You don't have permission.")
-#============================================================================================================#
 
-    # Error handling
+##############################################################################################################
+### Error handling ###########################################################################################
+##############################################################################################################
+
     @staffyes.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
