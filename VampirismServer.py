@@ -10,7 +10,7 @@
 
 import discord, asyncio
 from discord.ext import commands
-from cogs import Moderation, AutoModeration, ServerRole, Tools
+from cogs import Moderation, Automation, ServerRole, Tools
 from keep_alive import keep_alive
 
 ##############################################################################################################
@@ -29,14 +29,14 @@ client.remove_command("help")
 #Loading Cogs:
 client.load_extension("cogs.MessageHandler")    #Message and Command handling
 client.load_extension("cogs.Moderation")        #Admin commands
-client.load_extension("cogs.AutoModeration")    #Listeners
+client.load_extension("cogs.Automation")        #Listeners
 client.load_extension("cogs.ServerRole")        #Role command
 client.load_extension("cogs.Tools")             #For tools like .ping
 client.load_extension("cogs.OnReady")           #on_ready event
 client.load_extension("cogs.MailCheck")
 
-#Running the web server
+# Running the web server
 keep_alive()
 
-#Starting the Bot
+# Starting the Bot
 client.run(TOKEN)

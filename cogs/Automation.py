@@ -11,7 +11,7 @@
 import discord
 from discord.ext import commands
 
-class AutoModeration(commands.Cog):
+class Automation(commands.Cog):
     def __init__(self, client):
         self.client = client
         self._last_member = None
@@ -30,13 +30,14 @@ class AutoModeration(commands.Cog):
 
 #============================================================================================================#
 
+    # Sending a goodbye message to members who left the Discord
     @commands.Cog.listener()
     async def on_member_leave(self, member):
         print("\n---[LEAVE]---\nUser: {}".format(member))
-        member.send("We are sorry to see you go. If you want to join again please use this link: <https://discord.gg/rP8j7hA>")
+        member.send("We are sorry to see you go. If you want to join again, please use this link: <https://discord.gg/rP8j7hA>")
 
 #============================================================================================================#
 
 def setup(client):
-    client.add_cog(AutoModeration(client))
-    print("[Cog] AutoModeration cog added")
+    client.add_cog(Automation(client))
+    print("[Cog] Automation cog added")

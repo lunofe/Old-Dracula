@@ -18,12 +18,14 @@ class OnReady(commands.Cog):
         self.client = client
         self._last_member = None
 
+#============================================================================================================#
+
     # Setting the bot's "playing" status
     @commands.Cog.listener()
     async def on_ready(self):
         print("[INFO] Bot is online")
 
-        #Setting Minecraft Server
+        # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
         showAuthor = True
 
