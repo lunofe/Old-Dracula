@@ -33,6 +33,7 @@ client.load_extension("cogs.AutoModeration")    #Listeners
 client.load_extension("cogs.ServerRole")        #Role command
 client.load_extension("cogs.Tools")             #For tools like .ping
 client.load_extension("cogs.OnReady")           #on_ready event
+client.load_extension("cogs.MailCheck")
 
 #Running the web server
 keep_alive()

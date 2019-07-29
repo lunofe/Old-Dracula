@@ -25,24 +25,20 @@ class OnReady(commands.Cog):
 
         #Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
+        showAuthor = True
 
         while True:
-            await self.client.change_presence(activity=discord.Game(name='Bot by klemchri.eu'))
-            await asyncio.sleep(5)
+            if showAuthor:
+                await self.client.change_presence(activity=discord.Game(name='Bot by klemchri.eu'))
+                await asyncio.sleep(5)
+            else:
+                await self.client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
+                await asyncio.sleep(10)
+            showAuthor = not(showAuthor)
 
             try:
                 status = server.status()
                 await self.client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
-                await asyncio.sleep(10)
-            except Exception as e:
-                print("[ERROR] Service Unavailable")
-
-            await self.client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
-            await asyncio.sleep(10)
-
-            try:
-                latency = server.ping()
-                await self.client.change_presence(activity=discord.Game(name="Ping: {} ms (Country: DE)".format(int(latency))))
                 await asyncio.sleep(10)
             except Exception as e:
                 print("[ERROR] Service Unavailable")
