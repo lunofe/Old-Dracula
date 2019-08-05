@@ -35,7 +35,7 @@ class OnReady(commands.Cog):
                 await asyncio.sleep(5)
             else:
                 await self.client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
-                await asyncio.sleep(10)
+                await asyncio.sleep(5)
             showAuthor = not(showAuthor)
 
             try:
@@ -45,6 +45,7 @@ class OnReady(commands.Cog):
             except Exception as e:
                 print("[ERROR] Service Unavailable")
 
+#============================================================================================================#
 
 def setup(client):
     client.add_cog(OnReady(client))
