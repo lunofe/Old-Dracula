@@ -58,7 +58,9 @@ class MailCheck(commands.Cog):
                     mail_body = mail_body.replace("\n\n", "")
 
                     contentlist = mail_body.split("§§")
-                    if email_message["Subject"].lower() == "staff_apply":
+                    if not(email_message["Content-Transfer-Encoding"] == "8bit"):
+                        await channel.send("I got a {} but I cant handle it. Please check it manualy.".format(email_message["Subject"].replace("_", " ")))
+                    elif email_message["Subject"].lower() == "staff_apply":
                         await channel.send("**" + contentlist[0] + "'s STAFF APPLICATION** @here\n\n__Minecraft Username:__ ``" + contentlist[1] + "``    __Discord#Tag:__ ``" + contentlist[2] + "``    __Email:__ ``" + contentlist[3] + "``\n** **")
                         await channel.send("__◆ Do you have experience as staff?__\n" + contentlist[4])
                         await channel.send("__◆ Why do you want to be staff?__\n" + contentlist[5])
