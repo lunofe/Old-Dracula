@@ -8,7 +8,7 @@
 # :::::::::::::::::::::::8 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::..:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord
+import discord, dotenv
 from discord.ext import commands
 from discord import User
 import email, imaplib, asyncio, time
@@ -26,13 +26,17 @@ class MailCheck(commands.Cog):
         # Setting the channel to send the email to
         channel = self.client.get_channel(564783779474833431)
 
+        # Getting the .env file
+        dotenv.load()
+
         # Setting the email account login
-        username = ""
-        password = ""
+        host = dotenv.get("IMAP_HOST")
+        username = dotenv.get("IMAP_ACC")
+        password = dotenv.get("IMAP_PASS")
 
         while True:
             # Setting the IMAP server
-            mail = imaplib.IMAP4_SSL("imap.ionos.de")
+            mail = imaplib.IMAP4_SSL(host)
             # Logging in
             mail.login(username, password)
 

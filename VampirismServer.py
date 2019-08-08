@@ -8,7 +8,7 @@
 # :::::::::::::::::::::::8 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # :::::::::::::::::::::::..:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord, asyncio
+import discord, asyncio, dotenv
 from discord.ext import commands
 from cogs import Moderation, Automation, ServerRole, Tools
 from keep_alive import keep_alive
@@ -18,7 +18,8 @@ from keep_alive import keep_alive
 ##############################################################################################################
 
 # Settings the bot's token
-TOKEN = ""
+dotenv.load("config.env")
+TOKEN = dotenv.get("BOT_TOKEN")
 
 # Setting the bot's command prefix
 client = commands.Bot(command_prefix = ".")

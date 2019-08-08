@@ -23,7 +23,26 @@ class OnReady(commands.Cog):
     # Setting the bot's "playing" status
     @commands.Cog.listener()
     async def on_ready(self):
-        print("[INFO] Bot is online")
+        print("==========[VampirismBot]==========")
+
+        discordserver = 0
+        for guild in self.client.guilds:
+            if guild.name == "Official Vampirism Server":
+                discordserver = guild
+
+        if discordserver == 0:
+            print("[ERROR] Vampirism Server not found")
+        else:
+            print("\n[INFO] Currently active roles:\n")
+            for role in discordserver.roles:
+                print(role.name)
+            print("\n[INFO] Currently active channels:\n")
+            for channel in discordserver.channels:
+                print(channel.name)
+            print("\n[INFO] VampirismBot loaded")
+
+
+
 
         # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")

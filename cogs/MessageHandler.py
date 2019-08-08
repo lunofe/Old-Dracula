@@ -38,7 +38,7 @@ class MessageHandler(commands.Cog):
         if(int(author.id) == 578935647679807491):
             print("\n---[RESPONSE]---")
             print(cname + " (" + cid + ") @ " + currentTime)
-            print("> " + message.content + "")
+            print("> " + message.content)
         elif (message.content.startswith(".")):
             print("\n---[COMMAND]---")
             print("{}".format(author) + " in " + cname + " (" + cid + ") @ " + currentTime)
