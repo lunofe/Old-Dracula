@@ -41,22 +41,13 @@ class OnReady(commands.Cog):
                 print(channel.name)
             print("\n[INFO] VampirismBot loaded")
 
-
-
-
         # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
         showAuthor = True
 
         while True:
-            if showAuthor:
-                await self.client.change_presence(activity=discord.Game(name='Bot by klemchri.eu'))
-                await asyncio.sleep(5)
-            else:
-                await self.client.change_presence(activity=discord.Game(name='vampirism.maxanier.de'))
-                await asyncio.sleep(5)
-            showAuthor = not(showAuthor)
-
+            await self.client.change_presence(activity=discord.Game(name='powered by klemchri.eu'))
+            await asyncio.sleep(5)
             try:
                 status = server.status()
                 await self.client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
