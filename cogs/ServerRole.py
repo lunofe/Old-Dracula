@@ -26,6 +26,7 @@ class ServerRole(commands.Cog):
         author = message.author
         channel = message.channel
         roles = author.guild.roles
+        emoji = "<a:success:615843247457042434>"
 
         if(arg.lower() == "vampire"):
             for role in roles:
@@ -34,6 +35,7 @@ class ServerRole(commands.Cog):
                 if(role.name == "Vampire"):
                     await author.add_roles(role, reason="Now a Vampire")
             print("{}".format(author) + " switched to Vampire faction.")
+            await message.add_reaction(emoji)
         elif (arg.lower() == "hunter"):
             for role in roles:
                 if(role.name == "Vampire"):
@@ -41,15 +43,9 @@ class ServerRole(commands.Cog):
                 if(role.name == "Hunter"):
                     await author.add_roles(role, reason="Now a Hunter")
             print("{}".format(author) + " switched to Hunter faction.")
-        elif (arg.lower()=="unselect"):
-            for role in roles:
-                if(role.name == "Vampire"):
-                    await author.remove_roles(role, reason="Unselected faction")
-                if(role.name == "Hunter"):
-                    await author.remove_roles(role, reason="Unselected faction")
-            print("{}".format(author) + " unselected faction.")
+            await message.add_reaction(emoji)
         else:
-            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter` *and `unselect`*.".format(author.mention))
+            await channel.send("{} That's not a valid role! You can choose between `vampire` and `hunter`.".format(author.mention))
 
 #============================================================================================================#
 
