@@ -1,15 +1,15 @@
-# o     o                        o               .oPYo.                                    .oPYo.          o
-# 8     8                                        8                                         8   `8          8
-# 8     8 .oPYo. ooYoYo. .oPYo. o8 oPYo. .oPYo.  `Yooo. .oPYo. oPYo. o    o .oPYo. oPYo.  o8YooP' .oPYo.  o8P
-# `b   d' .oooo8 8' 8  8 8    8  8 8  `' 8oooo8      `8 8oooo8 8  `' Y.  .P 8oooo8 8  `'   8   `b 8    8   8
-#  `b d'  8    8 8  8  8 8    8  8 8     8.           8 8.     8     `b..d' 8.     8       8    8 8    8   8
-#   `8'   `YooP8 8  8  8 8YooP'  8 8     `Yooo'  `YooP' `Yooo' 8      `YP'  `Yooo' 8       8oooP' `YooP'   8
-# :::..::::.....:..:..:..8 ....::....:::::.....::::.....::.....:..::::::...:::.....:..:::::::......::.....:::.
-# :::::::::::::::::::::::8 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# :::::::::::::::::::::::..:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+#    oooooooooo.                                            oooo            oooooooooo.                .
+#    `888'   `Y8b                                           `888            `888'   `Y8b             .o8
+#     888      888 oooo d8b  .oooo.    .ooooo.  oooo  oooo   888   .oooo.    888     888  .ooooo.  .o888oo
+#     888      888 `888""8P `P  )88b  d88' `"Y8 `888  `888   888  `P  )88b   888oooo888' d88' `88b   888
+#     888      888  888      .oP"888  888        888   888   888   .oP"888   888    `88b 888   888   888
+#     888     d88'  888     d8(  888  888   .o8  888   888   888  d8(  888   888    .88P 888   888   888 .
+#    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord, dotenv
+import os, discord, asyncio, datetime, dotenv
 from discord.ext import commands
+from dotenv import load_dotenv
 from discord import User
 import email, imaplib, asyncio, time
 from threading import Thread
@@ -26,13 +26,10 @@ class MailCheck(commands.Cog):
         # Setting the channel to send the email to
         channel = self.client.get_channel(564783779474833431)
 
-        # Getting the .env file
-        dotenv.load()
-
         # Setting the email account login
-        host = dotenv.get("IMAP_HOST")
-        username = dotenv.get("IMAP_ACC")
-        password = dotenv.get("IMAP_PASS")
+        host = os.getenv("IMAP_HOST")
+        username = os.getenv("IMAP_ACC")
+        password = os.getenv("IMAP_PASS")
 
         while True:
             # Setting the IMAP server
@@ -54,10 +51,10 @@ class MailCheck(commands.Cog):
             last_edited_uid = int(lastfile.read())
             if last_mail_uid == last_edited_uid:
                 # If already processed:
-                print("[Mail] No updates ({}".format(time.strftime("%H")) + "h)")
+                print(str(datetime.datetime.now()) + " | *MAIL* There is no new e-mail")
             else:
                 # If new:
-                print("{}, {}".format(last_mail_uid, last_edited_uid))
+                print(str(datetime.datetime.now()) + " | *MAIL* Update: " + "{}, {}".format(last_mail_uid, last_edited_uid))
                 diff = last_mail_uid-last_edited_uid
                 while not(diff == 0):
                     current_item = inbox_item_list[(diff-(2*diff))]
@@ -85,7 +82,7 @@ class MailCheck(commands.Cog):
                         await channel.send("__◆ Do you have any issues with the current staff team?__ \n" + contentlist[9] + "\n__◆ How many hours per week can you contribute?__ \n" + contentlist[10] + " hours")
                     # Ban appeals
                     elif email_message["Subject"].lower() == "ban_appeal":
-                        await channel.send("**BAN APPEAL** @here\n\n__Minecraft Username:__ " + contentlist[0] + "    __Contact:__ " + contentlist[1] + "\n\n__◆ More about your ban__\n" + contentlist[2] + "\n__◆ Why should you be unbanned?__\n" + contentlist[3])
+                        await channel.send("**BAN APPEAL** @here\n\n__Minecraft Username:__ ``" + contentlist[0] + "``    __Contact:__ ``" + contentlist[1] + "``\n\n__◆ More about your ban__\n" + contentlist[2] + "\n__◆ Why should you be unbanned?__\n" + contentlist[3])
                     # Player reports
                     elif email_message["Subject"].lower() == "player_report":
                         await channel.send("**PLAYER REPORT** @here\n\n__Report by:__ ``" + contentlist[0] + "``    __Contact:__ ``" + contentlist[1] + "``\n\n" + contentlist[2])
@@ -107,4 +104,4 @@ class MailCheck(commands.Cog):
 
 def setup(client):
     client.add_cog(MailCheck(client))
-    print("[Cog] MailCheck added")
+    print(str(datetime.datetime.now()) + " | Initialized cogs.MailCheck")

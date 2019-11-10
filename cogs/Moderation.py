@@ -1,15 +1,15 @@
-# o     o                        o               .oPYo.                                    .oPYo.          o
-# 8     8                                        8                                         8   `8          8
-# 8     8 .oPYo. ooYoYo. .oPYo. o8 oPYo. .oPYo.  `Yooo. .oPYo. oPYo. o    o .oPYo. oPYo.  o8YooP' .oPYo.  o8P
-# `b   d' .oooo8 8' 8  8 8    8  8 8  `' 8oooo8      `8 8oooo8 8  `' Y.  .P 8oooo8 8  `'   8   `b 8    8   8
-#  `b d'  8    8 8  8  8 8    8  8 8     8.           8 8.     8     `b..d' 8.     8       8    8 8    8   8
-#   `8'   `YooP8 8  8  8 8YooP'  8 8     `Yooo'  `YooP' `Yooo' 8      `YP'  `Yooo' 8       8oooP' `YooP'   8
-# :::..::::.....:..:..:..8 ....::....:::::.....::::.....::.....:..::::::...:::.....:..:::::::......::.....:::.
-# :::::::::::::::::::::::8 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# :::::::::::::::::::::::..:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+#    oooooooooo.                                            oooo            oooooooooo.                .
+#    `888'   `Y8b                                           `888            `888'   `Y8b             .o8
+#     888      888 oooo d8b  .oooo.    .ooooo.  oooo  oooo   888   .oooo.    888     888  .ooooo.  .o888oo
+#     888      888 `888""8P `P  )88b  d88' `"Y8 `888  `888   888  `P  )88b   888oooo888' d88' `88b   888
+#     888      888  888      .oP"888  888        888   888   888   .oP"888   888    `88b 888   888   888
+#     888     d88'  888     d8(  888  888   .o8  888   888   888  d8(  888   888    .88P 888   888   888 .
+#    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord
+import os, discord, asyncio, datetime, dotenv
 from discord.ext import commands
+from dotenv import load_dotenv
 from discord import User
 
 class Moderation(commands.Cog):
@@ -31,8 +31,8 @@ class Moderation(commands.Cog):
         content = message.content
         id = int(channel.id)
         if((id == 564783779474833431) or (id == 590956693614100490)):
-            await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirismpermissions/>")
-            await channel.send(user.name + "'s Staff Apply → Accepted :white_check_mark:")
+            await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/VampPerms>")
+            await channel.send(user.name + "'s staff application has been accepted :white_check_mark:")
         else:
             await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
 
@@ -55,11 +55,11 @@ class Moderation(commands.Cog):
             print(len(args))
             if len(args) == 0:
                 await user.send("Your application has been rejected. You can try again in two weeks.")
-                await channel.send(user.name + "'s Staff Apply → Rejected :x:")
+                await channel.send(user.name + "'s staff application has been rejected :x:")
 
             else:
                 await user.send("Your application has been rejected. " + reason + " You can try again in two weeks.")
-                await channel.send(user.name + "'s Staff Apply → Rejected :x:")
+                await channel.send(user.name + "'s staff application has been rejected :x:")
         else:
             await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
 
@@ -77,7 +77,7 @@ class Moderation(commands.Cog):
         id = int(channel.id)
         if((id == 564783779474833431) or (id == 590956693614100490)):
             await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
-            await channel.send(user.name + "'s Ban Appeal → Accepted :white_check_mark:")
+            await channel.send(user.name + "'s ban appeal has been accepted :white_check_mark:")
         else:
             await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
 
@@ -97,58 +97,15 @@ class Moderation(commands.Cog):
             reason = reason + argument + " "
 
         if((id == 564783779474833431) or (id == 590956693614100490)):
-            print(len(args))
             if len(args) == 0:
                 await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
-                await channel.send(user.name + "'s Ban Appeal → Rejected :x:")
+                await channel.send(user.name + "'s ban appeal has been rejected :x:")
 
             else:
                 await user.send("Your ban appeal has been rejected. " + reason + " You can appeal again in two weeks.")
-                await channel.send(user.name + "'s Ban Appeal → Rejected :x:")
+                await channel.send(user.name + "'s ban appeal has been rejected :x:")
         else:
             await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
-
-##############################################################################################################
-### Ban and kick management ##################################################################################
-##############################################################################################################
-
-    # 'ban' command - bans the tagged user
-    @commands.command()
-    async def ban(self, ctx, user: User):
-        message = ctx.message
-        author = message.author
-        roles = author.roles
-
-        hasRole = False
-        for role in roles:
-            rname = role.name.lower()
-            if (rname == "admin") or (rname == "sr admin"):
-                await ctx.message.guild.ban(user)
-                await ctx.message.channel.send(user.name + " was banned.")
-                hasRole = True
-
-        if not(hasRole):
-            await message.channel.send(":warning: You don't have permission.")
-
-#============================================================================================================#
-
-        # 'kick' command - kicks the tagged user
-    @commands.command()
-    async def kick(self, ctx, user: User):
-        message = ctx.message
-        author = message.author
-        roles = author.roles
-
-        hasRole = False
-        for role in roles:
-            rname = role.name.lower()
-            if (rname == "admin") or (rname == "sr admin"):
-                await ctx.message.guild.kick(user)
-                await ctx.message.channel.send(user.name + " was kicked.")
-                hasRole = True
-
-        if not(hasRole):
-            await message.channel.send(":warning: You don't have permission.")
 
 ##############################################################################################################
 ### Error handling ###########################################################################################
@@ -175,4 +132,4 @@ class Moderation(commands.Cog):
 
 def setup(client):
     client.add_cog(Moderation(client))
-    print("[Cog] Moderation cog added")
+    print(str(datetime.datetime.now()) + " | Initialized cogs.Moderation")

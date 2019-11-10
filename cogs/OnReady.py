@@ -1,15 +1,15 @@
-# o     o                        o               .oPYo.                                    .oPYo.          o
-# 8     8                                        8                                         8   `8          8
-# 8     8 .oPYo. ooYoYo. .oPYo. o8 oPYo. .oPYo.  `Yooo. .oPYo. oPYo. o    o .oPYo. oPYo.  o8YooP' .oPYo.  o8P
-# `b   d' .oooo8 8' 8  8 8    8  8 8  `' 8oooo8      `8 8oooo8 8  `' Y.  .P 8oooo8 8  `'   8   `b 8    8   8
-#  `b d'  8    8 8  8  8 8    8  8 8     8.           8 8.     8     `b..d' 8.     8       8    8 8    8   8
-#   `8'   `YooP8 8  8  8 8YooP'  8 8     `Yooo'  `YooP' `Yooo' 8      `YP'  `Yooo' 8       8oooP' `YooP'   8
-# :::..::::.....:..:..:..8 ....::....:::::.....::::.....::.....:..::::::...:::.....:..:::::::......::.....:::.
-# :::::::::::::::::::::::8 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# :::::::::::::::::::::::..:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+#    oooooooooo.                                            oooo            oooooooooo.                .
+#    `888'   `Y8b                                           `888            `888'   `Y8b             .o8
+#     888      888 oooo d8b  .oooo.    .ooooo.  oooo  oooo   888   .oooo.    888     888  .ooooo.  .o888oo
+#     888      888 `888""8P `P  )88b  d88' `"Y8 `888  `888   888  `P  )88b   888oooo888' d88' `88b   888
+#     888      888  888      .oP"888  888        888   888   888   .oP"888   888    `88b 888   888   888
+#     888     d88'  888     d8(  888  888   .o8  888   888   888  d8(  888   888    .88P 888   888   888 .
+#    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord, asyncio
+import os, discord, asyncio, datetime, dotenv
 from discord.ext import commands
+from dotenv import load_dotenv
 from discord import User
 from mcstatus import MinecraftServer
 
@@ -23,40 +23,22 @@ class OnReady(commands.Cog):
     # Setting the bot's "playing" status
     @commands.Cog.listener()
     async def on_ready(self):
-        print("==========[VampirismBot]==========")
-
-        discordserver = 0
-        for guild in self.client.guilds:
-            if guild.name == "Official Vampirism Server":
-                discordserver = guild
-
-        if discordserver == 0:
-            print("[ERROR] Vampirism Server not found")
-        else:
-            print("\n[INFO] Currently active roles:\n")
-            for role in discordserver.roles:
-                print(role.name)
-            print("\n[INFO] Currently active channels:\n")
-            for channel in discordserver.channels:
-                print(channel.name)
-            print("\n[INFO] VampirismBot loaded")
+        print(str(datetime.datetime.now()) + " | Initialization completed")
 
         # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
-        showAuthor = True
 
         while True:
-            await self.client.change_presence(activity=discord.Game(name='powered by klemchri.eu'))
-            await asyncio.sleep(5)
             try:
                 status = server.status()
                 await self.client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
-                await asyncio.sleep(10)
+                await asyncio.sleep(60)
             except Exception as e:
-                print("[ERROR] Service Unavailable")
+                print(str(datetime.datetime.now()) + " | Can't reach the Minecraft server, will try again in one minute")
+                await asyncio.sleep(60)
 
 #============================================================================================================#
 
 def setup(client):
     client.add_cog(OnReady(client))
-    print("[Cog] OnReady cog added")
+    print(str(datetime.datetime.now()) + " | Initialized cogs.OnReady")
