@@ -43,8 +43,16 @@ class ServerRole(commands.Cog):
                     await author.add_roles(role, reason="Now a Hunter")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " switched to Hunter faction.")
             await message.add_reaction(emoji)
+        elif (arg.lower() == "human"):
+            for role in roles:
+                if(role.name == "Vampire"):
+                    await author.remove_roles(role, reason="Switching to Human...")
+                if(role.name == "Hunter"):
+                    await author.remove_roles(role, reason="Switching to Human...")
+            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of factions.")
+            await message.add_reaction(emoji)
         else:
-            await channel.send("{} That's not a valid role! You can choose between `vampire` and `hunter`.".format(author.mention))
+            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
 
 #============================================================================================================#
 

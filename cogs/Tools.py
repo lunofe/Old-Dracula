@@ -30,24 +30,24 @@ class Tools(commands.Cog):
 
 #============================================================================================================#
 
-# 'messageAdmins' command - sends a message to the staff's channel
-@client.command()
-async def messageAdmins(ctx, *args):
-    if ctx.message.author.id == 152828946629525504:
-        guild = client.get_guild(528346798138589215)
-        channels = guild.text_channels
-        message = ""
+    # 'messageAdmins' command - sends a message to the staff's channel
+    #@client.command()
+    #async def messageAdmins(ctx, *args):
+        #if ctx.message.author.id == 152828946629525504:
+            #guild = client.get_guild(528346798138589215)
+            #channels = guild.text_channels
+            #message = ""
 
-        for x in args:
-            message = message + x + " "
-        for channel in channels:
-            if channel.id == 528350308976295946:
-                msg = await channel.send(message)
-                #msg.add_reaction("👍")
-                #msg.add_reaction("👎")
-    else:
-        await ctx.message.channel.send(":warning: You don't have permission.")
-        
+            #for x in args:
+                #message = message + x + " "
+            #for channel in channels:
+                #if channel.id == 528350308976295946:
+                    #msg = await channel.send(message)
+                    #msg.add_reaction("👍")
+                    #msg.add_reaction("👎")
+        #else:
+            #await ctx.message.channel.send(":warning: You don't have permission.")
+
 #============================================================================================================#
 
 def setup(client):
