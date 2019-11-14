@@ -14,7 +14,7 @@ This bot is used on the official Vampirism Server Discord to add administrative 
 | Command | Description | Permission (Rank, #Channel or @User) |
 | ------ | ------ | ------ |
 | .ping | Command to test if the bot is online. The bot will reply with _Pong!_ | Everyone |
-| .role [vampire/hunter/unselect] | Sets the message author's role to Vampire, Hunter *or remove both*. | Everyone |
+| .role [vampire/hunter/human] | Sets the message author's role to Vampire, Hunter *or remove both*. | Everyone |
 | .staffyes [@user] | Accepts [@user]'s staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirismpermissions/>_ | #staff-forms |
 | .staffno [@user] [reason] | Rejects [@user]'s staff application. Sends them the following message: _Your application has been rejected. [reason] You can apply again in two weeks._ | #staff-forms |
 | .appealyes [@user] | Accepts [@user]'s ban appeal. Sends them the following message: _Your ban appeal has been accepted. You will be unbanned within 24 hours._ | #staff-forms |
