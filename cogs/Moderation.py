@@ -26,15 +26,17 @@ class Moderation(commands.Cog):
     async def staffyes(self, ctx, user: User):
         message = ctx.message
         author = message.author
+        author_id = int(author.id)
         channel = message.channel
-        guild = message.guild
-        content = message.content
-        id = int(channel.id)
-        if((id == 564783779474833431) or (id == 590956693614100490)):
-            await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/VampPerms>")
-            await channel.send(user.name + "'s staff application has been accepted :white_check_mark:")
+        channel_id = int(channel.id)
+        if((author_id == 267633670532104193) or (author_id == 414852953191612417) or (author_id == 270258305346043905)):
+            if((channel_id == 564783779474833431) or (channel_id == 590956693614100490)):
+                await user.send("Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/VampPerms>")
+                await channel.send(user.name + "'s staff application has been accepted :white_check_mark:")
+            else:
+                await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
         else:
-            await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
+            await channel.send(":warning: You are not authorized to use this command")
 
 #============================================================================================================#
 
@@ -43,25 +45,26 @@ class Moderation(commands.Cog):
     async def staffno(self, ctx, user: User, *args):
         message = ctx.message
         author = message.author
-        content = message.content
+        author_id = int(author.id)
         channel = message.channel
-        id = int(channel.id)
-        print(args)
+        channel_id = int(channel.id)
         reason = ""
         for argument in args:
             reason = reason + argument + " "
 
-        if((id == 564783779474833431) or (id == 590956693614100490)):
-            print(len(args))
-            if len(args) == 0:
-                await user.send("Your application has been rejected. You can try again in two weeks.")
-                await channel.send(user.name + "'s staff application has been rejected :x:")
-
+        if((author_id == 267633670532104193) or (author_id == 414852953191612417) or (author_id == 270258305346043905)):
+            if((channel_id == 564783779474833431) or (channel_id == 590956693614100490)):
+                print(len(args))
+                if len(args) == 0:
+                    await user.send("Your application has been rejected. You can try again in two weeks.")
+                    await channel.send(user.name + "'s staff application has been rejected :x:")
+                else:
+                    await user.send("Your application has been rejected. " + reason + " You can try again in two weeks.")
+                    await channel.send(user.name + "'s staff application has been rejected :x:")
             else:
-                await user.send("Your application has been rejected. " + reason + " You can try again in two weeks.")
-                await channel.send(user.name + "'s staff application has been rejected :x:")
+                await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
         else:
-            await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
+            await channel.send(":warning: You are not authorized to use this command")
 
 ##############################################################################################################
 ### Accepting and rejecting ban appeals ######################################################################
@@ -72,14 +75,17 @@ class Moderation(commands.Cog):
     async def appealyes(self, ctx, user: User):
         message = ctx.message
         author = message.author
-        content = message.content
+        author_id = int(author.id)
         channel = message.channel
-        id = int(channel.id)
-        if((id == 564783779474833431) or (id == 590956693614100490)):
-            await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
-            await channel.send(user.name + "'s ban appeal has been accepted :white_check_mark:")
+        channel_id = int(channel.id)
+        if((author_id == 267633670532104193) or (author_id == 414852953191612417) or (author_id == 270258305346043905)):
+            if((channel_id == 564783779474833431) or (channel_id == 590956693614100490)):
+                await user.send("Your ban appeal has been accepted. You will be unbanned within 24 hours.")
+                await channel.send(user.name + "'s ban appeal has been accepted :white_check_mark:")
+            else:
+                await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
         else:
-            await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
+            await channel.send(":warning: You are not authorized to use this command")
 
 #============================================================================================================#
 
@@ -88,24 +94,25 @@ class Moderation(commands.Cog):
     async def appealno(self, ctx, user: User, *args):
         message = ctx.message
         author = message.author
-        content = message.content
+        author_id = int(author.id)
         channel = message.channel
-        id = int(channel.id)
-        print(args)
+        channel_id = int(channel.id)
         reason = ""
         for argument in args:
             reason = reason + argument + " "
 
-        if((id == 564783779474833431) or (id == 590956693614100490)):
-            if len(args) == 0:
-                await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
-                await channel.send(user.name + "'s ban appeal has been rejected :x:")
-
+        if((author_id == 267633670532104193) or (author_id == 414852953191612417) or (author_id == 270258305346043905)):
+            if((channel_id == 564783779474833431) or (channel_id == 590956693614100490)):
+                if len(args) == 0:
+                    await user.send("Your ban appeal has been rejected. You can appeal again in two weeks.")
+                    await channel.send(user.name + "'s ban appeal has been rejected :x:")
+                else:
+                    await user.send("Your ban appeal has been rejected. " + reason + " You can appeal again in two weeks.")
+                    await channel.send(user.name + "'s ban appeal has been rejected :x:")
             else:
-                await user.send("Your ban appeal has been rejected. " + reason + " You can appeal again in two weeks.")
-                await channel.send(user.name + "'s ban appeal has been rejected :x:")
+                await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
         else:
-            await channel.send(":warning: This command is suposed to be used in the staff-forms Channel")
+            await channel.send(":warning: You are not authorized to use this command")
 
 ##############################################################################################################
 ### Error handling ###########################################################################################

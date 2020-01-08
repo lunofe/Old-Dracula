@@ -34,8 +34,8 @@ class OnReady(commands.Cog):
                 await self.client.change_presence(activity=discord.Game(name="Online Players: {}".format(status.players.online)))
                 await asyncio.sleep(60)
             except Exception as e:
-                print(str(datetime.datetime.now()) + " | Can't reach the Minecraft server, will try again in one minute")
-                await asyncio.sleep(60)
+                print(str(datetime.datetime.now()) + " | MCSTATS | Can't reach the Minecraft server, will try again in five minutes.")
+                await asyncio.sleep(300)
 
 #============================================================================================================#
 

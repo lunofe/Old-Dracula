@@ -51,10 +51,10 @@ class MailCheck(commands.Cog):
             last_edited_uid = int(lastfile.read())
             if last_mail_uid == last_edited_uid:
                 # If already processed:
-                print(str(datetime.datetime.now()) + " | *MAIL* There is no new e-mail")
+                print(str(datetime.datetime.now()) + " | E-MAILS | There is no new e-mail")
             else:
                 # If new:
-                print(str(datetime.datetime.now()) + " | *MAIL* Update: " + "{}, {}".format(last_mail_uid, last_edited_uid))
+                print(str(datetime.datetime.now()) + " | E-MAILS | Update: " + "{}, {}".format(last_mail_uid, last_edited_uid))
                 diff = last_mail_uid-last_edited_uid
                 while not(diff == 0):
                     current_item = inbox_item_list[(diff-(2*diff))]

@@ -22,11 +22,9 @@ class Tools(commands.Cog):
     @commands.command()
     async def ping(self, ctx):
         message = ctx.message
-        author = message.author
-        content = message.content
         channel = message.channel
-        id = int(channel.id)
-        await channel.send("{} Pong! :ping_pong:".format(author.mention))
+        author = message.author
+        await channel.send("{} Pong! :ping_pong: ".format(author.mention) + str(os.uname()))
 
 #============================================================================================================#
 

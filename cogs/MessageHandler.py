@@ -24,19 +24,18 @@ class MessageHandler(commands.Cog):
     async def on_message(self, message):
         author = message.author
         channel = message.channel
-        guild = message.guild
 
-        try:
-            cname = channel.name
-            cid= str(channel.id)
-        except AttributeError as e:
-            cname= "DM/USER " + author.name
-            cid= str(author.id)
+        try: # Channel is channel
+            channel_name = channel.name
+            channel_id = str(channel.id)
+        except AttributeError as e: # Channel is dm w/ user
+            channel_name = "DM " + str(channel.recipient)
+            channel_id = str(channel.recipient.id)
 
         if(int(author.id) == 578935647679807491):
-            print(str(datetime.datetime.now()) + " | *DRACULA* @ " + cname + " (" + cid + ") > " + message.content)
+            print(str(datetime.datetime.now()) + " | DRACULA | @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
         elif (message.content.startswith(".")):
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " @ " + cname + " (" + cid + ") > " + message.content)
+            print(str(datetime.datetime.now()) + " | COMMAND | " + str(author) + " (" + str(author.id) + ") @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
         else:
             privacy = "true"
 
