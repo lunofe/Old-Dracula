@@ -37,7 +37,7 @@ class MessageHandler(commands.Cog):
         elif (message.content.startswith(".")):
             print(str(datetime.datetime.now()) + " | COMMAND | " + str(author) + " (" + str(author.id) + ") @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
         else:
-            privacy = "true"
+            pass
 
 #============================================================================================================#
 
