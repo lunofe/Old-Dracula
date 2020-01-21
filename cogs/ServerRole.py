@@ -51,8 +51,14 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Human...")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of factions.")
             await message.add_reaction(emoji)
+        elif (arg.lower() == "notificationgang"):
+            for role in roles:
+                if(role.name == "NotificationGang"):
+                    await author.add_roles(role, reason="Opted into all notifications")
+            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted into all notifications.")
+            await message.add_reaction(emoji)
         else:
-            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
+            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter`, `human` and `notificationgang`.".format(author.mention))
 
 #============================================================================================================#
 
