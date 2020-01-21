@@ -16,11 +16,12 @@ class ServerRole(commands.Cog):
         self.client = client
         self._last_member = None
 
-#============================================================================================================#
+##############################################################################################################
+### Faction roles ############################################################################################
+##############################################################################################################
 
-    # Sets the author's role to Vampire or Hunter
     @commands.command()
-    async def role(self, ctx, arg):
+    async def faction(self, ctx, arg):
         message = ctx.message
         author = message.author
         channel = message.channel
@@ -51,14 +52,35 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Human...")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of factions.")
             await message.add_reaction(emoji)
-        elif (arg.lower() == "notificationgang"):
+        else:
+            await channel.send("{} That's not a valid faction! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
+
+##############################################################################################################
+### Notifications ############################################################################################
+##############################################################################################################
+
+    @commands.command()
+    async def notify(self, ctx, arg):
+        message = ctx.message
+        author = message.author
+        channel = message.channel
+        roles = author.guild.roles
+        emoji = "<a:success:615843247457042434>"
+
+        if(arg.lower() == "join"):
             for role in roles:
                 if(role.name == "NotificationGang"):
-                    await author.add_roles(role, reason="Opted into all notifications")
+                    await author.add_roles(role, reason="Opted in to all notifications")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted into all notifications.")
             await message.add_reaction(emoji)
+        elif (arg.lower() == "leave"):
+            for role in roles:
+                if(role.name == "NotificationGang"):
+                    await author.remove_roles(role, reason="Opted out of all notifications")
+            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of all notifications.")
+            await message.add_reaction(emoji)
         else:
-            await channel.send("{} That's not a valid role! You can choose between `vampire`, `hunter`, `human` and `notificationgang`.".format(author.mention))
+            await channel.send("{} That's not a valid option! You can choose between `join` and `leave`.".format(author.mention))
 
 #============================================================================================================#
 
