@@ -75,11 +75,13 @@ class MailCheck(commands.Cog):
                         await channel.send("I've received an email but don't know how to handle it. Please check it manually: {}".format(email_message["Subject"].replace("_", " ")))
                     # Staff applications
                     elif email_message["Subject"].lower() == "staff_apply":
-                        await channel.send("**STAFF APPLICATION** @here\n\n__Name:__ " + contentlist[0] + " (" + contentlist[1] + " y/o, " + contentlist[2] + ")\n__Minecraft Username:__ ``" + contentlist[3] + "``    __Discord#Tag:__ ``" + contentlist[4] + "``    __Email:__ ``" + contentlist[5] + "``\n** **")
-                        await channel.send("__◆ Do you have experience as staff?__\n" + contentlist[6])
-                        await channel.send("__◆ Why do you want to be staff?__\n" + contentlist[7])
-                        await channel.send("__◆ Why should you be chosen instead of someone else?__\n" + contentlist[8] + "\n** **")
-                        await channel.send("__◆ Do you have any issues with the current staff team?__ \n" + contentlist[9] + "\n__◆ How many hours per week can you contribute?__ \n" + contentlist[10] + " hours")
+                        if len(mail_body) < 150:
+                            await channel.send("**STAFF APP-...LI...CATION?** *I guess? Pretty short application.*")
+                        else:
+                            await channel.send("**STAFF APPLICATION** @here")
+                        await channel.send("** **\n__Name:__ " + contentlist[0] + " (" + contentlist[1] + " y/o, " + contentlist[2] + ")\n__Minecraft Username:__ ``" + contentlist[3] + "``    __Discord#Tag:__ ``" + contentlist[4] + "``    __Email:__ ``" + contentlist[5] + "``")
+                        await channel.send("** **\n__◆ Do you have experience as staff?__\n" + contentlist[6] + "\n\n__◆ Why do you want to be staff?__\n" + contentlist[7])
+                        await channel.send("** **\n__◆ Why should you be chosen instead of someone else?__\n" + contentlist[8] + "\n\n__◆ Do you have any issues with the current staff team?__ \n" + contentlist[9] + "\n\n__◆ How many hours per week can you contribute?__ \n" + contentlist[10] + " hours")
                     # Ban appeals
                     elif email_message["Subject"].lower() == "ban_appeal":
                         await channel.send("**BAN APPEAL** @here\n\n__Minecraft Username:__ ``" + contentlist[0] + "``    __Contact:__ ``" + contentlist[1] + "``\n\n__◆ More about your ban__\n" + contentlist[2] + "\n__◆ Why should you be unbanned?__\n" + contentlist[3])
