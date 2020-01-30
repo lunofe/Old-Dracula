@@ -26,7 +26,7 @@ class ServerRole(commands.Cog):
         author = message.author
         channel = message.channel
         roles = author.guild.roles
-        emoji = "<a:success:615843247457042434>"
+        emojis = ["<:d_:672399150079541279>", "<:o_:672399150297513993>", "<:n_:672399150251507712>", "<:e_:672399150263959552>", "<a:success:615843247457042434>"]
 
         if(arg.lower() == "vampire"):
             for role in roles:
@@ -35,7 +35,13 @@ class ServerRole(commands.Cog):
                 if(role.name == "Vampire"):
                     await author.add_roles(role, reason="Now a Vampire")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " switched to Vampire faction.")
-            await message.add_reaction(emoji)
+            await message.add_reaction(emojis[0])
+            await message.add_reaction(emojis[1])
+            await message.add_reaction(emojis[2])
+            await message.add_reaction(emojis[3])
+            await message.add_reaction(emojis[4])
+            await asyncio.sleep(5)
+            await message.delete()
         elif (arg.lower() == "hunter"):
             for role in roles:
                 if(role.name == "Vampire"):
@@ -43,7 +49,13 @@ class ServerRole(commands.Cog):
                 if(role.name == "Hunter"):
                     await author.add_roles(role, reason="Now a Hunter")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " switched to Hunter faction.")
-            await message.add_reaction(emoji)
+            await message.add_reaction(emojis[0])
+            await message.add_reaction(emojis[1])
+            await message.add_reaction(emojis[2])
+            await message.add_reaction(emojis[3])
+            await message.add_reaction(emojis[4])
+            await asyncio.sleep(5)
+            await message.delete()
         elif (arg.lower() == "human"):
             for role in roles:
                 if(role.name == "Vampire"):
@@ -51,9 +63,18 @@ class ServerRole(commands.Cog):
                 if(role.name == "Hunter"):
                     await author.remove_roles(role, reason="Switching to Human...")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of factions.")
-            await message.add_reaction(emoji)
+            await message.add_reaction(emojis[0])
+            await message.add_reaction(emojis[1])
+            await message.add_reaction(emojis[2])
+            await message.add_reaction(emojis[3])
+            await message.add_reaction(emojis[4])
+            await asyncio.sleep(5)
+            await message.delete()
         else:
-            await channel.send("{} That's not a valid faction! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
+            await message.delete()
+            invalidOptionMessage = await channel.send("{} That's not a valid faction! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
+            await asyncio.sleep(10)
+            await invalidOptionMessage.delete()
 
 ##############################################################################################################
 ### Notifications ############################################################################################
@@ -65,22 +86,37 @@ class ServerRole(commands.Cog):
         author = message.author
         channel = message.channel
         roles = author.guild.roles
-        emoji = "<a:success:615843247457042434>"
+        emojis = ["<:d_:672399150079541279>", "<:o_:672399150297513993>", "<:n_:672399150251507712>", "<:e_:672399150263959552>", "<a:success:615843247457042434>"]
 
         if(arg.lower() == "join"):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.add_roles(role, reason="Opted in to all notifications")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted into all notifications.")
-            await message.add_reaction(emoji)
+            await message.add_reaction(emojis[0])
+            await message.add_reaction(emojis[1])
+            await message.add_reaction(emojis[2])
+            await message.add_reaction(emojis[3])
+            await message.add_reaction(emojis[4])
+            await asyncio.sleep(5)
+            await message.delete()
         elif (arg.lower() == "leave"):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.remove_roles(role, reason="Opted out of all notifications")
             print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of all notifications.")
-            await message.add_reaction(emoji)
+            await message.add_reaction(emojis[0])
+            await message.add_reaction(emojis[1])
+            await message.add_reaction(emojis[2])
+            await message.add_reaction(emojis[3])
+            await message.add_reaction(emojis[4])
+            await asyncio.sleep(5)
+            await message.delete()
         else:
-            await channel.send("{} That's not a valid option! You can choose between `join` and `leave`.".format(author.mention))
+            await message.delete()
+            invalidOptionMessage = await channel.send("{} That's not a valid option! You can choose between `join` and `leave`.".format(author.mention))
+            await asyncio.sleep(10)
+            await invalidOptionMessage.delete()
 
 #============================================================================================================#
 
