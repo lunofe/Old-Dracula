@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, asyncio, datetime, dotenv, logging
+import os, discord, asyncio, datetime, dotenv
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord import User
@@ -27,16 +27,11 @@ class OnReady(commands.Cog):
 
         # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
-        last_query = None
 
         while True:
             try:
                 status = server.status()
                 await self.client.change_presence(activity=discord.Game(name="with {} players 🎮".format(status.players.online)))
-                query = server.query()
-                if (last_query != query.players.names):
-                    print(str(datetime.datetime.now()) + " | MCSTATS | {0}".format(", ".join(query.players.names)))
-                    last_query = query.players.names
                 await asyncio.sleep(60)
             except Exception as e:
                 print(str(datetime.datetime.now()) + " | MCSTATS | Can't reach the Minecraft server, will try again in five minutes.")
