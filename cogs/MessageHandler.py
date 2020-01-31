@@ -29,7 +29,7 @@ class MessageHandler(commands.Cog):
             channel_name = channel.name
             channel_id = str(channel.id)
         except AttributeError as e: # Channel is dm w/ user
-            channel_name = "DM " + str(channel.recipient)
+            channel_name = "Direct Message with " + str(channel.recipient)
             channel_id = str(channel.recipient.id)
 
         if(int(author.id) == 578935647679807491):

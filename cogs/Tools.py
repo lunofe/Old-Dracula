@@ -24,27 +24,9 @@ class Tools(commands.Cog):
         message = ctx.message
         channel = message.channel
         author = message.author
-        await channel.send("{} Pong! :ping_pong: ".format(author.mention) + str(os.uname()))
-
-#============================================================================================================#
-
-    # 'messageAdmins' command - sends a message to the staff's channel
-    #@client.command()
-    #async def messageAdmins(ctx, *args):
-        #if ctx.message.author.id == 152828946629525504:
-            #guild = client.get_guild(528346798138589215)
-            #channels = guild.text_channels
-            #message = ""
-
-            #for x in args:
-                #message = message + x + " "
-            #for channel in channels:
-                #if channel.id == 528350308976295946:
-                    #msg = await channel.send(message)
-                    #msg.add_reaction("👍")
-                    #msg.add_reaction("👎")
-        #else:
-            #await ctx.message.channel.send(":warning: You don't have permission.")
+        ping = await channel.send("{} Pong! :ping_pong: ".format(author.mention) + str(os.uname()))
+        await asyncio.sleep(10)
+        await ping.delete()
 
 #============================================================================================================#
 
