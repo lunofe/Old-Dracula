@@ -20,19 +20,19 @@ class Automation(commands.Cog):
     # Sending a welcome message to new members and giving them the "Member" role
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        print(str(datetime.datetime.now()) + "{}".format(member) + " just joined the server")
+        print(str(datetime.datetime.now()) + " | MEMBERS | {}".format(member) + " just joined the server")
         await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
         roles = member.guild.roles
         for role in roles:
             if(role.name == "Member"):
-                await member.add_roles(role, reason="Member just joined the Server")
+                await member.add_roles(role, reason="Member just joined the server")
 
 #============================================================================================================#
 
     # Sending a goodbye message to members who left the Discord
     @commands.Cog.listener()
     async def on_member_leave(self, member):
-        print(str(datetime.datetime.now()) + "{}".format(member) + " just left the server")
+        print(str(datetime.datetime.now()) + " | MEMBERS | {}".format(member) + " just left the server")
         member.send("We are sorry to see you go. If you want to join again, please use this link: <https://discord.gg/rP8j7hA>")
 
 #============================================================================================================#
