@@ -13,12 +13,13 @@ This bot is used on the official Vampirism Server Discord to add administrative 
 ## Commands
 | Command | Description | Permission (Rank, #Channel or @User) |
 | ------ | ------ | ------ |
-| .ping | Command to test if the bot is online. The bot will reply with _Pong!_ | Everyone |
-| .role [vampire/hunter/human] | Sets the message author's role to Vampire, Hunter *or remove both*. | Everyone |
-| .staffyes [@user] | Accepts [@user]'s staff application. Sends them the following message: _Your application has been accepted. You will hear from us shortly. In the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirismpermissions/>_ | #staff-forms |
-| .staffno [@user] [reason] | Rejects [@user]'s staff application. Sends them the following message: _Your application has been rejected. [reason] You can apply again in two weeks._ | #staff-forms |
-| .appealyes [@user] | Accepts [@user]'s ban appeal. Sends them the following message: _Your ban appeal has been accepted. You will be unbanned within 24 hours._ | #staff-forms |
-| .appealno [@user] [reason] | Rejects [@user]'s ban appeal. Sends them the following message: _Your ban appeal has been rejected. [reason] You can appeal again in two weeks._ | #staff-forms |
+| .ping | Command to test if the bot is online. The bot will reply with some system information. | Everyone |
+| .faction [vampire/hunter/human] | Sets the executors role to Vampire, Hunter or Human *(default member*. | Everyone |
+| . notificationgang [join/leave] | Adds or removes the executor from receiving not top-priority notifications. | Everyone |
+| .staffyes [@user] | Accepts [@user]s staff application. | #staff-forms |
+| .staffno [@user] [reason] | Rejects [@user]s staff application. | #staff-forms |
+| .appealyes [@user] | Accepts [@user]s ban appeal. | #staff-forms |
+| .appealno [@user] [reason] | Rejects [@user]s ban appeal. | #staff-forms |
 
 ## Team
 - [1LiterZinalco](https://github.com/1LiterZinalco)
