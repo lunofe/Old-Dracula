@@ -4,10 +4,10 @@ This bot is used on the official Vampirism Server Discord to add administrative 
 ![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
 ## Automations
-- The bot is displaying the current amount of players on the server as the bot's "playing" status.
-- When a new user joins the Discord, they will get a welcome message: *Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at https://chimute.org/vampirism. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules.*
+- The bot is displaying the current amount of players on the server as the bots "playing" status.
+- When a new user joins the Discord, they will get a welcome message.
 - Furthermore, the new user gets the *Member* role.
-- When a user leaves the Discord, they will get a goodbye message: *We are sorry to see you go. If you want to join again, please use this link: https://discord.gg/rP8j7hA*
+- When a user leaves the Discord, they will get a goodbye message.
 - Staff applications, ban appeals and player reports are posted automatically in #staff-forms
 
 ## Commands
