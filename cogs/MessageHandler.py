@@ -33,7 +33,8 @@ class MessageHandler(commands.Cog):
             channel_id = str(channel.recipient.id)
 
         if(int(author.id) == 578935647679807491):
-            print(str(datetime.datetime.now()) + " | DRACULA | @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
+            if(channel.id != 676209439531073541):
+                print(str(datetime.datetime.now()) + " | DRACULA | @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
         elif (message.content.startswith(".")):
             print(str(datetime.datetime.now()) + " | COMMAND | " + str(author) + " (" + str(author.id) + ") @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
         else:

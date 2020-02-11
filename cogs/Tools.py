@@ -24,6 +24,7 @@ class Tools(commands.Cog):
         message = ctx.message
         channel = message.channel
         author = message.author
+        await message.delete()
         ping = await channel.send("{} Pong! :ping_pong: ".format(author.mention) + str(os.uname()))
         await asyncio.sleep(10)
         await ping.delete()

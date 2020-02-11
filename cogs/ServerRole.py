@@ -81,7 +81,7 @@ class ServerRole(commands.Cog):
 ##############################################################################################################
 
     @commands.command()
-    async def notify(self, ctx, arg):
+    async def notificationgang(self, ctx, arg):
         message = ctx.message
         author = message.author
         channel = message.channel

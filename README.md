@@ -15,7 +15,7 @@ This bot is used on the official Vampirism Server Discord to add administrative 
 | ------ | ------ | ------ |
 | .ping | Command to test if the bot is online. The bot will reply with some system information. | Everyone |
 | .faction [vampire/hunter/human] | Sets the executors role to Vampire, Hunter or Human *(default member*. | Everyone |
-| . notificationgang [join/leave] | Adds or removes the executor from receiving not top-priority notifications. | Everyone |
+| .notificationgang [join/leave] | Adds or removes the executor from receiving not top-priority notifications. | Everyone |
 | .staffyes [@user] | Accepts [@user]s staff application. | #staff-forms |
 | .staffno [@user] [reason] | Rejects [@user]s staff application. | #staff-forms |
 | .appealyes [@user] | Accepts [@user]s ban appeal. | #staff-forms |
