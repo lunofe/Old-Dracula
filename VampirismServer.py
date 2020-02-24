@@ -30,13 +30,15 @@ client = commands.Bot(command_prefix = ".")
 client.remove_command("help")
 
 # Loading Cogs:
-client.load_extension("cogs.OnReady")           #on_ready event
-client.load_extension("cogs.MessageHandler")    #Message and Command handling
-client.load_extension("cogs.Tools")             #For tools like .ping
-client.load_extension("cogs.Automation")        #Listeners
-client.load_extension("cogs.Moderation")        #Admin commands
-client.load_extension("cogs.ServerRole")        #Role command
-client.load_extension("cogs.MailCheck")         #Checking mails
+client.load_extension("cogs.OnReady")
+client.load_extension("cogs.MessageHandler")
+client.load_extension("cogs.Tools")
+client.load_extension("cogs.Automation")
+client.load_extension("cogs.Moderation")
+client.load_extension("cogs.ServerRole")
+client.load_extension("cogs.MailCheck")
+client.load_extension("cogs.Verify")
+#client.load_extension("cogs.Music")
 
 # Starting the Bot
 client.run(TOKEN)
