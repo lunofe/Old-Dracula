@@ -21,6 +21,19 @@ This bot is used on the official Vampirism Server Discord to add administrative 
 | .appealyes [@user] | Accepts [@user]s ban appeal. | #staff-forms |
 | .appealno [@user] [reason] | Rejects [@user]s ban appeal. | #staff-forms |
 
+## Config file (.env)
+```
+BOT_TOKEN=
+IMAP_HOST=
+IMAP_ACC=
+IMAP_PASS=
+DB_HOST=
+DB_ACC=
+DB_PASS=
+DB_NAME=
+```
+
+
 ## Team
 - [1LiterZinalco](https://github.com/1LiterZinalco)
 - [KlemChri](https://github.com/KlemChri) _no longer maintaining_
