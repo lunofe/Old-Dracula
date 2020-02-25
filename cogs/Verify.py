@@ -42,9 +42,6 @@ class Verify(commands.Cog):
                     return False
             return inner_check
 
-        # Init
-        stage = 0
-
         # Stage 1
         if(len(arg) == 0):
             await message.delete()
@@ -60,110 +57,103 @@ class Verify(commands.Cog):
                 mc_uid = json.loads(mc_uid)
                 mc_uid = str(mc_uid["id"])
                 mc_uid = mc_uid[0:8] + "-" + mc_uid[8:12] + "-" + mc_uid[12:16] + "-" + mc_uid[16:20] + "-" + mc_uid[20:32]
-                print("Selected " + mc_username + " (" + mc_uid + ")")
-                stage = 1
+                try:
+                    db = mysql.connector.connect(host=db_host, user=db_acc, passwd=db_pass, database=db_name)
+                    cursor = db.cursor()
+                    cursor.execute('''SELECT discord FROM dracula_verification WHERE minecraft = "''' + mc_uid + '''"''')
+                    result = cursor.fetchall()
+                    if(len(result) != 1):
 
-                # Stage 2
-                if(stage == 1):
-                    botresponse = await channel.send("To confirm, that " + mc_username + " is your Minecraft account, enter your current balance (/money).")
-                    try:
-                        userresponse = await self.client.wait_for('message', check=check(author), timeout=30)
-                        bal1 = str(userresponse.content)
-                        await userresponse.delete()
+                        # Stage 2
+                        botresponse = await channel.send("To confirm, that " + mc_username + " is your Minecraft account, enter your current balance (/money).")
                         try:
-                            db = mysql.connector.connect(
-                               host=db_host,
-                               user=db_acc,
-                               passwd=db_pass,
-                               database=db_name
-                            )
-                            cursor = db.cursor()
+                            userresponse = await self.client.wait_for('message', check=check(author), timeout=30)
+                            bal1 = str(userresponse.content)
+                            await userresponse.delete()
                             try:
+                                db = mysql.connector.connect(host=db_host, user=db_acc, passwd=db_pass, database=db_name)
+                                cursor = db.cursor()
                                 cursor.execute('''SELECT dollar_balance FROM accounts WHERE uid = "''' + mc_uid + '''"''')
                                 result = cursor.fetchall()
                                 result = str(result)[11:-5]
                                 if(result == bal1):
                                     await botresponse.delete()
-                                    print("Bal 1 matches")
-                                    stage = 2
 
                                     # Stage 3
-                                    if(stage == 2):
-                                        botresponse = await channel.send("Looking good. Now change your balance by buying or selling at the shop and enter your new balance.")
-                                        try:
-                                            userresponse = await self.client.wait_for('message', check=check(author), timeout=30)
-                                            bal2 = str(userresponse.content)
-                                            await userresponse.delete()
-                                            if(bal2 == bal1):
-                                                await botresponse.delete()
-                                                botresponse = await channel.send("You need to change your balance.")
-                                                await asyncio.sleep(5)
-                                                await botresponse.delete()
-                                            else:
-                                                try:
-                                                    db = mysql.connector.connect(
-                                                       host=db_host,
-                                                       user=db_acc,
-                                                       passwd=db_pass,
-                                                       database=db_name
-                                                    )
-                                                    cursor = db.cursor()
+                                    botresponse = await channel.send("Looking good. Now change your balance by buying or selling at the shop and enter your new balance.")
+                                    try:
+                                        userresponse = await self.client.wait_for('message', check=check(author), timeout=60)
+                                        bal2 = str(userresponse.content)
+                                        await userresponse.delete()
+                                        if(bal2 != bal1):
+                                            try:
+                                                db = mysql.connector.connect(host=db_host, user=db_acc, passwd=db_pass, database=db_name)
+                                                cursor = db.cursor()
+                                                cursor.execute('''SELECT dollar_balance FROM accounts WHERE uid = "''' + mc_uid + '''"''')
+                                                result = cursor.fetchall()
+                                                result = str(result)[11:-5]
+                                                if(result == bal2):
                                                     try:
-                                                        cursor.execute('''SELECT dollar_balance FROM accounts WHERE uid = "''' + mc_uid + '''"''')
-                                                        result = cursor.fetchall()
-                                                        result = str(result)[11:-5]
-                                                        if(result == bal2):
-                                                            await botresponse.delete()
-                                                            print("Bal 2 matches")
-                                                            botresponse = await channel.send("Verification succesful!")
-                                                            await asyncio.sleep(5)
-                                                            await botresponse.delete()
-                                                        else:
-                                                            await botresponse.delete()
-                                                            botresponse = await channel.send("Seems like you've entered an incorrect balance!")
-                                                            stage = 0
-                                                            await asyncio.sleep(5)
-                                                            await botresponse.delete()
+                                                        db = mysql.connector.connect(host=db_host, user=db_acc, passwd=db_pass, database=db_name)
+                                                        cursor = db.cursor()
+
+                                                        # TODO: IDs in DB eintragen
+
+                                                        await botresponse.delete()
+                                                        botresponse = await channel.send("Verification succesful!")
+                                                        await asyncio.sleep(10)
+                                                        await botresponse.delete()
                                                     except:
                                                         await botresponse.delete()
-                                                        botresponse = await channel.send("There has been an error whilst requesting the balance of " + mc_username + "(" + mc_uid + ").")
-                                                        await asyncio.sleep(5)
+                                                        botresponse = await channel.send("There has been an error whilst connecting to the database.")
+                                                        await asyncio.sleep(10)
                                                         await botresponse.delete()
-                                                except:
+                                                else:
                                                     await botresponse.delete()
-                                                    botresponse = await channel.send("There has been an error whilst connecting to the database.")
-                                                    await asyncio.sleep(5)
+                                                    botresponse = await channel.send("Seems like you've entered an incorrect balance!")
+                                                    await asyncio.sleep(10)
                                                     await botresponse.delete()
-                                        except asyncio.TimeoutError:
+                                            except:
+                                                await botresponse.delete()
+                                                botresponse = await channel.send("There has been an error whilst connecting to the database.")
+                                                await asyncio.sleep(10)
+                                                await botresponse.delete()
+                                        else:
                                             await botresponse.delete()
-                                            botresponse = await channel.send("Timed out!")
+                                            botresponse = await channel.send("You need to change your balance.")
                                             await asyncio.sleep(10)
                                             await botresponse.delete()
+                                    except asyncio.TimeoutError:
+                                        await botresponse.delete()
+                                        botresponse = await channel.send("Timed out!")
+                                        await asyncio.sleep(15)
+                                        await botresponse.delete()
                                 else:
                                     await botresponse.delete()
                                     botresponse = await channel.send("Seems like you've entered an incorrect balance!")
-                                    stage = 0
-                                    await asyncio.sleep(5)
+                                    await asyncio.sleep(10)
                                     await botresponse.delete()
                             except:
                                 await botresponse.delete()
-                                botresponse = await channel.send("There has been an error whilst requesting the balance of " + mc_username + "(" + mc_uid + ").")
-                                await asyncio.sleep(5)
+                                botresponse = await channel.send("There has been an error whilst connecting to the database.")
+                                await asyncio.sleep(10)
                                 await botresponse.delete()
-                        except:
+                        except asyncio.TimeoutError:
                             await botresponse.delete()
-                            botresponse = await channel.send("There has been an error whilst connecting to the database.")
-                            await asyncio.sleep(5)
+                            botresponse = await channel.send("Timed out!")
+                            await asyncio.sleep(15)
                             await botresponse.delete()
-                    except asyncio.TimeoutError:
-                        await botresponse.delete()
-                        botresponse = await channel.send("Timed out!")
+                    else:
+                        botresponse = await channel.send(mc_username + " has already been linked to another Discord account.")
                         await asyncio.sleep(10)
                         await botresponse.delete()
-            except:
+                except:
+                    botresponse = await channel.send("There has been an error whilst connecting to the database.")
+                    await asyncio.sleep(10)
+                    await botresponse.delete()
+            except Exception as e:
                 botresponse = await channel.send("There has been an error whilst requesting the UUID of " + mc_username + " from Mojang.")
-                stage = 0
-                await asyncio.sleep(5)
+                await asyncio.sleep(10)
                 await botresponse.delete()
 
 #============================================================================================================#
