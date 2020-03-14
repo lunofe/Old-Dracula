@@ -8,25 +8,22 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime, dotenv
+import draculogger as log
 from discord.ext import commands
 from dotenv import load_dotenv
-from cogs import MessageHandler, Moderation, Automation, ServerRole, Tools, OnReady, MailCheck
+#from cogs import Utils, MessageHandler, OnReady, Moderation, Automation, ServerRole, Tools, MailCheck
 
 ##############################################################################################################
 ### Initial stuff ############################################################################################
 ##############################################################################################################
 
-# Loading the configuration
-print(str(str(datetime.datetime.now())) + " | Initialization...")
+# Startup
+log.this("STARTUP BEGIN...")
 load_dotenv()
-
-# Settings the bot's token
 TOKEN = os.getenv("BOT_TOKEN")
-
-# Setting the bot's command prefix
 client = commands.Bot(command_prefix = ".")
 
-# Removing the standard 'help' command
+# Removing the standard "help" command
 client.remove_command("help")
 
 # Loading Cogs:
@@ -41,4 +38,5 @@ client.load_extension("cogs.Verify")
 #client.load_extension("cogs.Music")
 
 # Starting the Bot
+log.this("STARTUP CLEAR, RUNNING BOT")
 client.run(TOKEN)

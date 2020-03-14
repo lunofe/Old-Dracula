@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime
+import draculogger as log
 from discord.ext import commands
 from discord import User
 
@@ -34,7 +35,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Vampire...")
                 if(role.name == "Vampire"):
                     await author.add_roles(role, reason="Now a Vampire")
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " switched to Vampire faction.")
+            log.more("FACTIONS", "{} switched to Vampire faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -48,7 +49,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Hunter...")
                 if(role.name == "Hunter"):
                     await author.add_roles(role, reason="Now a Hunter")
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " switched to Hunter faction.")
+            log.more("FACTIONS", "{} switched to Hunter faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -62,7 +63,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Human...")
                 if(role.name == "Hunter"):
                     await author.remove_roles(role, reason="Switching to Human...")
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of factions.")
+            log.more("FACTIONS", "{} switched to Human faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -72,9 +73,9 @@ class ServerRole(commands.Cog):
             await message.delete()
         else:
             await message.delete()
-            invalidOptionMessage = await channel.send("{} That's not a valid faction! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
+            botresponse = await channel.send("{} That's not a valid faction! You can choose between `vampire`, `hunter` and `human`.".format(author.mention))
             await asyncio.sleep(10)
-            await invalidOptionMessage.delete()
+            await botresponse.delete()
 
 ##############################################################################################################
 ### Notifications ############################################################################################
@@ -92,7 +93,7 @@ class ServerRole(commands.Cog):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.add_roles(role, reason="Opted in to all notifications")
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted into all notifications.")
+            log.more("NOTIFY", "{} opted into all notifications.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -104,7 +105,7 @@ class ServerRole(commands.Cog):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.remove_roles(role, reason="Opted out of all notifications")
-            print(str(datetime.datetime.now()) + " | " + "{}".format(author) + " opted out of all notifications.")
+            log.more("NOTIFY", "{} opted out of all notifications.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -122,4 +123,4 @@ class ServerRole(commands.Cog):
 
 def setup(client):
     client.add_cog(ServerRole(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.ServerRole")
+    log.this("Initialized cogs.ServerRole")

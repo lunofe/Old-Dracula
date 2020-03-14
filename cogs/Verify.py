@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime, dotenv, mysql.connector, urllib.request, json
+import draculogger as log
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import User
@@ -160,4 +161,4 @@ class Verify(commands.Cog):
 
 def setup(client):
     client.add_cog(Verify(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.Verify")
+    log.this("Initialized cogs.Verify")

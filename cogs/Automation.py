@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime
+import draculogger as log
 from discord.ext import commands
 
 class Automation(commands.Cog):
@@ -20,7 +21,7 @@ class Automation(commands.Cog):
     # Sending a welcome message to new members and giving them the "Member" role
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        print(str(datetime.datetime.now()) + " | MEMBERS | {}".format(member) + " just joined the server")
+        log.more("MEMBERS", str(member) + " just joined the server")
         await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
         roles = member.guild.roles
         for role in roles:
@@ -29,14 +30,6 @@ class Automation(commands.Cog):
 
 #============================================================================================================#
 
-    # Sending a goodbye message to members who left the Discord
-    @commands.Cog.listener()
-    async def on_member_leave(self, member):
-        print(str(datetime.datetime.now()) + " | MEMBERS | {}".format(member) + " just left the server")
-        member.send("We are sorry to see you go. If you want to join again, please use this link: <https://discord.gg/rP8j7hA>")
-
-#============================================================================================================#
-
 def setup(client):
     client.add_cog(Automation(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.Automation")
+    log.this("Initialized cogs.Automation")

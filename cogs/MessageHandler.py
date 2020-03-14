@@ -7,10 +7,10 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, asyncio, datetime
+import os, discord, asyncio, datetime, time
+import draculogger as log
 from discord.ext import commands
 from discord import User
-import time, os, asyncio
 
 class MessageHandler(commands.Cog):
     def __init__(self, client):
@@ -34,9 +34,9 @@ class MessageHandler(commands.Cog):
 
         if(int(author.id) == 578935647679807491):
             if(channel.id != 676209439531073541):
-                print(str(datetime.datetime.now()) + " | DRACULA | @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
+                log.more("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
         elif (message.content.startswith(".")):
-            print(str(datetime.datetime.now()) + " | COMMAND | " + str(author) + " (" + str(author.id) + ") @ " + channel_name + " (" + channel_id + ") 💬 " + message.content)
+            log.more("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(str(author), str(author.id), channel_name, channel_id, message.content))
         else:
             pass
 
@@ -44,4 +44,4 @@ class MessageHandler(commands.Cog):
 
 def setup(client):
     client.add_cog(MessageHandler(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.MessageHandler")
+    log.this("Initialized cogs.MessageHandler")

@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime
+import draculogger as log
 from discord.ext import commands
 from discord import User
 
@@ -31,6 +32,17 @@ class Tools(commands.Cog):
 
 #============================================================================================================#
 
+    @commands.command()
+    async def cracked(self, ctx):
+        message = ctx.message
+        channel = message.channel
+        embed = discord.Embed(title="""This error appears when you use a "cracked" client, which is giving you access to Minecraft without paying.""", description="Software piracy is illegal. Although there is an option for servers to accept cracked clients, we will not do that, because we are strictly against software piracy. Furthermore, it involves multiple problems, for example the simple circumvention of bans.")
+        embed.set_author(name="Failed to verify username?")
+        await message.delete()
+        await channel.send(embed=embed)
+
+#============================================================================================================#
+
 def setup(client):
     client.add_cog(Tools(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.Tools")
+    log.this("Initialized cogs.Tools")

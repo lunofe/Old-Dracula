@@ -1,4 +1,5 @@
-# Config file
+*.conf
 .gitignore
 .env
 last.txt
+*.log

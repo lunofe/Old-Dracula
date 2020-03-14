@@ -7,11 +7,11 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, asyncio, datetime, dotenv
+import os, discord, asyncio, datetime, dotenv, quopri, email, imaplib, time
+import draculogger as log
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord import User
-import email, imaplib, asyncio, time
 from threading import Thread
 
 class MailCheck(commands.Cog):
@@ -32,9 +32,8 @@ class MailCheck(commands.Cog):
         password = os.getenv("IMAP_PASS")
 
         while True:
-            # Setting the IMAP server
+            # Setting the IMAP server and logging in
             mail = imaplib.IMAP4_SSL(host)
-            # Logging in
             mail.login(username, password)
 
             # Selecting the inbox
@@ -47,14 +46,14 @@ class MailCheck(commands.Cog):
             last_mail_uid = int(last_mail_uid_str[-1])
 
             # Checking if ID was already processed
-            lastfile = open("last.txt",'r')
+            lastfile = open("last.txt","r")
             last_edited_uid = int(lastfile.read())
             if last_mail_uid == last_edited_uid:
                 # If already processed:
-                print(str(datetime.datetime.now()) + " | E-MAILS | There is no new e-mail")
+                log.more("E-MAILS", "There is no new e-mail")
             else:
                 # If new:
-                print(str(datetime.datetime.now()) + " | E-MAILS | Update: " + "{}, {}".format(last_mail_uid, last_edited_uid))
+                log.more("E-MAILS", "Update: {}, {}".format(last_mail_uid, last_edited_uid))
                 diff = last_mail_uid-last_edited_uid
                 while not(diff == 0):
                     current_item = inbox_item_list[(diff-(2*diff))]
@@ -63,34 +62,65 @@ class MailCheck(commands.Cog):
 
                     email_message = email.message_from_string(raw_email)
 
-                    # Get the content of the email and remove unnecessary stuff
+                    # Get the content of the email decoded and remove unnecessary stuff
                     mail_body = email_message.get_payload()
+                    if(email_message["Content-Transfer-Encoding"] != "8bit"):
+                        # Fix shitty formatting
+                        mail_body = quopri.decodestring(mail_body)
+                        mail_body = mail_body.decode("utf-8")
                     mail_body = mail_body.replace("\r", "")
                     mail_body = mail_body.replace("\n\n", "")
-
-                    # The data is split by §§
                     contentlist = mail_body.split("§§")
-                    # Handling emails which arent encoded correctly
-                    if not(email_message["Content-Transfer-Encoding"] == "8bit"):
-                        await channel.send("I've received an email but don't know how to handle it. Please check it manually: {}".format(email_message["Subject"].replace("_", " ")))
+
                     # Staff applications
-                    elif email_message["Subject"].lower() == "staff_apply":
-                        if len(mail_body) < 150:
-                            await channel.send("**STAFF APP-...LI...CATION?** *I guess? Pretty short application.*")
+                    if email_message["Subject"].lower() == "staff_apply":
+                        embed=discord.Embed(title=contentlist[0], description=contentlist[1] + " years old, " + contentlist[2]) # Color?
+                        embed.add_field(name="Minecraft username", value="``" + contentlist[3] + "``", inline=True)
+                        embed.add_field(name="Discord#Tag", value="``" + contentlist[4] + "``", inline=True)
+                        embed.add_field(name="E-mail", value="``" + contentlist[5] + "``", inline=True)
+                        embed.add_field(name="Do you have experience as staff?", value=contentlist[6], inline=False)
+                        embed.add_field(name="Why do you want to be staff?", value=contentlist[7], inline=False)
+                        embed.add_field(name="Why should you be chosen instead of someone else?", value=contentlist[8], inline=False)
+                        embed.add_field(name="Do you have any issues with the current staff team?", value=contentlist[9], inline=False)
+                        embed.add_field(name="How many hours per week can you contribute?", value=str(int(contentlist[10])) + " hours", inline=False)
+                        submission_length = len(contentlist[6].split()) + len(contentlist[7].split()) + len(contentlist[8].split())
+                        embed.set_footer(text=str(submission_length) + " words  |  ID:" + str(last_mail_uid))
+                        if submission_length > 50:
+                            botresponse = await channel.send(content="**STAFF APPLICATION** @everyone", embed=embed)
                         else:
-                            await channel.send("**STAFF APPLICATION** @here")
-                        await channel.send("** **\n__Name:__ " + contentlist[0] + " (" + contentlist[1] + " y/o, " + contentlist[2] + ")\n__Minecraft Username:__ ``" + contentlist[3] + "``    __Discord#Tag:__ ``" + contentlist[4] + "``    __Email:__ ``" + contentlist[5] + "``")
-                        await channel.send("** **\n__◆ Do you have experience as staff?__\n" + contentlist[6] + "\n\n__◆ Why do you want to be staff?__\n" + contentlist[7])
-                        await channel.send("** **\n__◆ Why should you be chosen instead of someone else?__\n" + contentlist[8] + "\n\n__◆ Do you have any issues with the current staff team?__ \n" + contentlist[9] + "\n\n__◆ How many hours per week can you contribute?__ \n" + contentlist[10] + " hours")
+                            botresponse = await channel.send(content="**STAFF APP-**...LI...CATION? *I guess? Pretty short application, duh*", embed=embed)
+                        await botresponse.add_reaction("<:vote_yes:601899059417972737>")
+                        await botresponse.add_reaction("<:vote_no:601898704231989259>")
                     # Ban appeals
                     elif email_message["Subject"].lower() == "ban_appeal":
-                        await channel.send("**BAN APPEAL** @here\n\n__Minecraft Username:__ ``" + contentlist[0] + "``    __Contact:__ ``" + contentlist[1] + "``\n\n__◆ More about your ban__\n" + contentlist[2] + "\n__◆ Why should you be unbanned?__\n" + contentlist[3])
+                        embed=discord.Embed(title=" ") # Color?
+                        embed.add_field(name="Minecraft username", value="``" + contentlist[0] + "``", inline=True)
+                        embed.add_field(name="Contact", value="``" + contentlist[1] + "``", inline=True)
+                        embed.add_field(name="More about your ban", value=contentlist[2], inline=False)
+                        embed.add_field(name="Why should you be unbanned?", value=contentlist[3], inline=False)
+                        submission_length = len(contentlist[2].split()) + len(contentlist[3].split())
+                        embed.set_footer(text=str(submission_length) + " words  |  ID:" + str(last_mail_uid))
+                        if submission_length > 50:
+                            botresponse = await channel.send(content="**BAN APPEAL** @everyone", embed=embed)
+                        else:
+                            botresponse = await channel.send(content="**BAN APP-**...eal? *I guess? Pretty short, duh*", embed=embed)
+                        await botresponse.add_reaction("<:vote_yes:601899059417972737>")
+                        await botresponse.add_reaction("<:vote_no:601898704231989259>")
                     # Player reports
                     elif email_message["Subject"].lower() == "player_report":
-                        await channel.send("**PLAYER REPORT** @here\n\n__Report by:__ ``" + contentlist[0] + "``    __Contact:__ ``" + contentlist[1] + "``\n\n" + contentlist[2])
+                        embed=discord.Embed(title=" ", description=contentlist[2]) # Color?
+                        if((len(contentlist[0]) != 0) and (len(contentlist[1]) != 0)):
+                            embed.add_field(name="Report by", value="``" + contentlist[0] + "``", inline=True)
+                            embed.add_field(name="Contact", value="``" + contentlist[1] + "``", inline=True)
+                        submission_length = len(contentlist[2].split())
+                        embed.set_footer(text="ID:" + str(last_mail_uid))
+                        if submission_length > 50:
+                            botresponse = await channel.send(content="**PLAYER REPORT** @everyone", embed=embed)
+                        else:
+                            botresponse = await channel.send(content="**PLAYER REP-**...ort? *I guess? Pretty short, duh*", embed=embed)
                     # Unknown/Error
                     else:
-                        await channel.send("I've received an email but don't know how to handle it. {}:".format(email_message["From"]) + email_message.get_payload())
+                        await channel.send("I've received an email but don't know how to handle it: {}".format(email_message["From"]) + email_message.get_payload())
                     diff = diff - 1
 
             # Updating last processed ID
@@ -106,4 +136,4 @@ class MailCheck(commands.Cog):
 
 def setup(client):
     client.add_cog(MailCheck(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.MailCheck")
+    log.this("Initialized cogs.MailCheck")

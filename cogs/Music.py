@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime
+import draculogger as log
 from discord.ext import commands
 
 class Music(commands.Cog):
@@ -24,26 +25,26 @@ class Music(commands.Cog):
         try:
             await v[1].disconnect()
             v[1] = None
-            print(str(datetime.datetime.now()) + " | MUSIC   | Bot has left the previous voice channel")
+            log.more("MUSIC   ", "Bot has left the previous voice channel")
         except Exception as e:
-            print(str(datetime.datetime.now()) + " | MUSIC   | " + str(e))
+            log.more("MUSIC   ", str(e))
         try:
             v[0] = voicechannel
             try:
                 v[1] = await v[0].connect()
-                print(str(datetime.datetime.now()) + " | MUSIC   | Bot has joined the voice channel")
+                log.more("MUSIC   ", "Bot has joined the voice channel")
             except Exception as e:
-                print(str(datetime.datetime.now()) + " | MUSIC   | " + str(e))
+                log.more("MUSIC   ", str(e))
         except Exception as e:
-            print(str(datetime.datetime.now()) + " | MUSIC   | " + str(e))
+            log.more("MUSIC   ", str(e))
         try:
             v[1].play(discord.FFmpegPCMAudio("/home/dracula/ping.mp3"))
-            print(str(datetime.datetime.now()) + " | MUSIC   | Bot has started streaming")
+            log.more("MUSIC   ", "Bot has started streaming")
         except Exception as e:
-            print(str(datetime.datetime.now()) + " | MUSIC   | " + str(e))
+            log.more("MUSIC   ", str(e))
 
 #============================================================================================================#
 
 def setup(client):
     client.add_cog(Music(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.Music")
+    log.more("Initialized cogs.Music")

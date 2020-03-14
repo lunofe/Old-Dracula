@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, discord, asyncio, datetime, dotenv
+import draculogger as log
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord import User
@@ -116,4 +117,4 @@ class Moderation(commands.Cog):
 
 def setup(client):
     client.add_cog(Moderation(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.Moderation")
+    log.this("Initialized cogs.Moderation")

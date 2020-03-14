@@ -8,6 +8,7 @@
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 import os, random, discord, asyncio, datetime, dotenv
+import draculogger as log
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord import User
@@ -23,13 +24,10 @@ class OnReady(commands.Cog):
     # Setting the bot's "playing" status
     @commands.Cog.listener()
     async def on_ready(self):
-        print(str(datetime.datetime.now()) + " | Initialization completed")
+        log.this("Initialization completed")
 
         serverplayers = self.client.get_channel(676209439531073541)
-
         sadcat = ["<:sadcat1:676391344293281802>", "<:sadcat2:676391344582688768>", "<:sadcat3:676391345320886272>", "<:sadcat4:676391344217784331>", "<:sadcat5:676391344154869770>", "<:sadcat6:676391345878859776>"]
-
-        # Setting Minecraft Server
         server = MinecraftServer.lookup("147.135.9.96:25575")
         last_query = None
 
@@ -48,7 +46,7 @@ class OnReady(commands.Cog):
                     last_query = query.players.names
                 await asyncio.sleep(60)
             except Exception as e:
-                print(str(datetime.datetime.now()) + " | MCSTATS | Can't reach the Minecraft server, will try again in five minutes.")
+                log.more("MCSTATS", "Can't reach the Minecraft server, will try again in five minutes.")
                 await serverplayers.send("Can't reach the Minecraft server, will try again in five minutes.")
                 await asyncio.sleep(300)
 
@@ -56,4 +54,4 @@ class OnReady(commands.Cog):
 
 def setup(client):
     client.add_cog(OnReady(client))
-    print(str(datetime.datetime.now()) + " | Initialized cogs.OnReady")
+    log.this("Initialized cogs.OnReady")
