@@ -13,12 +13,12 @@ import datetime
 
 def this(matter):
     print(str(datetime.datetime.now()) + " | " + str(matter))
-    file_log = open("/var/www/html/dracula/dracula.log", "a")
+    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".log", "a")
     file_log.write(str(datetime.datetime.now()) + " | " + str(matter) + "\n")
     file_log.close()
 
 def more(channel, matter):
     print(str(datetime.datetime.now()) + " | " + str(channel) + " | " + str(matter))
-    file_log = open("/var/www/html/dracula/dracula.log", "a")
+    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".log", "a")
     file_log.write(str(datetime.datetime.now()) + " | " + str(channel) + " | " + str(matter) + "\n")
     file_log.close()

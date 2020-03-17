@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, asyncio, datetime, dotenv, mysql.connector, urllib.request, json
+import os, discord, asyncio, dotenv, mysql.connector, urllib.request, json
 import draculogger as log
 from dotenv import load_dotenv
 from discord.ext import commands

@@ -7,10 +7,9 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, asyncio, datetime, dotenv
+import discord
 import draculogger as log
 from discord.ext import commands
-from dotenv import load_dotenv
 from discord import User
 
 class Moderation(commands.Cog):
