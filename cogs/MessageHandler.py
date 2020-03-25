@@ -28,14 +28,14 @@ class MessageHandler(commands.Cog):
         try: # Channel is channel
             channel_name = channel.name
             channel_id = str(channel.id)
-        except AttributeError as e: # Channel is dm w/ user
+        except: # Channel is dm with user
             channel_name = "Direct Message with " + str(channel.recipient)
             channel_id = str(channel.recipient.id)
 
         if(int(author.id) == 578935647679807491):
             if(channel.id != 676209439531073541):
                 log.more("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
-        elif (message.content.startswith(".")):
+        elif(message.content.startswith(".")):
             log.more("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(str(author), str(author.id), channel_name, channel_id, message.content))
         else:
             pass

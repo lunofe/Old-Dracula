@@ -12,7 +12,7 @@ import draculogger as log
 from discord.ext import commands
 from discord import User
 
-class Moderation(commands.Cog):
+class Submissions(commands.Cog):
     def __init__(self, client):
         self.client = client
         self._last_member = None
@@ -115,5 +115,5 @@ class Moderation(commands.Cog):
 #============================================================================================================#
 
 def setup(client):
-    client.add_cog(Moderation(client))
-    log.this("Initialized cogs.Moderation")
+    client.add_cog(Submissions(client))
+    log.this("Initialized cogs.Submissions")

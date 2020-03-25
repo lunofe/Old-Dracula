@@ -31,6 +31,8 @@ class MailCheck(commands.Cog):
         username = os.getenv("IMAP_ACC")
         password = os.getenv("IMAP_PASS")
 
+        log.more("DEBUG", "on_ready has been triggered")
+
         while True:
             # Setting the IMAP server and logging in
             mail = imaplib.IMAP4_SSL(host)
@@ -131,6 +133,7 @@ class MailCheck(commands.Cog):
 
             # Sleeping for one hour
             await asyncio.sleep(3600)
+            log.more("DEBUG", "asyncio.sleep is over")
 
 #============================================================================================================#
 

@@ -11,14 +11,42 @@ import datetime
 
 # DracuLogger. Because every other logging module seems to be crap.
 
-def this(matter):
-    print(str(datetime.datetime.now()) + " | " + str(matter))
-    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".log", "a")
-    file_log.write(str(datetime.datetime.now()) + " | " + str(matter) + "\n")
+def filecheck():
+    try:
+        # File is already existing
+        file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".md", "r")
+        file_log.close()
+    except:
+        # File is not existing, creating Markdown head
+        file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".md", "w")
+        file_log.write("| Time | Type | Content |\n| :------------- | :------------- | :------------- |\n")
+        file_log.close()
+
+def noescape(content):
+    content = content.replace("\r", " ")
+    content = content.replace("\n", " ")
+    return content
+
+def this(content):
+    # Logging to the console
+    print(str(datetime.datetime.now()) + " | " + str(content))
+    # Checking if file exists
+    filecheck()
+    # Removing newlines from content
+    content = noescape(str(content))
+    # Logging to file
+    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".md", "a")
+    file_log.write("| " + str(datetime.datetime.now().time()) + " | | " + str(content) + " |\n")
     file_log.close()
 
-def more(channel, matter):
-    print(str(datetime.datetime.now()) + " | " + str(channel) + " | " + str(matter))
-    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".log", "a")
-    file_log.write(str(datetime.datetime.now()) + " | " + str(channel) + " | " + str(matter) + "\n")
+def more(type, content):
+    # Logging to the console
+    print(str(datetime.datetime.now()) + " | " + str(type) + " | " + str(content))
+    # Checking if file exists
+    filecheck()
+    # Removing newlines from content
+    content = noescape(str(content))
+    # Logging to file
+    file_log = open("/var/www/html/dracula/" + str(datetime.date.today()) + ".md", "a")
+    file_log.write("| " + str(datetime.datetime.now().time()) + " | " + str(type) + " | " + str(content) + " |\n")
     file_log.close()

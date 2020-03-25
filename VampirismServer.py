@@ -31,10 +31,10 @@ client.load_extension("cogs.OnReady")
 client.load_extension("cogs.MessageHandler")
 client.load_extension("cogs.Tools")
 client.load_extension("cogs.Automation")
-client.load_extension("cogs.Moderation")
+client.load_extension("cogs.Submissions")
 client.load_extension("cogs.ServerRole")
 client.load_extension("cogs.MailCheck")
-client.load_extension("cogs.Verify")
+#client.load_extension("cogs.Verify")
 #client.load_extension("cogs.Music")
 
 # Starting the Bot

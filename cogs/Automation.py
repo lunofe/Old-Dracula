@@ -21,7 +21,7 @@ class Automation(commands.Cog):
     # Sending a welcome message to new members and giving them the "Member" role
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        log.more("MEMBERS", str(member) + " just joined the server")
+        log.more("MEMBER", "{} ({}) just joined the server".format(str(member), str(member.id)))
         await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
         roles = member.guild.roles
         for role in roles:
