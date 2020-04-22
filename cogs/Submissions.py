@@ -7,8 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord
-import draculogger as log
+import util, discord
 from discord.ext import commands
 from discord import User
 
@@ -31,7 +30,7 @@ class Submissions(commands.Cog):
 
         if((channel_id == 564783779474833431) or (channel_id == 636354667311529984)):
             try:
-                await user.send("Your application has been accepted. You will hear from us shortly.\nIn the meantime, you can take a look at this: <https://1literzinalco.github.io/VampPerms>")
+                await user.send("Your application has been accepted. You will hear from us shortly.\nIn the meantime, you can take a look at this: <https://1literzinalco.github.io/vampirism/staff.html>")
                 await channel.send("<:vote_yes:601899059417972737> " + user.name + "'s staff application has been accepted.")
             except:
                 await channel.send(":warning: Invalid user.")
@@ -116,4 +115,4 @@ class Submissions(commands.Cog):
 
 def setup(client):
     client.add_cog(Submissions(client))
-    log.this("Initialized cogs.Submissions")
+    util.log("Initialized cogs.Submissions")

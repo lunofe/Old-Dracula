@@ -7,8 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord
-import draculogger as log
+import util, discord
 from discord.ext import commands
 from discord import User
 
@@ -33,10 +32,10 @@ class MessageHandler(commands.Cog):
             channel_id = str(channel.recipient.id)
 
         if(int(author.id) == 578935647679807491):
-            if(channel.id != 676209439531073541):
-                log.more("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
+            if(channel.id != 676209439531073541): # Disable logging for channel #serverplayers to prevent spam
+                util.log("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
         elif(message.content.startswith(".")):
-            log.more("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(str(author), str(author.id), channel_name, channel_id, message.content))
+            util.log("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(str(author), str(author.id), channel_name, channel_id, message.content))
         else:
             pass
 
@@ -44,4 +43,4 @@ class MessageHandler(commands.Cog):
 
 def setup(client):
     client.add_cog(MessageHandler(client))
-    log.this("Initialized cogs.MessageHandler")
+    util.log("Initialized cogs.MessageHandler")

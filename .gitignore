@@ -3,3 +3,5 @@
 .env
 last.txt
 *.log
+*unfailer*.*
+*fixer*.*

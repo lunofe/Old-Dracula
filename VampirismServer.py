@@ -7,18 +7,16 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import os, discord, dotenv
-import draculogger as log
+import util, os, discord, dotenv
 from discord.ext import commands
 from dotenv import load_dotenv
-#from cogs import Utils, MessageHandler, OnReady, Moderation, Automation, ServerRole, Tools, MailCheck
 
 ##############################################################################################################
 ### Initial stuff ############################################################################################
 ##############################################################################################################
 
 # Startup
-log.this("STARTUP BEGIN...")
+util.log("STARTUP BEGIN...")
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 client = commands.Bot(command_prefix = ".")
@@ -36,7 +34,9 @@ client.load_extension("cogs.ServerRole")
 client.load_extension("cogs.MailCheck")
 #client.load_extension("cogs.Verify")
 #client.load_extension("cogs.Music")
+client.var_start_onready = True
+client.var_start_mailcheck = True
 
 # Starting the Bot
-log.this("STARTUP CLEAR, RUNNING BOT")
+util.log("STARTUP CLEAR, RUNNING BOT")
 client.run(TOKEN)

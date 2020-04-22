@@ -7,8 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import discord
-import draculogger as log
+import util, discord
 from discord.ext import commands
 
 class Music(commands.Cog):
@@ -25,26 +24,26 @@ class Music(commands.Cog):
         try:
             await v[1].disconnect()
             v[1] = None
-            log.more("MUSIC", "Bot has left the previous voice channel")
+            util.log("MUSIC", "Bot has left the previous voice channel")
         except Exception as e:
-            log.more("MUSIC", str(e))
+            util.log("MUSIC", str(e))
         try:
             v[0] = voicechannel
             try:
                 v[1] = await v[0].connect()
-                log.more("MUSIC", "Bot has joined the voice channel")
+                util.log("MUSIC", "Bot has joined the voice channel")
             except Exception as e:
-                log.more("MUSIC", str(e))
+                util.log("MUSIC", str(e))
         except Exception as e:
-            log.more("MUSIC", str(e))
+            util.log("MUSIC", str(e))
         try:
             v[1].play(discord.FFmpegPCMAudio("/home/dracula/ping.mp3"))
-            log.more("MUSIC", "Bot has started streaming")
+            util.log("MUSIC", "Bot has started streaming")
         except Exception as e:
-            log.more("MUSIC", str(e))
+            util.log("MUSIC", str(e))
 
 #============================================================================================================#
 
 def setup(client):
     client.add_cog(Music(client))
-    log.more("Initialized cogs.Music")
+    util.log("Initialized cogs.Music")
