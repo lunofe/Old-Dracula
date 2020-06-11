@@ -1,7 +1,12 @@
-*.conf
-.gitignore
+# Files containing sensitive data
 .env
+config.py
 last.txt
-*.log
+
+# Files currently in early development
+dev_*.*
+
+# Random stuff that can occur
 *unfailer*.*
 *fixer*.*
+*.log

@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import util, discord
+import utils, discord
 from discord.ext import commands
 
 class Automation(commands.Cog):
@@ -20,15 +20,18 @@ class Automation(commands.Cog):
     # Sending a welcome message to new members and giving them the "Member" role
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        util.log("MEMBER", "{} ({}) just joined the server".format(str(member), str(member.id)))
-        await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
+        utils.log("MEMBER", "{} ({}) just joined the server".format(member, member.id))
         roles = member.guild.roles
         for role in roles:
             if(role.name == "Member"):
                 await member.add_roles(role, reason="Member just joined the server")
+        try:
+            await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
+        except:
+            pass
 
 #============================================================================================================#
 
 def setup(client):
     client.add_cog(Automation(client))
-    util.log("Initialized cogs.Automation")
+    utils.log("Initialized cogs.Automation")

@@ -7,9 +7,8 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import util, discord, asyncio
+import utils, discord, asyncio
 from discord.ext import commands
-from discord import User
 
 class ServerRole(commands.Cog):
     def __init__(self, client):
@@ -34,7 +33,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Vampire...")
                 if(role.name == "Vampire"):
                     await author.add_roles(role, reason="Now a Vampire")
-            util.log("FACTIONS", "{} switched to Vampire faction.".format(author))
+            utils.log("FACTIONS", "{} switched to Vampire faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -48,7 +47,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Hunter...")
                 if(role.name == "Hunter"):
                     await author.add_roles(role, reason="Now a Hunter")
-            util.log("FACTIONS", "{} switched to Hunter faction.".format(author))
+            utils.log("FACTIONS", "{} switched to Hunter faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -62,7 +61,7 @@ class ServerRole(commands.Cog):
                     await author.remove_roles(role, reason="Switching to Human...")
                 if(role.name == "Hunter"):
                     await author.remove_roles(role, reason="Switching to Human...")
-            util.log("FACTIONS", "{} switched to Human faction.".format(author))
+            utils.log("FACTIONS", "{} switched to Human faction.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -92,7 +91,7 @@ class ServerRole(commands.Cog):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.add_roles(role, reason="Opted in to all notifications")
-            util.log("NOTIFY", "{} opted into all notifications.".format(author))
+            utils.log("NOTIFY", "{} opted into all notifications.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -104,7 +103,7 @@ class ServerRole(commands.Cog):
             for role in roles:
                 if(role.name == "NotificationGang"):
                     await author.remove_roles(role, reason="Opted out of all notifications")
-            util.log("NOTIFY", "{} opted out of all notifications.".format(author))
+            utils.log("NOTIFY", "{} opted out of all notifications.".format(author))
             await message.add_reaction(emojis[0])
             await message.add_reaction(emojis[1])
             await message.add_reaction(emojis[2])
@@ -122,4 +121,4 @@ class ServerRole(commands.Cog):
 
 def setup(client):
     client.add_cog(ServerRole(client))
-    util.log("Initialized cogs.ServerRole")
+    utils.log("Initialized cogs.ServerRole")

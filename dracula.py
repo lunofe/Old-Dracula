@@ -7,36 +7,29 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import util, os, discord, dotenv
+import utils, config, discord
 from discord.ext import commands
-from dotenv import load_dotenv
-
-##############################################################################################################
-### Initial stuff ############################################################################################
-##############################################################################################################
 
 # Startup
-util.log("STARTUP BEGIN...")
-load_dotenv()
-TOKEN = os.getenv("BOT_TOKEN")
+utils.log("STARTUP BEGIN...")
 client = commands.Bot(command_prefix = ".")
 
 # Removing the standard "help" command
 client.remove_command("help")
 
-# Loading Cogs:
-client.load_extension("cogs.OnReady")
-client.load_extension("cogs.MessageHandler")
-client.load_extension("cogs.Tools")
+# Loading cogs:
 client.load_extension("cogs.Automation")
-client.load_extension("cogs.Submissions")
+client.load_extension("cogs.MailReceiver")
+client.load_extension("cogs.MessageHandler")
+client.load_extension("cogs.MinecraftQuery")
 client.load_extension("cogs.ServerRole")
-client.load_extension("cogs.MailCheck")
+client.load_extension("cogs.Submissions")
+client.load_extension("cogs.Tools")
+# Experimental features
+#client.load_extension("cogs.Bankheist")
+#client.load_extension("cogs.Lottery")
 #client.load_extension("cogs.Verify")
-#client.load_extension("cogs.Music")
-client.var_start_onready = True
-client.var_start_mailcheck = True
 
 # Starting the Bot
-util.log("STARTUP CLEAR, RUNNING BOT")
-client.run(TOKEN)
+utils.log("STARTUP CLEAR, RUNNING BOT")
+client.run(config.BOT_TOKEN)

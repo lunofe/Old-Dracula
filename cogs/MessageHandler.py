@@ -7,9 +7,8 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import util, discord
+import utils, discord
 from discord.ext import commands
-from discord import User
 
 class MessageHandler(commands.Cog):
     def __init__(self, client):
@@ -26,16 +25,16 @@ class MessageHandler(commands.Cog):
 
         try: # Channel is channel
             channel_name = channel.name
-            channel_id = str(channel.id)
+            channel_id = channel.id
         except: # Channel is dm with user
             channel_name = "Direct Message with " + str(channel.recipient)
-            channel_id = str(channel.recipient.id)
+            channel_id = channel.recipient.id
 
-        if(int(author.id) == 578935647679807491):
+        if(author.id == 578935647679807491):
             if(channel.id != 676209439531073541): # Disable logging for channel #serverplayers to prevent spam
-                util.log("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
+                utils.log("DRACULA", "@ {} ({}) 💬 {}".format(channel_name, channel_id, message.content))
         elif(message.content.startswith(".")):
-            util.log("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(str(author), str(author.id), channel_name, channel_id, message.content))
+            utils.log("COMMAND", "{} ({}) @ {} ({}) 💬 {}".format(author, author.id, channel_name, channel_id, message.content))
         else:
             pass
 
@@ -43,4 +42,4 @@ class MessageHandler(commands.Cog):
 
 def setup(client):
     client.add_cog(MessageHandler(client))
-    util.log("Initialized cogs.MessageHandler")
+    utils.log("Initialized cogs.MessageHandler")
