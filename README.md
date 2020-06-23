@@ -1,4 +1,4 @@
-# DraculaBot
+# Dracula
 This bot is used on the official Vampirism Server Discord to add administrative features, various commands and automations.
 
 ![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
