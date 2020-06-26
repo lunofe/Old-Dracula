@@ -69,17 +69,17 @@ class MailReceiver(commands.Cog):
 
                 # Staff applications
                 if email_message["Subject"].lower() == "staff_apply":
-                    embed=discord.Embed(title=contentlist[0], description=contentlist[1] + " years old, " + contentlist[2]) # Color?
-                    embed.add_field(name="Minecraft username", value="``" + contentlist[3] + "``", inline=True)
-                    embed.add_field(name="Discord#Tag", value="``" + contentlist[4] + "``", inline=True)
-                    embed.add_field(name="E-mail", value="``" + contentlist[5] + "``", inline=True)
+                    embed=discord.Embed(title=contentlist[0], description="{} years old, {}".format(contentlist[1], contentlist[2])) # Color?
+                    embed.add_field(name="Minecraft username", value="``{}``".format(contentlist[3]), inline=True)
+                    embed.add_field(name="Discord#Tag", value="``{}``".format(contentlist[4]), inline=True)
+                    embed.add_field(name="E-mail", value="``{}``".format(contentlist[5]), inline=True)
                     embed.add_field(name="Do you have experience as staff?", value=contentlist[6], inline=False)
                     embed.add_field(name="Why do you want to be staff?", value=contentlist[7], inline=False)
                     embed.add_field(name="Why should you be chosen instead of someone else?", value=contentlist[8], inline=False)
                     embed.add_field(name="Do you have any issues with the current staff team?", value=contentlist[9], inline=False)
-                    embed.add_field(name="How many hours per week can you contribute?", value=str(int(contentlist[10])) + " hours", inline=False)
+                    embed.add_field(name="How many hours per week can you contribute?", value=contentlist[10], inline=False)
                     submission_length = len(contentlist[6].split()) + len(contentlist[7].split()) + len(contentlist[8].split())
-                    embed.set_footer(text=str(submission_length) + " words  |  ID:" + str(last_mail_uid))
+                    embed.set_footer(text="{} words  |  ID: {}".format(submission_length, last_mail_uid))
                     if submission_length > 50:
                         botresponse = await channel.send(content="**STAFF APPLICATION** @everyone", embed=embed)
                     else:
@@ -89,12 +89,12 @@ class MailReceiver(commands.Cog):
                 # Ban appeals
                 elif email_message["Subject"].lower() == "ban_appeal":
                     embed=discord.Embed(title=" ") # Color?
-                    embed.add_field(name="Minecraft username", value="``" + contentlist[0] + "``", inline=True)
-                    embed.add_field(name="Contact", value="``" + contentlist[1] + "``", inline=True)
+                    embed.add_field(name="Minecraft username", value="``{}``".format(contentlist[0]), inline=True)
+                    embed.add_field(name="Contact", value="``{}``".format(contentlist[1]), inline=True)
                     embed.add_field(name="More about your ban", value=contentlist[2], inline=False)
                     embed.add_field(name="Why should you be unbanned?", value=contentlist[3], inline=False)
                     submission_length = len(contentlist[2].split()) + len(contentlist[3].split())
-                    embed.set_footer(text=str(submission_length) + " words  |  ID:" + str(last_mail_uid))
+                    embed.set_footer(text="{} words  |  ID: {}".format(submission_length, last_mail_uid))
                     if submission_length > 50:
                         botresponse = await channel.send(content="**BAN APPEAL** @everyone", embed=embed)
                     else:
@@ -105,10 +105,9 @@ class MailReceiver(commands.Cog):
                 elif email_message["Subject"].lower() == "player_report":
                     embed=discord.Embed(title=" ", description=contentlist[2]) # Color?
                     if((len(contentlist[0]) != 0) and (len(contentlist[1]) != 0)):
-                        embed.add_field(name="Report by", value="``" + contentlist[0] + "``", inline=True)
-                        embed.add_field(name="Contact", value="``" + contentlist[1] + "``", inline=True)
-                    submission_length = len(contentlist[2].split())
-                    embed.set_footer(text="ID:" + str(last_mail_uid))
+                        embed.add_field(name="Report by", value="``{}``".format(contentlist[0]), inline=True)
+                        embed.add_field(name="Contact", value="``{}``".format(contentlist[1]), inline=True)
+                    embed.set_footer(text="ID: {}".format(submission_length, last_mail_uid))
                     if submission_length > 50:
                         botresponse = await channel.send(content="**PLAYER REPORT** @everyone", embed=embed)
                     else:
