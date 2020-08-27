@@ -107,11 +107,8 @@ class MailReceiver(commands.Cog):
                     if((len(contentlist[0]) != 0) and (len(contentlist[1]) != 0)):
                         embed.add_field(name="Report by", value="``{}``".format(contentlist[0]), inline=True)
                         embed.add_field(name="Contact", value="``{}``".format(contentlist[1]), inline=True)
-                    embed.set_footer(text="ID: {}".format(submission_length, last_mail_uid))
-                    if submission_length > 50:
-                        botresponse = await channel.send(content="**PLAYER REPORT** @everyone", embed=embed)
-                    else:
-                        botresponse = await channel.send(content="**PLAYER REP-**...ort? *I guess? Pretty short, duh*", embed=embed)
+                    embed.set_footer(text="ID: {}".format(last_mail_uid))
+                    await channel.send(content="**PLAYER REPORT**", embed=embed)
                 # Unknown/Error
                 else:
                     await channel.send("I've received an email but don't know how to handle it: {}".format(email_message["From"]) + email_message.get_payload())
