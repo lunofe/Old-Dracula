@@ -28,13 +28,14 @@ class MinecraftQuery(commands.Cog):
         try:
             server = MinecraftServer.lookup("147.135.9.96:25575")
             status = server.status()
-            await self.client.change_presence(activity=discord.Game(name="with {} players 🎮".format(status.players.online)))
             query = server.query()
             playerlist = sorted(query.players.names)
             if(self.last_query != playerlist):
                 if(status.players.online != 0):
+                    await self.client.change_presence(activity=discord.Game(name="with {} players 🎮".format(status.players.online)))
                     await self.serverplayers.send("**{} players: ** ``{}``".format(status.players.online, "``, ``".join(playerlist)))
                 else:
+                    await self.client.change_presence(activity=discord.Game(name="vampirism.maxanier.de"))
                     await self.serverplayers.send("**0 players **" + self.sadcat[random.randint(0, 5)])
                 self.last_query = playerlist
         except Exception as e:
