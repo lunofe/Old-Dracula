@@ -63,7 +63,7 @@ class Tools(commands.Cog):
                 await old.delete()
                 end = time.time()
                 duration = str(end - start)
-            botresponse = await ctx.send("{} messages have been deleted in {} seconds (by {})".format(counter + 2, duration, author))
+            #botresponse = await ctx.send("{} messages have been deleted in {} seconds (by {})".format(counter + 2, duration, author))
             utils.log("TOOLS", "{} messages have been deleted in {} seconds (by {})".format(counter + 2, duration, author))
             await asyncio.sleep(10)
             await botresponse.delete()
