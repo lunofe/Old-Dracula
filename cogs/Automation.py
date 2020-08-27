@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import utils, discord
+import config, utils, random, string, discord
 from discord.ext import commands
 
 class Automation(commands.Cog):
@@ -21,14 +21,22 @@ class Automation(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         utils.log("MEMBER", "{} ({}) just joined the server".format(member, member.id))
-        roles = member.guild.roles
-        for role in roles:
-            if(role.name == "Member"):
-                await member.add_roles(role, reason="Member just joined the server")
-        try:
-            await member.send("Welcome to the official Vampirism Discord Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
-        except:
-            pass
+        role_member = member.guild.get_role(543106097997676554)
+        channel_staffimportant = member.guild.get_channel(565239330763964416)
+
+        if(member.id in config.SPAM):
+            secret = "".join((random.choice(string.ascii_letters + string.digits) for i in range(16)))
+            try:
+                await member.send("**Manual Verification Required**\nYou have triggered our spam protection and are therefore not authorized to read or write messages.\nPlease contact <@267633670532104193> or open a ticket in the <#679722116043505723> channel and provide this code: ||``{}``||".format(secret))
+                await channel_staffimportant.send("<@{}> has joined the server and triggered the spam protection. Secret: ||``{}``||".format(member.id, secret))
+            except Exception as e:
+                await channel_staffimportant.send("<@{}> has joined the server and triggered the spam protection, but I couldn't let them know: {}".format(member.id, e))
+        else:
+            await member.add_roles(role_member, reason="Member just joined the server")
+            try:
+                await member.send("Welcome to the Official Vampirism Server! To get started with the Vampirism modpack take a look at <https://chimute.org/vampirism>. We hardly ever have to mute, kick or ban people - please don't make yourself the exception and read the rules. :wink:")
+            except Exception as e:
+                print(str(e))
 
 #============================================================================================================#
 
