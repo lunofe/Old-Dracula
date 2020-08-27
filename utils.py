@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import datetime, asyncio
+import config, datetime, asyncio, json
 
 ##############################################################################################################
 ### File handling ############################################################################################
@@ -19,6 +19,11 @@ def file(mode, filename, *content):
         file_content = file.read()
         file.close()
         return str(file_content)
+    elif(mode == "j"):
+        file = open(filename,"r")
+        file_content = file.read()
+        file.close()
+        return json.loads(str(file_content))
     else:
         file = open(filename, mode)
         file.write(str(content[0]))
@@ -29,12 +34,7 @@ def file(mode, filename, *content):
 ##############################################################################################################
 
 def check_permission(executor):
-    staff = [
-        267633670532104193, # 1LiterZinalco
-        414852953191612417, # Piklach
-        270258305346043905  # Pendragon
-    ]
-    if executor in staff:
+    if executor in config.STAFF:
         return True
     else:
         return False
