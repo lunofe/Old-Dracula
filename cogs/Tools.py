@@ -42,12 +42,12 @@ class Tools(commands.Cog):
     @commands.command()
     async def delete(self, ctx, *args):
         if(utils.check_permission(ctx.message.author.id)):
-            author = ctx.message.author.name
+            executer = ctx.message.author.name
             await ctx.message.delete()
             if(len(args) != 2):
-                botresponse = await ctx.send(":warning: Wrong syntax. Define a range using `.delete <latest message> <oldest message>`")
+                bot_response = await ctx.send(":warning: Wrong syntax. Define a range using ``.delete <latest message> <oldest message>``")
                 await asyncio.sleep(5)
-                await botresponse.delete()
+                await bot_response.delete()
                 return
             counter = 0
             new = await ctx.channel.fetch_message(int(args[0]))
