@@ -18,15 +18,17 @@ class Tools(commands.Cog):
 #============================================================================================================#
 
     # 'ping' command
-    @commands.command()
+    @commands.command(aliases=["test", "status"])
     async def ping(self, ctx):
-        message = ctx.message
-        channel = message.channel
-        author = message.author
-        await message.delete()
-        ping = await channel.send("{} Pong! :ping_pong: {}".format(author.mention, os.uname()))
-        await asyncio.sleep(10)
-        await ping.delete()
+        await ctx.message.delete()
+        embed=discord.Embed(title="Dracula", description="```{}```".format(ctx.message))
+        embed.add_field(name="Host", value=str(os.uname()), inline=False)
+        embed.add_field(name="Latency", value=str(self.client.latency), inline=False)
+        embed.add_field(name="ClientUser", value=str(self.client.user), inline=False)
+        embed.add_field(name="Websocket Gateway", value=str(self.client.ws), inline=False)
+        bot_response = await ctx.message.channel.send(embed=embed)
+        await asyncio.sleep(20)
+        await bot_response.delete()
 
 #============================================================================================================#
 
