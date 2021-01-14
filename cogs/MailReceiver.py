@@ -41,7 +41,7 @@ class MailReceiver(commands.Cog):
         last_mail_uid = int(last_mail_uid_str[-1])
 
         # Checking if ID was already processed
-        last_edited_uid = int(utils.file("r", "last.txt"))
+        last_edited_uid = int(utils.file("r", "/home/dracula/draculabot/last.txt"))
         if last_mail_uid == last_edited_uid:
             # If already processed:
             #utils.log("E-MAILS", "There is no new e-mail")
@@ -61,11 +61,17 @@ class MailReceiver(commands.Cog):
                 mail_body = email_message.get_payload()
                 if(email_message["Content-Transfer-Encoding"] != "8bit"):
                     # Fix shitty formatting
-                    mail_body = quopri.decodestring(mail_body)
-                    mail_body = mail_body.decode("utf-8")
-                mail_body = mail_body.replace("\r", "")
-                mail_body = mail_body.replace("\n\n", "")
-                contentlist = mail_body.split("§§")
+                    try:
+                        mail_body = quopri.decodestring(mail_body)
+                        mail_body = mail_body.decode("utf-8")
+                    except:
+                        pass
+                try:
+                    mail_body = mail_body.replace("\r", "")
+                    mail_body = mail_body.replace("\n\n", "")
+                    contentlist = mail_body.split("§§")
+                except:
+                    pass
 
                 # Staff applications
                 if email_message["Subject"].lower() == "staff_apply":
@@ -111,11 +117,11 @@ class MailReceiver(commands.Cog):
                     await channel.send(content="**PLAYER REPORT**", embed=embed)
                 # Unknown/Error
                 else:
-                    await channel.send("I've received an email but don't know how to handle it: {}".format(email_message["From"]) + email_message.get_payload())
+                    await channel.send("{}\n{}".format(email_message["From"], email_message.get_payload()[0]))
                 diff = diff - 1
 
         # Updating last processed ID
-        utils.file("w", "last.txt", last_mail_uid_str[-1])
+        utils.file("w", "/home/dracula/draculabot/last.txt", last_mail_uid_str[-1])
 
 #============================================================================================================#
 
