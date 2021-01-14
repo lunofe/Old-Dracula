@@ -18,10 +18,10 @@ client = commands.Bot(command_prefix = ".")
 client.remove_command("help")
 
 # Loading cogs:
-client.load_extension("cogs.Automation")
 client.load_extension("cogs.MailReceiver")
 client.load_extension("cogs.MessageHandler")
-client.load_extension("cogs.MinecraftQuery")
+client.load_extension("cogs.MinecraftMaintenance")
+#client.load_extension("cogs.MinecraftQuery")
 client.load_extension("cogs.ServerRole")
 client.load_extension("cogs.Submissions")
 client.load_extension("cogs.Tools")
