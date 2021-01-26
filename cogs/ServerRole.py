@@ -13,7 +13,6 @@ from discord.ext import commands
 class ServerRole(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self._last_member = None
 
 ##############################################################################################################
 ### Faction roles ############################################################################################
