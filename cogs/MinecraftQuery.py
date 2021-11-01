@@ -7,7 +7,7 @@
 #    o888bood8P'   d888b    `Y888""8o `Y8bod8P'  `V88V"V8P' o888o `Y888""8o o888bood8P'  `Y8bod8P'   "888"
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-import utils, random, discord, asyncio
+import utils, discord, asyncio
 from discord.ext import commands, tasks
 from mcstatus import MinecraftServer
 
@@ -25,21 +25,32 @@ class MinecraftQuery(commands.Cog):
 
     @tasks.loop(minutes=1.0)
     async def loop(self):
+        go = False
+
         try:
-            server = MinecraftServer.lookup("147.135.9.96:25575")
+            server = MinecraftServer.lookup("vampirism.co")
             status = server.status()
-            query = server.query()
-            playerlist = sorted(query.players.names)
-            if(self.last_query != playerlist):
-                if(status.players.online != 0):
-                    await self.client.change_presence(activity=discord.Game(name="with {} players 🎮".format(status.players.online)))
-                    await self.serverplayers.send("**{} players: ** ``{}``".format(status.players.online, "``, ``".join(playerlist)))
-                else:
-                    await self.client.change_presence(activity=discord.Game(name="vampirism.maxanier.de"))
-                    await self.serverplayers.send("**0 players **" + self.sadcat[random.randint(0, 5)])
-                self.last_query = playerlist
+            go = True
         except Exception as e:
             await self.serverplayers.send(str(e))
+
+        if go == True:
+            go = False
+
+            try:
+                usersConnected = [ user['name'] for user in status.raw['players']['sample'] ]
+                go = True
+            except Exception as e:
+                if self.last_query != "null":
+                    await self.client.change_presence(activity=discord.Game(name="vampirism.co"))
+                    await self.serverplayers.send("**0 players **")
+                    self.last_query = "null"
+
+            if go == True:
+                if usersConnected != self.last_query:
+                    await self.client.change_presence(activity=discord.Game(name="with {} players 🎮".format(status.players.online)))
+                    await self.serverplayers.send("**{} players: ** ``{}``".format(status.players.online, "``, ``".join(usersConnected)))
+                    self.last_query = usersConnected
 
 #============================================================================================================#
 
@@ -48,7 +59,6 @@ class MinecraftQuery(commands.Cog):
         utils.log("MC-STATS", "Wating until ready...")
         await self.client.wait_until_ready()
         self.serverplayers = self.client.get_channel(676209439531073541)
-        self.sadcat = ["<:sadcat1:676391344293281802>", "<:sadcat2:676391344582688768>", "<:sadcat3:676391345320886272>", "<:sadcat4:676391344217784331>", "<:sadcat5:676391344154869770>", "<:sadcat6:676391345878859776>"]
         self.last_query = None
 
 #============================================================================================================#

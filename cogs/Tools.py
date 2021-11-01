@@ -26,8 +26,6 @@ class Tools(commands.Cog):
         embed.add_field(name="ClientUser", value=str(self.client.user), inline=False)
         embed.add_field(name="Websocket Gateway", value=str(self.client.ws), inline=False)
         bot_response = await ctx.message.channel.send(embed=embed)
-        await asyncio.sleep(20)
-        await bot_response.delete()
 
 #============================================================================================================#
 
@@ -80,7 +78,7 @@ class Tools(commands.Cog):
             members = guild.members
             for member in members:
                 try:
-                    await member.edit(nick="Eyern")
+                    await member.edit(nick="Maurice")
                 except:
                     pass
 

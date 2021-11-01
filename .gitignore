@@ -2,6 +2,7 @@
 .env
 config.py
 last.txt
+claims
 
 # Files currently in early development
 dev_*.*
