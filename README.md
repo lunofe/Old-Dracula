@@ -1,18 +1,6 @@
 # Dracula
-This bot is used on the official Vampirism Server Discord to add administrative features, various commands and automations.
+This Discord bot has been used on the official Vampirism server (Vampirism.co) to add administrative features, various commands and automations.
 
-![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+It relies on [Discord.py](https://github.com/Rapptz/discord.py), which has been discontinued and will probably stop working in April 2022.
 
-The purpose of this repository is not to provide other people with a perfect bot that can be adapted to their needs with just a few clicks. Many things are hardcoded, explicitly adapted to our server, or probably inefficient - if not even worse: not best practice - because: it's not stupid if it works. And it does.
-
-## Config file (config.py)
-```
-BOT_TOKEN = ""
-IMAP_HOST = ""
-IMAP_ACC = ""
-IMAP_PASS = ""
-DB_HOST = ""
-DB_ACC = ""
-DB_PASS = ""
-DB_NAME = ""
-```
+In other words, don't try to use it. I've learned Python ***while*** creating this bot, so in addition to that, there are probably dozens of stupid, inefficient & unsecure lines of code in here.
